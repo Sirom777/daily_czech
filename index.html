@@ -1069,6 +1069,33 @@ textarea:focus { border-color: var(--grey-400); }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--grey-700); border-radius: 2px; }
 
+
+/* ── SMART TUTOR HYBRID MODES ── */
+.tutor-mode-panel{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  margin-bottom:12px;
+}
+.tutor-mode-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.tutor-status{
+  padding:12px 14px;
+  border-radius:var(--radius-lg);
+  background:var(--grey-900);
+  border:1px solid var(--grey-700);
+  font-size:12px;
+  line-height:1.6;
+  color:var(--grey-300);
+}
+.tutor-status strong{color:var(--white)}
+.tutor-mini-actions{display:flex;gap:8px;flex-wrap:wrap}
+.tutor-note{font-size:11px;color:var(--grey-500);line-height:1.6}
+@media (max-width:480px){.tutor-mode-grid{grid-template-columns:1fr}}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 480px) {
   .hdr-stats { gap: 10px; }
@@ -1421,6 +1448,143 @@ body.light-mode .info-link { background: rgba(255,255,255,0.60); border-color: r
 body.light-mode .info-link strong { color: #171513; }
 body.light-mode .info-link span { color: #686057; }
 
+
+
+/* ── DARK MODE CONTRAST PATCH v5 ──
+   Stronger white outlines, clearer fields, and lighter bottom navigation icons. */
+body:not(.light-mode) {
+  --grey-900: #131313;
+  --grey-800: #242424;
+  --grey-700: #3a3a3a;
+  --grey-600: #585858;
+  --grey-500: #8a8a8a;
+  --grey-400: #b0b0b0;
+  --grey-300: #d0d0d0;
+  --grey-200: #e4e4e4;
+  --grey-100: #f3f3f3;
+}
+
+body:not(.light-mode) .card,
+body:not(.light-mode) .card-flush,
+body:not(.light-mode) .metric,
+body:not(.light-mode) .quick-card,
+body:not(.light-mode) .chat-wrap,
+body:not(.light-mode) .flashcard-face,
+body:not(.light-mode) .opt,
+body:not(.light-mode) .vocab-row,
+body:not(.light-mode) .study-row {
+  background: rgba(255,255,255,0.045);
+  border-color: rgba(255,255,255,0.17);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.055), 0 18px 50px rgba(0,0,0,0.28);
+}
+
+body:not(.light-mode) .hero-card,
+body:not(.light-mode) .hdr,
+body:not(.light-mode) .bottom-nav {
+  border-color: rgba(255,255,255,0.18);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 18px 60px rgba(0,0,0,0.35);
+}
+
+body:not(.light-mode) .chat-msg.ai {
+  background: rgba(255,255,255,0.075);
+  border-color: rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.84);
+}
+
+body:not(.light-mode) .chat-input,
+body:not(.light-mode) .text-input,
+body:not(.light-mode) textarea,
+body:not(.light-mode) select,
+body:not(.light-mode) input[type="text"] {
+  background: rgba(255,255,255,0.055) !important;
+  border: 1px solid rgba(255,255,255,0.20) !important;
+  color: rgba(255,255,255,0.90) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.045);
+}
+
+body:not(.light-mode) select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, rgba(255,255,255,0.72) 50%), linear-gradient(135deg, rgba(255,255,255,0.72) 50%, transparent 50%) !important;
+  background-position: calc(100% - 18px) 50%, calc(100% - 12px) 50% !important;
+  background-size: 6px 6px, 6px 6px !important;
+  background-repeat: no-repeat !important;
+  padding-right: 36px !important;
+}
+
+body:not(.light-mode) .chat-input::placeholder,
+body:not(.light-mode) .text-input::placeholder,
+body:not(.light-mode) textarea::placeholder,
+body:not(.light-mode) input[type="text"]::placeholder {
+  color: rgba(255,255,255,0.34) !important;
+}
+
+body:not(.light-mode) .btn-ghost,
+body:not(.light-mode) .audio-btn,
+body:not(.light-mode) .mic-btn,
+body:not(.light-mode) .tab,
+body:not(.light-mode) .pill {
+  border-color: rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.68);
+  background: rgba(255,255,255,0.035);
+}
+
+body:not(.light-mode) .btn-ghost:hover,
+body:not(.light-mode) .audio-btn:hover,
+body:not(.light-mode) .mic-btn:hover,
+body:not(.light-mode) .tab:hover,
+body:not(.light-mode) .pill:hover {
+  border-color: rgba(255,255,255,0.36);
+  color: rgba(255,255,255,0.92);
+  background: rgba(255,255,255,0.075);
+}
+
+body:not(.light-mode) .nav-item {
+  color: rgba(255,255,255,0.46);
+}
+body:not(.light-mode) .nav-item .nav-icon svg {
+  stroke: rgba(255,255,255,0.58);
+}
+body:not(.light-mode) .nav-item.active {
+  color: rgba(255,255,255,0.96);
+  background: rgba(255,255,255,0.10);
+}
+body:not(.light-mode) .nav-item.active .nav-icon svg {
+  stroke: rgba(255,255,255,0.98);
+}
+body:not(.light-mode) .nav-label {
+  color: currentColor;
+}
+
+body:not(.light-mode) .section-label,
+body:not(.light-mode) .quiz-meta,
+body:not(.light-mode) .stat-chip,
+body:not(.light-mode) .metric-lbl,
+body:not(.light-mode) .quick-meta,
+body:not(.light-mode) .stat-row,
+body:not(.light-mode) .vocab-unit {
+  color: rgba(255,255,255,0.48);
+}
+
+body:not(.light-mode) .quiz-dir,
+body:not(.light-mode) .vocab-en,
+body:not(.light-mode) .study-en,
+body:not(.light-mode) .logo-sub {
+  color: rgba(255,255,255,0.62);
+}
+
+/* Make bottom app bar a little more readable in dark mode */
+body:not(.light-mode) .bottom-nav {
+  background: rgba(12,12,12,0.94);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+/* Ensure local tutor responses are visually separated */
+body:not(.light-mode) .chat-messages {
+  background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));
+}
+
 </style>
 </head>
 <body class="light-mode">
@@ -1735,7 +1899,15 @@ body.light-mode .info-link span { color: #686057; }
 
 <!-- ══ TUTOR ══ -->
 <div id="sc-tutor" class="screen">
-  <div style="margin-bottom:12px"><select id="tutorTopic">
+  <div class="tutor-mode-panel">
+    <div class="tutor-mode-grid">
+      <select id="tutorMode" title="Tutor mode">
+        <option value="auto">Smart mode: local first</option>
+        <option value="browserAI">Try Browser AI</option>
+        <option value="offline">Offline Tutor</option>
+        <option value="external">External AI Prompt</option>
+      </select>
+      <select id="tutorTopic">
     <option>Free conversation practice</option>
     <option>Introduce yourself (Unit 1)</option>
     <option>Talk about family (Unit 2)</option>
@@ -1749,7 +1921,17 @@ body.light-mode .info-link span { color: #686057; }
     <option>Numbers and dates practice</option>
     <option>Generate fill-in-the-gap exercise</option>
     <option>Correct my Czech writing</option>
-  </select></div>
+      </select>
+    </div>
+    <div class="tutor-status" id="tutorStatus">
+      <strong>Smart Tutor:</strong> works offline now. Browser AI will be used only if your browser supports it. On iPhone, use the keyboard microphone for dictation.
+    </div>
+    <div class="tutor-mini-actions">
+      <button class="btn-ghost" id="testBrowserAI" style="padding:9px 12px;font-size:12px">Test Browser AI</button>
+      <button class="btn-ghost" id="copyTutorPrompt" style="padding:9px 12px;font-size:12px">Copy external AI prompt</button>
+      <button class="btn-ghost" id="speechHelp" style="padding:9px 12px;font-size:12px">Speech help</button>
+    </div>
+  </div>
   <div class="card-flush">
     <div class="chat-messages" id="chatMessages"></div>
   </div>
@@ -1760,7 +1942,7 @@ body.light-mode .info-link span { color: #686057; }
       <button class="mic-btn" id="chatMic" title="Speak your answer">🎤 Speak</button>
     </div>
     <div style="font-size:11px;color:var(--grey-600);margin-top:8px;line-height:1.6">
-      <strong style="color:var(--grey-400)">Tutor can:</strong> correct your Czech · explain grammar · run scenarios · generate exercises · give case explanations · quiz you on vocabulary · listen to your spoken Czech (🎤)
+      <strong style="color:var(--grey-400)">Tutor can:</strong> offline corrections · grammar drills · scenarios · exercises · browser AI if supported · external AI prompt fallback · speech via browser or keyboard dictation
     </div>
   </div>
 </div>
@@ -2506,6 +2688,72 @@ function initTutor(){
   addMsg('ai','Ahoj! 👋 I\'m your Czech tutor. I\'ll help you reach B1 in 10 weeks.\n\nI can:\n• Correct your Czech sentences and explain why\n• Drill grammar cases with examples\n• Run conversation scenarios (café, doctor, hotel…)\n• Generate fill-in-the-gap exercises\n• Explain any Czech grammar question\n• Quiz you on vocabulary\n• Listen to your spoken Czech 🎤\n\nDouble-tap any of my messages to hear them.\nUse the 🎤 button to speak Czech and I\'ll correct you.\n\nCo chcete procvičovat dnes? (What shall we practise?)');
 }
 
+function normalizeCzechInput(text){
+  return (text||'').trim().replace(/\s+/g,' ');
+}
+
+function localTutorReply(rawText, topic){
+  const text = normalizeCzechInput(rawText);
+  const low = text.toLowerCase();
+  const known = AW.find(w => low.includes(w[0].toLowerCase()) || low.includes(w[1].toLowerCase()));
+
+  // Strong deterministic local tutor: works without API keys, servers, CORS, or Claude credits.
+  if(topic.includes('Correct') || / oprav|correct|check|správ|chyba|grammar|gramatika/i.test(low)){
+    let notes=[];
+    if(/mam\b/.test(low)) notes.push('Use Czech diacritics when possible: "mám", not "mam".');
+    if(/dobre\b/.test(low)) notes.push('Use "dobře" with ř: "Mám se dobře."');
+    if(/deku/i.test(low)) notes.push('Use "děkuji" or informal "díky".');
+    if(/cesk/i.test(low)) notes.push('Use "česky" for "in Czech".');
+    if(/jmenuji|jmenuju/.test(low) && !/se/.test(low)) notes.push('Remember the reflexive pronoun: "jmenuji se" / "jmenuju se".');
+    if(!notes.length) notes.push('I do not see an obvious beginner-level mistake. Try making the sentence a little longer and I can comment on word order and cases.');
+    return 'Skvěle — I can check this locally.\n\n' + notes.map(n=>'• '+n).join('\n') + '\n\nTry again with one full Czech sentence.';
+  }
+
+  if(topic.includes('case') || /case|cases|pád|pady|genitive|dative|accusative|locative|instrumental|nominative/i.test(low)){
+    const q = CASE_DRILLS[Math.floor(Math.random()*CASE_DRILLS.length)];
+    return `Pádový mini-drill:\n\n🇨🇿 ${q.prompt}\n\nChoose mentally: ${q.opts.join(' / ')}\n\nAnswer: ${q.correct}\nWhy: ${q.why}\nRule: ${q.rule}`;
+  }
+
+  if(topic.includes('gap') || /gap|fill|exercise|cvičení|dopln/i.test(low)){
+    const picks = shuf([...PHRASES]).slice(0,4);
+    return 'Fill the gaps:\n\n' + picks.map((p,i)=>`${i+1}. ${p.fill}`).join('\n') + '\n\nAnswers:\n' + picks.map((p,i)=>`${i+1}. ${p.blank} — ${p.en}`).join('\n');
+  }
+
+  if(topic.includes('Numbers') || /number|numbers|číslo|čísla|date|time|čas|datum/i.test(low)){
+    const keys=Object.keys(CZN).map(Number); const n=keys[Math.floor(Math.random()*keys.length)];
+    return `Number practice:\n\n${n} = 🇨🇿 ${CZN[n]}\n\nNow type another number, or go to the Numbers tab for interactive practice.`;
+  }
+
+  if(topic.includes('Introduce') || /name|jmenuj|odkud|from|introduce|představ/i.test(low)){
+    return 'Let’s practise introduction:\n\n🇨🇿 Jmenuji se Sirom.\n🇨🇿 Jsem z Rakouska.\n🇨🇿 Bydlím v Brně.\n🇨🇿 Učím se česky.\n\nYour turn: write 2–4 sentences about yourself.';
+  }
+
+  if(topic.includes('restaurant') || /food|restaurant|café|kava|káva|jídlo|pivo|čaj|order/i.test(low)){
+    return 'Restaurant scenario:\n\nA: Dobrý den, co si dáte?\nB: Dám si kávu a vodu, prosím.\nA: Ještě něco?\nB: Ne, děkuji. Kolik to stojí?\n\nNow answer as B and order something different.';
+  }
+
+  if(topic.includes('doctor') || /doctor|health|lékař|bolí|nemoc|zdrav/i.test(low)){
+    return 'Health scenario:\n\n🇨🇿 Bolí mě hlava. = My head hurts.\n🇨🇿 Mám teplotu. = I have a fever.\n🇨🇿 Potřebuji lékaře. = I need a doctor.\n\nTry one sentence: what hurts?';
+  }
+
+  if(topic.includes('directions') || /where|kde|direction|rovně|doleva|doprava|city|město/i.test(low)){
+    return 'Directions practice:\n\n🇨🇿 Kde je nádraží?\n🇨🇿 Jděte rovně a potom doprava.\n🇨🇿 Je to blízko.\n\nNow ask me where something is in Czech.';
+  }
+
+  if(known){
+    return `I recognised this useful word/phrase:\n\n🇨🇿 ${known[0]}\n🇬🇧 ${known[1]}\nUnit ${known[2]}\n\nMake one sentence with it, and I’ll correct it.`;
+  }
+
+  if(/does it work|work now|test|hello|hi/i.test(low)){
+    return 'Yes — the local tutor is working now. I received your message and I can answer without Claude API, without backend, and without credits. Try: “Correct my Czech: Mam se dobre, diky.”';
+  }
+
+  if(text.length>0){
+    return `Dobrá práce — I received:\n“${text}”\n\nThis tutor now runs locally, so it can give structured drills and beginner corrections without an API connection. For deeper AI corrections later, you’ll need a small backend/proxy with an API key.\n\nTry: “Correct my Czech: Mam se dobre, diky.”`;
+  }
+  return 'Write a Czech sentence, ask for a case drill, or choose a topic above.';
+}
+
 async function sendChat(){
   const inp=document.getElementById('chatInput');
   const text=inp.value.trim();if(!text)return;
@@ -2513,37 +2761,55 @@ async function sendChat(){
   addMsg('user',text);
   chatHistory.push({role:'user',content:text});
   const topic=document.getElementById('tutorTopic').value;
-  const thinking=document.createElement('div');
-  thinking.className='chat-msg ai';thinking.style.color='var(--grey-600)';thinking.textContent='…';
-  document.getElementById('chatMessages').appendChild(thinking);
-  document.getElementById('chatMessages').scrollTop=9999;
-  try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',max_tokens:600,
-        system:`You are an expert Czech language tutor helping an adult beginner reach B1 in 10 weeks. You use the Reality Czech curriculum (realityczech.org). Current topic: ${topic}.
+  const mode=document.getElementById('tutorMode')?.value || 'auto';
 
-RULES:
-- Keep responses SHORT (3-6 sentences max) unless generating an exercise.
-- If user writes Czech: (1) acknowledge what is correct, (2) gently correct errors with [correction] in brackets, (3) explain WHY in one sentence, (4) invite them to try again.
-- Format case explanations as: CASE NAME (question word) — what it does.
-- When generating gap-fill exercises, give 3-5 sentences with ___ blanks and provide answers at the end.
-- Use 🇨🇿 before Czech examples.
-- Encouragements: Výborně!, Skvěle!, Skoro správně!, Pokračujte!
-- If the user uses the mic (speech): treat their transcribed Czech as written Czech and correct accordingly.`,
-        messages:chatHistory.slice(-14)
-      })
-    });
-    const data=await r.json();
-    thinking.remove();
-    const reply=data.content.find(c=>c.type==='text')?.text||'Sorry, try again!';
-    addMsg('ai',reply);addXP(5);
-  }catch{thinking.remove();addMsg('ai','Connection issue. Try again!');}
+  if(mode==='external'){
+    const prompt=getExternalTutorPrompt(text);
+    try{await navigator.clipboard.writeText(prompt);}
+    catch(e){}
+    addMsg('ai','I copied a full external AI tutor prompt. Paste it into ChatGPT, Gemini, DeepSeek or another free assistant.\n\nPreview:\n'+prompt.slice(0,420)+'…');
+    return;
+  }
+
+  if(mode==='browserAI' || mode==='auto'){
+    const wait=document.createElement('div');
+    wait.className='chat-msg ai';
+    wait.textContent='Trying Browser AI…';
+    document.getElementById('chatMessages').appendChild(wait);
+    document.getElementById('chatMessages').scrollTop=9999;
+    const aiReply=await tryBrowserAI(text, topic);
+    wait.remove();
+    if(aiReply){ addMsg('ai',aiReply); addXP(10); return; }
+    if(mode==='browserAI') addMsg('ai','Browser AI is not available on this device/browser yet. I will answer with the Offline Tutor instead.');
+  }
+
+  const reply=localTutorReply(text, topic);
+  setTimeout(()=>{ addMsg('ai',reply); addXP(5); }, 120);
 }
 
 document.getElementById('chatSend').addEventListener('click',sendChat);
 document.getElementById('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
+document.getElementById('tutorMode')?.addEventListener('change',updateTutorStatus);
+document.getElementById('tutorTopic')?.addEventListener('change',updateTutorStatus);
+document.getElementById('testBrowserAI')?.addEventListener('click',async()=>{
+  await updateTutorStatus();
+  const ok=await browserAIAvailable();
+  addMsg('ai', ok ? 'Browser AI seems available. Switch Tutor Mode to “Try Browser AI” and send a sentence.' : 'Browser AI is not available in this browser/device. This is normal on many phones. Use Offline Tutor, keyboard dictation, or the external AI prompt.');
+});
+document.getElementById('copyTutorPrompt')?.addEventListener('click',async()=>{
+  const txt=document.getElementById('chatInput')?.value || '';
+  const prompt=getExternalTutorPrompt(txt);
+  try{await navigator.clipboard.writeText(prompt); addMsg('ai','Copied. Paste this prompt into ChatGPT, Gemini, DeepSeek or another free AI assistant.');}
+  catch(e){addMsg('ai','Clipboard blocked. Here is the prompt:\n\n'+prompt);}
+});
+document.getElementById('speechHelp')?.addEventListener('click',()=>{
+  const msg = isIOS()
+    ? 'iPhone tip: direct browser speech recognition often does not work reliably. Tap the text field, use the iOS keyboard microphone, dictate your Czech, then press Send.'
+    : isAndroid()
+      ? 'Android tip: the 🎤 button usually works best in Chrome. You can also use the keyboard microphone if browser recognition fails.'
+      : 'Desktop tip: Chrome usually supports speech recognition. Safari/Firefox may be limited. You can always type or use system dictation.';
+  addMsg('ai', msg);
+});
 
 // MIC BUTTON
 let micRec=null;
