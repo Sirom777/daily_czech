@@ -45,6 +45,94 @@
   --transition: 0.15s ease;
 }
 
+
+/* ── THEME MODE: default dark, optional bright mode ── */
+body.light-mode {
+  --black: #f6f5f2;
+  --grey-900: #ffffff;
+  --grey-800: #ece9e3;
+  --grey-700: #d8d3ca;
+  --grey-600: #b8b1a6;
+  --grey-500: #8a8176;
+  --grey-400: #686057;
+  --grey-300: #4b4640;
+  --grey-200: #302d29;
+  --grey-100: #171513;
+  --grey-50: #0a0a0a;
+  --white: #111111;
+  --accent: #111111;
+  --accent-dim: rgba(0,0,0,0.08);
+  --correct-bg: #eaf5ee;
+  --wrong-bg: #f8ecec;
+  --info-bg: #edf3fb;
+  --info-border: #c7d8ef;
+}
+
+body.light-mode {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(0,0,0,0.05), transparent 26%),
+    linear-gradient(180deg, #f8f7f4 0%, #efede8 100%);
+  color: var(--grey-100);
+}
+
+body.light-mode::before {
+  opacity: 0.16;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+}
+
+body.light-mode .hdr {
+  background: rgba(255,255,255,0.78);
+  border-color: rgba(0,0,0,0.08);
+  box-shadow: 0 10px 36px rgba(0,0,0,0.10);
+}
+
+body.light-mode .hdr-stats,
+body.light-mode .stat-chip,
+body.light-mode .brand-mark {
+  background: rgba(0,0,0,0.035);
+  border-color: rgba(0,0,0,0.08);
+}
+
+body.light-mode .hero-card {
+  background:
+    radial-gradient(circle at 82% 10%, rgba(0,0,0,0.11), transparent 18%),
+    radial-gradient(circle at 14% 86%, rgba(0,0,0,0.06), transparent 24%),
+    linear-gradient(145deg, #ffffff 0%, #f0eee8 52%, #e8e5de 100%);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.11);
+}
+
+body.light-mode .hero-card::before { border-color: rgba(0,0,0,0.09); }
+body.light-mode .hero-card::after { color: rgba(0,0,0,0.045); }
+body.light-mode .hero-kicker { background: rgba(0,0,0,0.045); border-color: rgba(0,0,0,0.09); }
+body.light-mode .bottom-nav { background: rgba(246,245,242,0.94); border-color: rgba(0,0,0,0.08); }
+body.light-mode .btn-primary { color: #ffffff; box-shadow: 0 12px 26px rgba(0,0,0,0.16); }
+body.light-mode .chat-msg.user { color: #ffffff; }
+
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.035);
+  color: var(--white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 17px;
+  transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+.theme-toggle:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.20); }
+.theme-toggle:active { transform: scale(0.96); }
+body.light-mode .theme-toggle {
+  background: rgba(255,255,255,0.8);
+  border-color: rgba(0,0,0,0.08);
+  box-shadow: 0 0 18px rgba(255, 210, 80, 0.34);
+}
+body.light-mode .theme-toggle::after { content: ''; position: absolute; width: 18px; height: 18px; border-radius: 50%; box-shadow: 0 0 18px rgba(255, 210, 80, 0.55); pointer-events: none; }
+
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
 html { font-size: 15px; }
@@ -1112,11 +1200,13 @@ body::before {
 }
 
 .hero-phrase {
-  font-size: clamp(44px, 12vw, 76px);
+  font-size: clamp(38px, 9.4vw, 68px);
   font-weight: 300;
-  letter-spacing: -0.075em;
-  line-height: 0.95;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
   color: var(--white);
+  overflow-wrap: anywhere;
+  max-width: 92%;
 }
 
 .hero-translation {
@@ -1285,6 +1375,7 @@ body::before {
     <div class="stat-chip">🔥 <span id="hStreak">1</span>d</div>
     <div class="stat-chip"><span id="hXP">60</span> xp</div>
     <div class="xp-track"><div class="xp-fill" id="xpFill" style="width:6%"></div></div>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to bright mode" title="Bright / dark mode">💡</button>
   </div>
 </header>
 
@@ -1767,14 +1858,36 @@ function speakText(text, lang='cs-CZ') {
 
 function startListening(callback) {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SpeechRecognition) { alert('Speech recognition not supported in this browser. Try Chrome.'); return; }
+  const isSecure = window.isSecureContext || location.protocol === 'https:' || location.hostname === 'localhost';
+  if(!isSecure) {
+    callback({error:'Speech recognition needs HTTPS. Use your GitHub Pages URL, not a local file.'});
+    return null;
+  }
+  if(!SpeechRecognition) {
+    callback({error:'Speech recognition is not available in this browser. Try Chrome on desktop/Android. On iPhone, use the keyboard dictation mic in the text field.'});
+    return null;
+  }
+  let finished = false;
   const rec = new SpeechRecognition();
   rec.lang = 'cs-CZ';
   rec.interimResults = false;
+  rec.continuous = false;
   rec.maxAlternatives = 1;
-  rec.onresult = e => callback(e.results[0][0].transcript);
-  rec.onerror = () => callback(null);
-  rec.start();
+  rec.onresult = e => {
+    finished = true;
+    const text = e.results && e.results[0] && e.results[0][0] ? e.results[0][0].transcript : '';
+    callback(text || {error:'I could not hear anything. Try again closer to the microphone.'});
+  };
+  rec.onerror = e => {
+    finished = true;
+    const msg = e && e.error ? e.error : 'unknown error';
+    callback({error:'Microphone problem: '+msg+'. Check browser microphone permission and try again.'});
+  };
+  rec.onend = () => {
+    if(!finished) callback({error:'No speech detected. Try again and speak after the red listening state appears.'});
+  };
+  try { rec.start(); }
+  catch(err) { callback({error:'Could not start microphone: '+err.message}); return null; }
   return rec;
 }
 
@@ -2325,10 +2438,16 @@ document.getElementById('chatMic').addEventListener('click',()=>{
   const btn=document.getElementById('chatMic');
   if(micRec){micRec.stop();micRec=null;btn.classList.remove('listening');btn.textContent='🎤 Speak';return;}
   btn.classList.add('listening');btn.textContent='🔴 Listening…';
-  micRec=startListening(text=>{
+  micRec=startListening(result=>{
     btn.classList.remove('listening');btn.textContent='🎤 Speak';micRec=null;
-    if(text){document.getElementById('chatInput').value=text;sendChat();}
+    if(result && typeof result === 'object' && result.error){
+      if(typeof addMsg === 'function') addMsg('ai', result.error);
+      else alert(result.error);
+      return;
+    }
+    if(result){document.getElementById('chatInput').value=result;sendChat();}
   });
+  if(!micRec){btn.classList.remove('listening');btn.textContent='🎤 Speak';}
 });
 
 // ══════════════════════════════════════════════
@@ -2387,6 +2506,28 @@ document.querySelectorAll('input[type=checkbox]').forEach(cb=>cb.addEventListene
 function shuf(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function esc(s){return(s||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 
+
+
+// THEME TOGGLE — light bulb on/off
+(function(){
+  const btn = document.getElementById('themeToggle');
+  if(!btn) return;
+  const saved = localStorage.getItem('dailyCzechTheme') || 'dark';
+  const apply = (mode) => {
+    document.body.classList.toggle('light-mode', mode === 'light');
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if(meta) meta.setAttribute('content', mode === 'light' ? '#f6f5f2' : '#0a0a0a');
+    btn.textContent = mode === 'light' ? '💡' : '◐';
+    btn.setAttribute('aria-label', mode === 'light' ? 'Switch to dark mode' : 'Switch to bright mode');
+    btn.setAttribute('title', mode === 'light' ? 'Bright mode on' : 'Night mode');
+  };
+  apply(saved);
+  btn.addEventListener('click', () => {
+    const next = document.body.classList.contains('light-mode') ? 'dark' : 'light';
+    localStorage.setItem('dailyCzechTheme', next);
+    apply(next);
+  });
+})();
 
 // DAILY CZECH UI POLISH — dynamic daily hero phrase
 (function initDailyHero(){
