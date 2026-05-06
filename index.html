@@ -1902,10 +1902,9 @@ body:not(.light-mode) .chat-messages {
   <div class="tutor-mode-panel">
     <div class="tutor-mode-grid">
       <select id="tutorMode" title="Tutor mode">
-        <option value="auto">Smart mode: local first</option>
-        <option value="browserAI">Try Browser AI</option>
-        <option value="offline">Offline Tutor</option>
-        <option value="external">External AI Prompt</option>
+        <option value="offline" selected>Smart Offline Tutor</option>
+        <option value="external">External AI Assist</option>
+        <option value="dictation">Device Dictation Mode</option>
       </select>
       <select id="tutorTopic">
     <option>Free conversation practice</option>
@@ -1924,11 +1923,13 @@ body:not(.light-mode) .chat-messages {
       </select>
     </div>
     <div class="tutor-status" id="tutorStatus">
-      <strong>Smart Tutor:</strong> works offline now. Browser AI will be used only if your browser supports it. On iPhone, use the keyboard microphone for dictation.
+      <strong>Smart Offline Tutor:</strong> this mode works on iPhone, Android and desktop without API keys. For real AI, use External AI Assist and paste the generated prompt into ChatGPT, Gemini or DeepSeek.
     </div>
     <div class="tutor-mini-actions">
-      <button class="btn-ghost" id="testBrowserAI" style="padding:9px 12px;font-size:12px">Test Browser AI</button>
-      <button class="btn-ghost" id="copyTutorPrompt" style="padding:9px 12px;font-size:12px">Copy external AI prompt</button>
+      <button class="btn-ghost" id="copyTutorPrompt" style="padding:9px 12px;font-size:12px">Copy AI prompt</button>
+      <button class="btn-ghost" id="openChatGPT" style="padding:9px 12px;font-size:12px">Open ChatGPT</button>
+      <button class="btn-ghost" id="openGemini" style="padding:9px 12px;font-size:12px">Open Gemini</button>
+      <button class="btn-ghost" id="openDeepSeek" style="padding:9px 12px;font-size:12px">Open DeepSeek</button>
       <button class="btn-ghost" id="speechHelp" style="padding:9px 12px;font-size:12px">Speech help</button>
     </div>
   </div>
@@ -2754,6 +2755,55 @@ function localTutorReply(rawText, topic){
   return 'Write a Czech sentence, ask for a case drill, or choose a topic above.';
 }
 
+
+function isIOS(){
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+}
+function isAndroid(){ return /Android/i.test(navigator.userAgent); }
+
+async function copyText(text){
+  try{
+    await navigator.clipboard.writeText(text);
+    return true;
+  }catch(e){
+    const ta=document.createElement('textarea');
+    ta.value=text; ta.style.position='fixed'; ta.style.left='-9999px';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    let ok=false;
+    try{ ok=document.execCommand('copy'); }catch(_){ ok=false; }
+    ta.remove(); return ok;
+  }
+}
+
+function getExternalTutorPrompt(userText='', topic){
+  return `You are Daily Czech, a friendly Czech tutor for an adult learner aiming for B1.
+
+Topic: ${topic || 'Free conversation practice'}
+User input: ${userText || '(no input yet)'}
+
+Please do this:
+1. If the user wrote Czech, correct it gently.
+2. First mention what is already correct.
+3. Mark mistakes and give the corrected version.
+4. Explain the grammar shortly, especially Czech cases when relevant.
+5. Give 2–3 useful example sentences.
+6. Keep the answer concise and practical.
+7. Use Czech examples with English translations.`;
+}
+
+function updateTutorStatus(){
+  const mode=document.getElementById('tutorMode')?.value || 'offline';
+  const el=document.getElementById('tutorStatus');
+  if(!el)return;
+  if(mode==='external'){
+    el.innerHTML='<strong>External AI Assist:</strong> Daily Czech creates a high-quality tutor prompt. Paste it into ChatGPT, Gemini or DeepSeek. This is the free real-AI workaround for iPhone and Android.';
+  }else if(mode==='dictation'){
+    el.innerHTML='<strong>Device Dictation Mode:</strong> use your phone keyboard microphone to dictate Czech into the text field, then press Send. This is more reliable on iPhone than browser speech recognition.';
+  }else{
+    el.innerHTML='<strong>Smart Offline Tutor:</strong> works directly in the app on iPhone, Android and desktop. It is rule-based, not real AI, but good for corrections, drills and phrases.';
+  }
+}
+
 async function sendChat(){
   const inp=document.getElementById('chatInput');
   const text=inp.value.trim();if(!text)return;
@@ -2764,23 +2814,10 @@ async function sendChat(){
   const mode=document.getElementById('tutorMode')?.value || 'auto';
 
   if(mode==='external'){
-    const prompt=getExternalTutorPrompt(text);
-    try{await navigator.clipboard.writeText(prompt);}
-    catch(e){}
-    addMsg('ai','I copied a full external AI tutor prompt. Paste it into ChatGPT, Gemini, DeepSeek or another free assistant.\n\nPreview:\n'+prompt.slice(0,420)+'…');
+    const prompt=getExternalTutorPrompt(text, topic);
+    const copied=await copyText(prompt);
+    addMsg('ai',(copied?'Copied. ':'Copy this prompt manually if clipboard is blocked. ')+'Paste it into ChatGPT, Gemini, DeepSeek or another free assistant.\n\nPrompt:\n'+prompt);
     return;
-  }
-
-  if(mode==='browserAI' || mode==='auto'){
-    const wait=document.createElement('div');
-    wait.className='chat-msg ai';
-    wait.textContent='Trying Browser AI…';
-    document.getElementById('chatMessages').appendChild(wait);
-    document.getElementById('chatMessages').scrollTop=9999;
-    const aiReply=await tryBrowserAI(text, topic);
-    wait.remove();
-    if(aiReply){ addMsg('ai',aiReply); addXP(10); return; }
-    if(mode==='browserAI') addMsg('ai','Browser AI is not available on this device/browser yet. I will answer with the Offline Tutor instead.');
   }
 
   const reply=localTutorReply(text, topic);
@@ -2791,14 +2828,15 @@ document.getElementById('chatSend').addEventListener('click',sendChat);
 document.getElementById('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
 document.getElementById('tutorMode')?.addEventListener('change',updateTutorStatus);
 document.getElementById('tutorTopic')?.addEventListener('change',updateTutorStatus);
-document.getElementById('testBrowserAI')?.addEventListener('click',async()=>{
-  await updateTutorStatus();
-  const ok=await browserAIAvailable();
-  addMsg('ai', ok ? 'Browser AI seems available. Switch Tutor Mode to “Try Browser AI” and send a sentence.' : 'Browser AI is not available in this browser/device. This is normal on many phones. Use Offline Tutor, keyboard dictation, or the external AI prompt.');
-});
+
+
+document.getElementById('openChatGPT')?.addEventListener('click',()=>window.open('https://chatgpt.com/','_blank'));
+document.getElementById('openGemini')?.addEventListener('click',()=>window.open('https://gemini.google.com/','_blank'));
+document.getElementById('openDeepSeek')?.addEventListener('click',()=>window.open('https://chat.deepseek.com/','_blank'));
+
 document.getElementById('copyTutorPrompt')?.addEventListener('click',async()=>{
   const txt=document.getElementById('chatInput')?.value || '';
-  const prompt=getExternalTutorPrompt(txt);
+  const prompt=getExternalTutorPrompt(txt, document.getElementById('tutorTopic')?.value);
   try{await navigator.clipboard.writeText(prompt); addMsg('ai','Copied. Paste this prompt into ChatGPT, Gemini, DeepSeek or another free AI assistant.');}
   catch(e){addMsg('ai','Clipboard blocked. Here is the prompt:\n\n'+prompt);}
 });
