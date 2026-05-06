@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Daily Czech">
-<meta name="theme-color" content="#0a0a0a">
+<meta name="theme-color" content="#f6f5f2">
 <title>Daily Czech</title>
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1353,9 +1353,77 @@ body::before {
   .bottom-nav { width: calc(100% - 14px); }
 }
 
+
+
+/* ── BRIGHT MODE COMPLETION + IMPRESSUM ── */
+body.light-mode .card,
+body.light-mode .card-flush,
+body.light-mode .metric,
+body.light-mode .quick-card {
+  background: rgba(255,255,255,0.72);
+  border-color: rgba(0,0,0,0.08);
+  box-shadow: 0 18px 46px rgba(0,0,0,0.08);
+  color: var(--grey-100);
+}
+
+body.light-mode .card strong,
+body.light-mode .metric-val,
+body.light-mode .quick-title,
+body.light-mode .section-label + div strong { color: #171513 !important; }
+
+body.light-mode .section-label { color: #8a8176; }
+body.light-mode .quick-meta,
+body.light-mode .metric-lbl,
+body.light-mode .card div,
+body.light-mode .card label { color: #686057; }
+
+body.light-mode .prog-bar,
+body.light-mode .xp-track { background: rgba(0,0,0,0.10); }
+body.light-mode .prog-fill,
+body.light-mode .xp-fill { background: #171513; }
+
+body.light-mode .tab-row,
+body.light-mode .pill-row {
+  background: linear-gradient(180deg, rgba(246,245,242,0.98), rgba(246,245,242,0.86));
+}
+
+body.light-mode .bottom-nav {
+  background: rgba(255,255,255,0.80);
+  border-color: rgba(0,0,0,0.08);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.12);
+}
+
+body.light-mode .btn-ghost,
+body.light-mode .audio-btn {
+  background: rgba(255,255,255,0.52);
+  border-color: rgba(0,0,0,0.12);
+  color: #4b4640;
+}
+
+body.light-mode input[type=checkbox] { accent-color: #111111; }
+
+.info-grid { display: grid; gap: 12px; }
+.info-list { display: grid; gap: 8px; }
+.info-link {
+  display: block;
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.035);
+  color: var(--grey-200);
+  text-decoration: none;
+  transition: transform var(--transition), border-color var(--transition), background var(--transition);
+}
+.info-link:hover { transform: translateY(-1px); border-color: var(--grey-500); background: rgba(255,255,255,0.055); }
+.info-link strong { display:block; color: var(--white); font-weight: 500; margin-bottom: 3px; }
+.info-link span { display:block; color: var(--grey-500); font-size: 12px; line-height: 1.45; }
+body.light-mode .info-link { background: rgba(255,255,255,0.60); border-color: rgba(0,0,0,0.08); color: #4b4640; }
+body.light-mode .info-link strong { color: #171513; }
+body.light-mode .info-link span { color: #686057; }
+
 </style>
 </head>
-<body>
+<body class="light-mode">
 
 <div class="app">
 
@@ -1713,6 +1781,47 @@ body::before {
   </div>
 </div>
 
+
+<!-- ══ INFO / IMPRESSUM ══ -->
+<div id="sc-info" class="screen">
+  <div class="card">
+    <div class="section-label">Impressum</div>
+    <div style="font-size:13px;color:var(--grey-400);line-height:1.75">
+      <strong style="color:var(--grey-200)">Daily Czech</strong><br>
+      A personal Czech learning web app for daily vocabulary, phrases, grammar and B1 practice.<br><br>
+      <strong style="color:var(--grey-200)">Creator:</strong> Sirom Cazzolli<br>
+      <strong style="color:var(--grey-200)">Contact:</strong> <a href="mailto:sirom.cazzolli@email.com" style="color:inherit">sirom.cazzolli@email.com</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-label">Learning resources</div>
+    <div style="font-size:12px;color:var(--grey-500);line-height:1.65;margin-bottom:14px">
+      These external resources are useful references for Czech vocabulary, grammar, listening and study practice.
+    </div>
+    <div class="info-list">
+      <a class="info-link" href="https://realityczech.org" target="_blank" rel="noopener"><strong>Reality Czech</strong><span>Structured Czech learning material and curriculum orientation.</span></a>
+      <a class="info-link" href="https://slovnik.seznam.cz" target="_blank" rel="noopener"><strong>Seznam Slovník</strong><span>Czech dictionary and translation reference.</span></a>
+      <a class="info-link" href="https://glosbe.com/cs/en" target="_blank" rel="noopener"><strong>Glosbe Czech–English</strong><span>Dictionary examples and contextual translations.</span></a>
+      <a class="info-link" href="https://www.wordreference.com/encz/" target="_blank" rel="noopener"><strong>WordReference EN–CZ</strong><span>English–Czech dictionary reference.</span></a>
+      <a class="info-link" href="https://prirucka.ujc.cas.cz" target="_blank" rel="noopener"><strong>Internetová jazyková příručka ÚJČ</strong><span>Authoritative Czech grammar and language reference.</span></a>
+      <a class="info-link" href="https://www.nechybujte.cz" target="_blank" rel="noopener"><strong>Nechybujte.cz</strong><span>Czech spelling, grammar and dictionary support.</span></a>
+      <a class="info-link" href="https://www.memrise.com" target="_blank" rel="noopener"><strong>Memrise</strong><span>Vocabulary repetition and language learning practice.</span></a>
+      <a class="info-link" href="https://slowczech.com" target="_blank" rel="noopener"><strong>Slow Czech</strong><span>Listening, stories and learner-friendly Czech content.</span></a>
+      <a class="info-link" href="https://www.czechonline.org" target="_blank" rel="noopener"><strong>Czech Online</strong><span>Online Czech learning exercises and study material.</span></a>
+      <a class="info-link" href="https://reword.app" target="_blank" rel="noopener"><strong>ReWord Czech Learning</strong><span>Vocabulary and spaced-repetition style Czech learning practice.</span></a>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:0">
+    <div class="section-label">Note</div>
+    <div style="font-size:12px;color:var(--grey-500);line-height:1.65">
+      Daily Czech is an independent learning tool. The listed resources are references and are not affiliated with this app unless explicitly stated.
+    </div>
+  </div>
+</div>
+
+
 </div><!-- /app -->
 
 <!-- BOTTOM NAV -->
@@ -1748,6 +1857,10 @@ body::before {
   <button class="nav-item" data-s="roadmap">
     <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-10"/></svg></div>
     <span class="nav-label">Plan</span>
+  </button>
+  <button class="nav-item" data-s="info">
+    <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 10v7"/><path d="M12 7h.01"/></svg></div>
+    <span class="nav-label">Info</span>
   </button>
 </nav>
 
@@ -2512,7 +2625,7 @@ function esc(s){return(s||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 (function(){
   const btn = document.getElementById('themeToggle');
   if(!btn) return;
-  const saved = localStorage.getItem('dailyCzechTheme') || 'dark';
+  const saved = localStorage.getItem('dailyCzechThemeV3') || 'light';
   const apply = (mode) => {
     document.body.classList.toggle('light-mode', mode === 'light');
     const meta = document.querySelector('meta[name="theme-color"]');
@@ -2524,7 +2637,7 @@ function esc(s){return(s||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
   apply(saved);
   btn.addEventListener('click', () => {
     const next = document.body.classList.contains('light-mode') ? 'dark' : 'light';
-    localStorage.setItem('dailyCzechTheme', next);
+    localStorage.setItem('dailyCzechThemeV3', next);
     apply(next);
   });
 })();
