@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Česky B1">
+<meta name="apple-mobile-web-app-title" content="Daily Czech">
 <meta name="theme-color" content="#0a0a0a">
-<title>Česky B1</title>
+<title>Daily Czech</title>
 <link rel="manifest" href="manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,8 +39,9 @@
   --info-border: #1a3a5a;
   --font-display: 'DM Mono', monospace;
   --font-body: 'DM Sans', sans-serif;
-  --radius: 6px;
-  --radius-lg: 10px;
+  --radius: 8px;
+  --radius-lg: 14px;
+  --radius-xl: 22px;
   --transition: 0.15s ease;
 }
 
@@ -70,25 +71,48 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 0 16px;
-  border-bottom: 1px solid var(--grey-800);
+  padding: 18px 0 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
   margin-bottom: 20px;
   position: sticky;
   top: 0;
-  background: var(--black);
+  background: linear-gradient(180deg, rgba(10,10,10,0.98), rgba(10,10,10,0.92));
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   z-index: 100;
 }
 
-.logo {
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  color: var(--white);
-  text-transform: uppercase;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
 }
 
-.logo-dot { color: var(--grey-400); }
+.brand-mark {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  color: var(--white);
+}
+
+.brand-copy { display: flex; flex-direction: column; line-height: 1.05; }
+
+.logo {
+  font-family: var(--font-body);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  color: var(--white);
+  text-transform: none;
+}
+
+.logo-sub {
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--grey-500);
+  letter-spacing: 0.02em;
+}
 
 .hdr-stats {
   display: flex;
@@ -131,10 +155,14 @@ body {
   -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid var(--grey-800);
   display: flex;
-  justify-content: space-around;
-  padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+  justify-content: flex-start;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 8px max(10px, calc((100vw - 680px) / 2 + 10px)) max(8px, env(safe-area-inset-bottom));
   z-index: 200;
 }
+.bottom-nav::-webkit-scrollbar { display: none; }
 
 .nav-item {
   display: flex;
@@ -148,10 +176,12 @@ body {
   color: var(--grey-600);
   transition: color var(--transition);
   font-family: var(--font-body);
-  min-width: 48px;
+  min-width: 58px;
+  border-radius: 12px;
 }
+.nav-item:hover { color: var(--grey-300); background: rgba(255,255,255,0.035); }
 
-.nav-item.active { color: var(--white); }
+.nav-item.active { color: var(--white); background: rgba(255,255,255,0.07); }
 
 .nav-icon {
   width: 20px;
@@ -191,8 +221,9 @@ body {
   background: var(--grey-900);
   border: 1px solid var(--grey-800);
   border-radius: var(--radius-lg);
-  padding: 16px 18px;
-  margin-bottom: 10px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  box-shadow: 0 12px 34px rgba(0,0,0,0.18);
 }
 
 .card-flush {
@@ -202,6 +233,81 @@ body {
   margin-bottom: 10px;
   overflow: hidden;
 }
+
+
+/* ── DAILY CZECH HERO ── */
+.hero-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  padding: 24px 22px;
+  margin-bottom: 14px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255,255,255,0.10), transparent 34%),
+    linear-gradient(145deg, #151515, #0d0d0d 72%);
+  border: 1px solid rgba(255,255,255,0.10);
+  box-shadow: 0 18px 55px rgba(0,0,0,0.35);
+}
+
+.hero-kicker {
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--grey-500);
+  margin-bottom: 16px;
+}
+
+.hero-phrase {
+  font-size: clamp(36px, 10vw, 58px);
+  font-weight: 300;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.hero-translation {
+  font-size: 18px;
+  color: var(--grey-300);
+  margin-bottom: 18px;
+}
+
+.hero-copy {
+  font-size: 13px;
+  color: var(--grey-500);
+  line-height: 1.65;
+  max-width: 420px;
+  margin-bottom: 20px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.hero-actions .btn-primary,
+.hero-actions .btn-ghost { flex: 1; min-width: 140px; }
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.quick-card {
+  background: var(--grey-900);
+  border: 1px solid var(--grey-800);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.quick-card:hover { border-color: var(--grey-600); background: var(--grey-800); }
+.quick-title { color: var(--white); font-size: 14px; margin-bottom: 3px; }
+.quick-meta { color: var(--grey-500); font-size: 11px; line-height: 1.45; }
 
 /* ── METRIC ROW ── */
 .metrics {
@@ -877,11 +983,286 @@ textarea:focus { border-color: var(--grey-400); }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 480px) {
+  .hdr-stats { gap: 10px; }
+  .xp-track { width: 42px; }
+  .brand-mark { width: 34px; height: 34px; }
+  .logo { font-size: 15px; }
+  .logo-sub { display: none; }
+  .quick-grid { grid-template-columns: 1fr; }
   .metrics { grid-template-columns: repeat(2, 1fr); }
   .options { grid-template-columns: 1fr; }
   .quiz-prompt { font-size: 20px; }
   .num-big { font-size: 48px; }
 }
+
+
+/* ═══════════════════════════════════════════
+   DAILY CZECH — MODERN UI/UX POLISH LAYER
+   Keeps all original IDs and functionality intact.
+   ═══════════════════════════════════════════ */
+:root {
+  --radius: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 28px;
+  --shadow-soft: 0 18px 60px rgba(0,0,0,0.28);
+  --shadow-card: 0 10px 30px rgba(0,0,0,0.18);
+}
+
+body {
+  background:
+    radial-gradient(circle at 20% -10%, rgba(255,255,255,0.08), transparent 28%),
+    radial-gradient(circle at 90% 8%, rgba(255,255,255,0.045), transparent 28%),
+    linear-gradient(180deg, #0b0b0b 0%, #070707 55%, #050505 100%);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.24;
+  background-image: linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 72%);
+}
+
+.app { max-width: 760px; padding-inline: 18px; }
+
+.hdr {
+  margin: 10px auto 18px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 22px;
+  background: rgba(13,13,13,0.76);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.30);
+}
+
+.brand-mark {
+  width: 42px;
+  height: 42px;
+  padding: 2px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.015));
+}
+
+.logo { font-size: 18px; letter-spacing: -0.045em; }
+.logo-sub { color: var(--grey-400); }
+
+.hdr-stats {
+  gap: 8px;
+  padding: 5px;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.035);
+}
+
+.stat-chip {
+  padding: 5px 7px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.035);
+  color: var(--grey-300);
+}
+
+.xp-track { width: 48px; margin-right: 6px; }
+
+.hero-card {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 30px;
+  padding: 26px 24px 22px;
+  background:
+    radial-gradient(circle at 82% 10%, rgba(255,255,255,0.20), transparent 18%),
+    radial-gradient(circle at 14% 86%, rgba(255,255,255,0.10), transparent 24%),
+    linear-gradient(145deg, #202020 0%, #111111 48%, #080808 100%);
+  box-shadow: var(--shadow-soft);
+}
+
+.hero-card::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: 29px;
+  pointer-events: none;
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+.hero-card::after {
+  content: 'Č';
+  position: absolute;
+  right: -14px;
+  bottom: -54px;
+  font-family: var(--font-body);
+  font-size: 210px;
+  font-weight: 500;
+  line-height: 1;
+  color: rgba(255,255,255,0.035);
+  pointer-events: none;
+}
+
+.hero-kicker {
+  width: fit-content;
+  padding: 7px 11px;
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.045);
+  color: var(--grey-300);
+  margin-bottom: 26px;
+}
+
+.hero-phrase {
+  font-size: clamp(44px, 12vw, 76px);
+  font-weight: 300;
+  letter-spacing: -0.075em;
+  line-height: 0.95;
+  color: var(--white);
+}
+
+.hero-translation {
+  margin-top: 12px;
+  font-size: 19px;
+  color: var(--grey-300);
+}
+
+.hero-copy {
+  max-width: 480px;
+  margin: 24px 0 18px;
+  font-size: 14px;
+  color: var(--grey-400);
+  line-height: 1.65;
+}
+
+.hero-actions { display: grid; grid-template-columns: 0.72fr 1.28fr; gap: 10px; position: relative; z-index: 1; }
+
+.btn-primary, .btn-ghost, .btn-next, .audio-btn, .opt, .tab, .pill, select, textarea, .text-input, .chat-input {
+  transition: transform var(--transition), border-color var(--transition), background var(--transition), color var(--transition), opacity var(--transition), box-shadow var(--transition);
+}
+
+.btn-primary {
+  min-height: 46px;
+  border-radius: 16px;
+  box-shadow: 0 10px 26px rgba(255,255,255,0.10);
+}
+
+.btn-primary:active, .btn-ghost:active, .audio-btn:active, .opt:active, .quick-card:active { transform: scale(0.985); }
+
+.btn-ghost, .btn-next, .audio-btn { border-radius: 16px; }
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 14px 0 14px;
+}
+
+.quick-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 16px;
+  min-height: 112px;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.045);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: var(--shadow-card);
+}
+
+.quick-card::after {
+  content: '→';
+  position: absolute;
+  right: 16px;
+  bottom: 12px;
+  color: var(--grey-500);
+  font-family: var(--font-display);
+}
+
+.quick-title { font-size: 15px; font-weight: 500; color: var(--white); letter-spacing: -0.02em; margin-bottom: 6px; }
+.quick-meta { font-size: 12px; line-height: 1.55; color: var(--grey-500); padding-right: 18px; }
+
+.metrics { gap: 10px; margin: 14px 0; }
+.metric {
+  border-radius: 20px;
+  padding: 16px 10px;
+  background: rgba(255,255,255,0.038);
+  border-color: rgba(255,255,255,0.075);
+  box-shadow: var(--shadow-card);
+}
+.metric-val { font-size: 20px; }
+.metric-lbl { color: var(--grey-500); }
+
+.card, .card-flush {
+  background: rgba(17,17,17,0.82);
+  border-color: rgba(255,255,255,0.075);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.section-label { color: var(--grey-400); }
+
+.options { gap: 9px; }
+.opt {
+  border-radius: 16px;
+  padding: 15px 15px;
+  background: rgba(255,255,255,0.035);
+  border-color: rgba(255,255,255,0.09);
+}
+.opt:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(0,0,0,0.20); }
+
+.tab-row, .pill-row {
+  position: sticky;
+  top: 82px;
+  z-index: 80;
+  padding: 8px 0 10px;
+  background: linear-gradient(180deg, rgba(8,8,8,0.98), rgba(8,8,8,0.84));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.tab, .pill { background: rgba(255,255,255,0.03); }
+
+.bottom-nav {
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  width: min(760px, calc(100% - 18px));
+  bottom: 9px;
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 24px;
+  background: rgba(12,12,12,0.86);
+  box-shadow: 0 16px 55px rgba(0,0,0,0.45);
+  padding: 7px 8px max(7px, env(safe-area-inset-bottom));
+}
+
+.nav-item {
+  min-width: 62px;
+  padding: 8px 9px;
+  border-radius: 18px;
+}
+.nav-item.active { background: rgba(255,255,255,0.10); }
+.nav-label { font-size: 8.5px; }
+
+.flashcard-face { border-radius: 24px; background: rgba(255,255,255,0.04); }
+.chat-msg.ai { background: rgba(255,255,255,0.055); border-color: rgba(255,255,255,0.075); }
+.chat-msg.user { border-radius: 18px 5px 18px 18px; }
+.vocab-row, .study-row { padding-block: 14px; }
+
+@media (max-width: 560px) {
+  .app { padding-inline: 14px; }
+  .hdr { margin-top: 8px; border-radius: 20px; }
+  .brand-mark { width: 38px; height: 38px; }
+  .logo { font-size: 16px; }
+  .logo-sub { display: none; }
+  .hdr-stats { gap: 4px; }
+  .stat-chip { font-size: 10px; padding: 4px 6px; }
+  .xp-track { display: none; }
+  .hero-card { min-height: 270px; padding: 23px 20px 20px; }
+  .hero-actions { grid-template-columns: 1fr; }
+  .quick-grid { grid-template-columns: 1fr; }
+  .quick-card { min-height: 92px; }
+  .bottom-nav { width: calc(100% - 14px); }
+}
+
 </style>
 </head>
 <body>
@@ -890,7 +1271,16 @@ textarea:focus { border-color: var(--grey-400); }
 
 <!-- HEADER -->
 <header class="hdr">
-  <div class="logo">Česky<span class="logo-dot"> ·</span> B1</div>
+  <div class="brand" aria-label="Daily Czech">
+    <svg class="brand-mark" viewBox="0 0 48 48" role="img" aria-hidden="true">
+      <path d="M10 8.5h28c3 0 5.5 2.5 5.5 5.5v18c0 3-2.5 5.5-5.5 5.5H22.5L10 43V14c0-3 2.5-5.5 5.5-5.5Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+      <text x="24" y="30" text-anchor="middle" font-family="DM Sans, system-ui, sans-serif" font-size="20" font-weight="600" fill="currentColor">Č</text>
+    </svg>
+    <div class="brand-copy">
+      <div class="logo">Daily Czech</div>
+      <div class="logo-sub">One Czech step per day</div>
+    </div>
+  </div>
   <div class="hdr-stats">
     <div class="stat-chip">🔥 <span id="hStreak">1</span>d</div>
     <div class="stat-chip"><span id="hXP">60</span> xp</div>
@@ -900,6 +1290,28 @@ textarea:focus { border-color: var(--grey-400); }
 
 <!-- ══ HOME ══ -->
 <div id="sc-home" class="screen active">
+  <div class="hero-card">
+    <div class="hero-kicker">Today’s Czech</div>
+    <div class="hero-phrase" id="heroCz">Ahoj.</div>
+    <div class="hero-translation" id="heroEn">Hello. / Hi.</div>
+    <div class="hero-copy">A focused micro-lesson for real situations — small enough to do daily, useful enough to remember.</div>
+    <div class="hero-actions">
+      <button class="audio-btn" id="hListenBtn" style="justify-content:center;padding:12px 16px;border-radius:var(--radius-lg)">▶ Listen</button>
+      <button class="btn-primary" id="hTodayBtn">Start today’s practice</button>
+    </div>
+  </div>
+
+  <div class="quick-grid">
+    <div class="quick-card" id="hQuickPhrases">
+      <div class="quick-title">Real phrases</div>
+      <div class="quick-meta">Greetings, daily life, travel, food, social situations.</div>
+    </div>
+    <div class="quick-card" id="hQuickCases">
+      <div class="quick-title">Case training</div>
+      <div class="quick-meta">Short drills for Czech grammar without overwhelm.</div>
+    </div>
+  </div>
+
   <div class="metrics">
     <div class="metric"><span class="metric-val" id="hSeen">0</span><div class="metric-lbl">words seen</div></div>
     <div class="metric"><span class="metric-val" id="hAcc">—</span><div class="metric-lbl">accuracy</div></div>
@@ -944,21 +1356,10 @@ textarea:focus { border-color: var(--grey-400); }
     </div>
   </div>
 
-  <div style="display:flex;gap:8px">
-    <button class="btn-primary" style="flex:1" id="hPracBtn">Start quiz</button>
-    <button class="btn-ghost" style="flex:1" id="hCardsBtn">Flash cards</button>
-    <button class="btn-ghost" style="flex:1" id="hTutorBtn">AI tutor</button>
-  </div>
-
-  <div style="margin-top:16px">
-    <div class="section-label">Installation tip</div>
-    <div class="card" style="margin-bottom:0">
-      <div style="font-size:12px;color:var(--grey-400);line-height:1.7">
-        <strong style="color:var(--grey-200)">Save as app (iPhone):</strong> Open in Safari → Share icon → "Add to Home Screen"<br>
-        <strong style="color:var(--grey-200)">Save as app (desktop):</strong> Open in Chrome → install icon in address bar → Install<br>
-        <strong style="color:var(--grey-200)">For standalone use:</strong> Download the HTML file and host free on <em>netlify.com</em> or <em>github.com/pages</em> — then add to home screen from your own URL.
-      </div>
-    </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn-primary" style="flex:1;min-width:130px" id="hPracBtn">Start quiz</button>
+    <button class="btn-ghost" style="flex:1;min-width:130px" id="hCardsBtn">Review cards</button>
+    <button class="btn-ghost" style="flex:1;min-width:130px" id="hTutorBtn">AI tutor</button>
   </div>
 </div>
 
@@ -1211,6 +1612,14 @@ textarea:focus { border-color: var(--grey-400); }
     <div style="font-size:12px;color:var(--grey-400);line-height:1.7"><strong style="color:var(--grey-200)">10 weeks · ~45 min/day · 50 words/week · 2,000 word B1 vocabulary</strong></div>
   </div>
   <div id="roadmapWeeks"></div>
+  <div class="card" style="margin-top:14px;margin-bottom:0">
+    <div class="section-label">Install Daily Czech</div>
+    <div style="font-size:12px;color:var(--grey-400);line-height:1.7">
+      <strong style="color:var(--grey-200)">iPhone:</strong> Open in Safari → Share icon → Add to Home Screen.<br>
+      <strong style="color:var(--grey-200)">Desktop:</strong> Open in Chrome → install icon in address bar → Install.<br>
+      <strong style="color:var(--grey-200)">Hosting:</strong> Works as a single-file GitHub Pages / Netlify app.
+    </div>
+  </div>
 </div>
 
 </div><!-- /app -->
@@ -1394,8 +1803,12 @@ function goScreen(id) {
 }
 
 document.getElementById('hPracBtn').addEventListener('click',()=>goScreen('quiz'));
+document.getElementById('hTodayBtn').addEventListener('click',()=>goScreen('quiz'));
 document.getElementById('hCardsBtn').addEventListener('click',()=>goScreen('cards'));
 document.getElementById('hTutorBtn').addEventListener('click',()=>goScreen('tutor'));
+document.getElementById('hListenBtn').addEventListener('click',()=>speakText('Ahoj','cs-CZ'));
+document.getElementById('hQuickPhrases').addEventListener('click',()=>goScreen('phrases'));
+document.getElementById('hQuickCases').addEventListener('click',()=>goScreen('cases'));
 
 // ══════════════════════════════════════════════
 // QUIZ
@@ -1973,6 +2386,20 @@ document.querySelectorAll('input[type=checkbox]').forEach(cb=>cb.addEventListene
 // ══════════════════════════════════════════════
 function shuf(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function esc(s){return(s||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+
+
+// DAILY CZECH UI POLISH — dynamic daily hero phrase
+(function initDailyHero(){
+  const heroCz = document.getElementById('heroCz');
+  const heroEn = document.getElementById('heroEn');
+  const listen = document.getElementById('hListenBtn');
+  if (!heroCz || !heroEn || !Array.isArray(PHRASES) || !PHRASES.length) return;
+  const dayKey = Math.floor(Date.now() / 86400000);
+  const p = PHRASES[dayKey % PHRASES.length];
+  heroCz.textContent = p.cz;
+  heroEn.textContent = p.en;
+  if (listen) listen.onclick = () => speakText(p.cz, 'cs-CZ');
+})();
 </script>
 </body>
 </html>
