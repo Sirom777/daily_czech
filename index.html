@@ -1679,10 +1679,85 @@ body:not(.light-mode) .chat-messages {
     </div>
   </div>
 
-  <div style="display:flex;gap:8px;flex-wrap:wrap">
+  
+<div class="card">
+  <div class="section-label">Learning Path</div>
+
+  <div style="display:grid;gap:14px;margin-top:10px">
+
+    <div style="padding:16px;border-radius:18px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <strong style="font-size:16px">A1 Survival Czech</strong>
+        <span style="font-family:var(--font-display);font-size:11px;color:var(--grey-500)">LEVEL 1</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:32%"></div></div>
+      <div style="font-size:12px;color:var(--grey-500);margin-top:8px">
+        Greetings • Food • Numbers • Daily situations • Simple questions
+      </div>
+    </div>
+
+    <div style="padding:16px;border-radius:18px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.08)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <strong style="font-size:16px">A2 Conversations</strong>
+        <span style="font-family:var(--font-display);font-size:11px;color:var(--grey-600)">LOCKED</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:0%"></div></div>
+      <div style="font-size:12px;color:var(--grey-500);margin-top:8px">
+        Travel • Past tense • Ordering • Directions • Social interaction
+      </div>
+    </div>
+
+    <div style="padding:16px;border-radius:18px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <strong style="font-size:16px">B1 Real Life Czech</strong>
+        <span style="font-family:var(--font-display);font-size:11px;color:var(--grey-600)">LOCKED</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:0%"></div></div>
+      <div style="font-size:12px;color:var(--grey-500);margin-top:8px">
+        Opinions • Work • Deeper grammar • Listening • Natural speaking
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="card">
+  <div class="section-label">XP System</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+
+    <div class="metric">
+      <span class="metric-val">+10</span>
+      <div class="metric-lbl">correct answer</div>
+    </div>
+
+    <div class="metric">
+      <span class="metric-val">+25</span>
+      <div class="metric-lbl">daily streak</div>
+    </div>
+
+    <div class="metric">
+      <span class="metric-val">+40</span>
+      <div class="metric-lbl">lesson completed</div>
+    </div>
+
+    <div class="metric">
+      <span class="metric-val">+100</span>
+      <div class="metric-lbl">weekly goal</div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:16px;font-size:13px;line-height:1.7;color:var(--grey-400)">
+    The system now rewards consistency, lesson completion and real progression instead of only answering isolated quiz questions.
+  </div>
+</div>
+
+
+<div style="display:flex;gap:8px;flex-wrap:wrap">
     <button class="btn-primary" style="flex:1;min-width:130px" id="hPracBtn">Start quiz</button>
     <button class="btn-ghost" style="flex:1;min-width:130px" id="hCardsBtn">Review cards</button>
-    <button class="btn-ghost" style="flex:1;min-width:130px" id="hTutorBtn">AI tutor</button>
+    
   </div>
 </div>
 
@@ -1947,6 +2022,87 @@ body:not(.light-mode) .chat-messages {
     </div>
   </div>
 </div>
+
+
+
+<!-- ══ LISTENING ══ -->
+<div id="sc-listening" class="sc">
+  <div class="card">
+    <div class="section-label">Listening Trainer</div>
+    <div class="subline">Listen carefully and type what you hear.</div>
+
+    <div style="margin-top:18px">
+      <div id="listenSentence" style="font-size:26px;font-weight:300;margin-bottom:18px;color:var(--grey-100)">
+        Dobrý den
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px">
+        <button class="btn-primary" id="playListeningBtn">▶ Play</button>
+        <button class="btn-ghost" id="newListeningBtn">New Sentence</button>
+      </div>
+
+      <input id="listeningInput" class="text-in" placeholder="Type what you heard..." />
+
+      <div style="display:flex;gap:10px;margin-top:14px">
+        <button class="btn-primary" id="checkListeningBtn">Check</button>
+      </div>
+
+      <div id="listeningFeedback" style="margin-top:18px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SPEAKING ══ -->
+<div id="sc-speaking" class="sc">
+  <div class="card">
+    <div class="section-label">Speaking & Pronunciation</div>
+    <div class="subline">Practice speaking Czech sentences aloud.</div>
+
+    <div style="margin-top:18px">
+      <div id="speakSentence" style="font-size:28px;font-weight:300;margin-bottom:10px;color:var(--grey-100)">
+        Jak se máte?
+      </div>
+
+      <div style="font-size:13px;color:var(--grey-500);margin-bottom:18px">
+        Tap play first, then repeat the sentence.
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
+        <button class="btn-primary" id="playSpeakBtn">▶ Listen</button>
+        <button class="btn-ghost" id="recordSpeakBtn">🎤 Record</button>
+        <button class="btn-ghost" id="nextSpeakBtn">Next</button>
+      </div>
+
+      <div id="speechResult" style="padding:16px;border-radius:18px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)">
+        Your spoken Czech will appear here.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ VOCABULARY ══ -->
+<div id="sc-vocabulary" class="sc">
+  <div class="card">
+    <div class="section-label">Vocabulary</div>
+    <div class="subline">All Czech vocabulary in alphabetical order. Tap any word to hear pronunciation.</div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+      <button class="btn-primary" id="exportVocabBtn">Export Vocabulary</button>
+      <button class="btn-ghost" id="exportSentencesBtn">Export Important Sentences</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-label">Important Sentences</div>
+    <div id="importantSentences"></div>
+  </div>
+
+  <div class="card">
+    <div class="section-label">Complete Vocabulary</div>
+    <div id="vocabularyList"></div>
+  </div>
+</div>
+
 
 <!-- ══ ROADMAP ══ -->
 <div id="sc-roadmap" class="screen">
@@ -2959,5 +3115,92 @@ function esc(s){return(s||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
   if (listen) listen.onclick = () => speakText(p.cz, 'cs-CZ');
 })();
 </script>
+
+<!-- ══ RESOURCES ══ -->
+<div id="sc-resources" class="screen">
+  <div class="card">
+    <div class="section-label">Integrated Czech Learning Resources</div>
+    <div class="info-grid">
+
+      <a class="info-link" href="https://www.mozaika.eu/category/cestina-online-zdarma/" target="_blank">
+        <strong>Mozaika Czech Online</strong>
+        <span>Professional Czech exercises, grammar and beginner learning material.</span>
+      </a>
+
+      <a class="info-link" href="https://www.mozaika.eu/lehrmaterialien-zum-download/" target="_blank">
+        <strong>Mozaika Downloads</strong>
+        <span>Printable PDFs, grammar tables, exercises and Czech worksheets.</span>
+      </a>
+
+      <a class="info-link" href="https://www.czechstepbystep.cz/en/cestina-on-line" target="_blank">
+        <strong>Czech Step by Step</strong>
+        <span>Structured Czech learning platform with online exercises.</span>
+      </a>
+
+      <a class="info-link" href="https://www.studyczech.cz/materials-for-learning-czech/" target="_blank">
+        <strong>Study Czech</strong>
+        <span>Official Czech language learning resources and study material.</span>
+      </a>
+
+      <a class="info-link" href="https://realityczech.org" target="_blank">
+        <strong>Reality Czech</strong>
+        <span>Immersive Czech learning videos and practical language examples.</span>
+      </a>
+
+      <a class="info-link" href="https://slowczech.com" target="_blank">
+        <strong>Slow Czech</strong>
+        <span>Podcast-based natural Czech listening practice.</span>
+      </a>
+
+      <a class="info-link" href="https://slovnik.seznam.cz" target="_blank">
+        <strong>Seznam Slovník</strong>
+        <span>Fast Czech-English online dictionary.</span>
+      </a>
+
+      <a class="info-link" href="https://glosbe.com/cs/en" target="_blank">
+        <strong>Glosbe</strong>
+        <span>Contextual sentence translations and phrase examples.</span>
+      </a>
+
+      <a class="info-link" href="https://www.wordreference.com/encz/" target="_blank">
+        <strong>WordReference</strong>
+        <span>Vocabulary, forum discussions and grammar context.</span>
+      </a>
+
+      <a class="info-link" href="https://prirucka.ujc.cas.cz" target="_blank">
+        <strong>Czech Language Institute</strong>
+        <span>Official Czech grammar and spelling reference.</span>
+      </a>
+
+      <a class="info-link" href="https://www.nechybujte.cz" target="_blank">
+        <strong>Nechybujte</strong>
+        <span>Czech spelling and grammar correctness checker.</span>
+      </a>
+
+      <a class="info-link" href="https://www.memrise.com" target="_blank">
+        <strong>Memrise</strong>
+        <span>Vocabulary memorization and spaced repetition learning.</span>
+      </a>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-label">Impressum</div>
+    <div style="line-height:1.8;font-size:14px;color:var(--grey-300)">
+      <strong>Daily Czech v12</strong><br><br>
+      Creator: Sirom Cazzolli<br>
+      Contact: sirom.cazzolli@email.com<br><br>
+      Educational resource references integrated from public Czech learning platforms and language institutes.
+    </div>
+  </div>
+
+<button class="nav-item" onclick="showScreen('resources')">
+  <div class="nav-icon">◎</div>
+  <div class="nav-label">Resources</div>
+</button>
+
+</div>
+
 </body>
 </html>
