@@ -1,3206 +1,432 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Daily Czech">
-<meta name="theme-color" content="#f6f5f2">
-<title>Daily Czech</title>
-<link rel="manifest" href="manifest.json">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Czech v20</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-/* ═══════════════════════════════════════════
-   DESIGN SYSTEM — Greyscale Brutalist Minimal
-   ═══════════════════════════════════════════ */
-:root {
-  --black: #0a0a0a;
-  --grey-900: #111111;
-  --grey-800: #1a1a1a;
-  --grey-700: #2a2a2a;
-  --grey-600: #3d3d3d;
-  --grey-500: #5a5a5a;
-  --grey-400: #7a7a7a;
-  --grey-300: #a0a0a0;
-  --grey-200: #c8c8c8;
-  --grey-100: #e8e8e8;
-  --grey-50: #f4f4f4;
-  --white: #ffffff;
-  --accent: #ffffff;
-  --accent-dim: rgba(255,255,255,0.08);
-  --correct: #2a7a4a;
-  --correct-bg: #0d2018;
-  --wrong: #7a2a2a;
-  --wrong-bg: #200d0d;
-  --info-bg: #0d1520;
-  --info-border: #1a3a5a;
-  --font-display: 'DM Mono', monospace;
-  --font-body: 'DM Sans', sans-serif;
-  --radius: 8px;
-  --radius-lg: 14px;
-  --radius-xl: 22px;
-  --transition: 0.15s ease;
-}
-
-
-/* ── THEME MODE: default dark, optional bright mode ── */
-body.light-mode {
-  --black: #f6f5f2;
-  --grey-900: #ffffff;
-  --grey-800: #ece9e3;
-  --grey-700: #d8d3ca;
-  --grey-600: #b8b1a6;
-  --grey-500: #8a8176;
-  --grey-400: #686057;
-  --grey-300: #4b4640;
-  --grey-200: #302d29;
-  --grey-100: #171513;
-  --grey-50: #0a0a0a;
-  --white: #111111;
-  --accent: #111111;
-  --accent-dim: rgba(0,0,0,0.08);
-  --correct-bg: #eaf5ee;
-  --wrong-bg: #f8ecec;
-  --info-bg: #edf3fb;
-  --info-border: #c7d8ef;
-}
-
-body.light-mode {
-  background:
-    radial-gradient(circle at 20% 0%, rgba(0,0,0,0.05), transparent 26%),
-    linear-gradient(180deg, #f8f7f4 0%, #efede8 100%);
-  color: var(--grey-100);
-}
-
-body.light-mode::before {
-  opacity: 0.16;
-  background-image:
-    linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
-}
-
-body.light-mode .hdr {
-  background: rgba(255,255,255,0.78);
-  border-color: rgba(0,0,0,0.08);
-  box-shadow: 0 10px 36px rgba(0,0,0,0.10);
-}
-
-body.light-mode .hdr-stats,
-body.light-mode .stat-chip,
-body.light-mode .brand-mark {
-  background: rgba(0,0,0,0.035);
-  border-color: rgba(0,0,0,0.08);
-}
-
-body.light-mode .hero-card {
-  background:
-    radial-gradient(circle at 82% 10%, rgba(0,0,0,0.11), transparent 18%),
-    radial-gradient(circle at 14% 86%, rgba(0,0,0,0.06), transparent 24%),
-    linear-gradient(145deg, #ffffff 0%, #f0eee8 52%, #e8e5de 100%);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.11);
-}
-
-body.light-mode .hero-card::before { border-color: rgba(0,0,0,0.09); }
-body.light-mode .hero-card::after { color: rgba(0,0,0,0.045); }
-body.light-mode .hero-kicker { background: rgba(0,0,0,0.045); border-color: rgba(0,0,0,0.09); }
-body.light-mode .bottom-nav { background: rgba(246,245,242,0.94); border-color: rgba(0,0,0,0.08); }
-body.light-mode .btn-primary { color: #ffffff; box-shadow: 0 12px 26px rgba(0,0,0,0.16); }
-body.light-mode .chat-msg.user { color: #ffffff; }
-
-.theme-toggle {
-  width: 40px;
-  height: 40px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.035);
-  color: var(--white);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 17px;
-  transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
-}
-.theme-toggle:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.20); }
-.theme-toggle:active { transform: scale(0.96); }
-body.light-mode .theme-toggle {
-  background: rgba(255,255,255,0.8);
-  border-color: rgba(0,0,0,0.08);
-  box-shadow: 0 0 18px rgba(255, 210, 80, 0.34);
-}
-body.light-mode .theme-toggle::after { content: ''; position: absolute; width: 18px; height: 18px; border-radius: 50%; box-shadow: 0 0 18px rgba(255, 210, 80, 0.55); pointer-events: none; }
-
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-html { font-size: 15px; }
-
-body {
-  background: var(--black);
-  color: var(--grey-100);
-  font-family: var(--font-body);
-  font-weight: 300;
-  line-height: 1.6;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* ── LAYOUT ── */
-.app {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 0 16px 120px;
-}
-
-/* ── HEADER ── */
-.hdr {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 0 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-  margin-bottom: 20px;
-  position: sticky;
-  top: 0;
-  background: linear-gradient(180deg, rgba(10,10,10,0.98), rgba(10,10,10,0.92));
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  z-index: 100;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  min-width: 0;
-}
-
-.brand-mark {
-  width: 38px;
-  height: 38px;
-  flex-shrink: 0;
-  color: var(--white);
-}
-
-.brand-copy { display: flex; flex-direction: column; line-height: 1.05; }
-
-.logo {
-  font-family: var(--font-body);
-  font-size: 17px;
-  font-weight: 500;
-  letter-spacing: -0.03em;
-  color: var(--white);
-  text-transform: none;
-}
-
-.logo-sub {
-  margin-top: 4px;
-  font-size: 11px;
-  color: var(--grey-500);
-  letter-spacing: 0.02em;
-}
-
-.hdr-stats {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.stat-chip {
-  font-family: var(--font-display);
-  font-size: 11px;
-  color: var(--grey-400);
-  letter-spacing: 0.06em;
-}
-
-.stat-chip span { color: var(--white); }
-
-.xp-track {
-  width: 60px;
-  height: 2px;
-  background: var(--grey-800);
-  border-radius: 1px;
-  overflow: hidden;
-}
-
-.xp-fill {
-  height: 100%;
-  background: var(--white);
-  border-radius: 1px;
-  transition: width 0.5s ease;
-}
-
-/* ── BOTTOM NAV ── */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(10,10,10,0.96);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid var(--grey-800);
-  display: flex;
-  justify-content: flex-start;
-  gap: 4px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  padding: 8px max(10px, calc((100vw - 680px) / 2 + 10px)) max(8px, env(safe-area-inset-bottom));
-  z-index: 200;
-}
-.bottom-nav::-webkit-scrollbar { display: none; }
-
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  padding: 6px 10px;
-  cursor: pointer;
-  border: none;
-  background: none;
-  color: var(--grey-600);
-  transition: color var(--transition);
-  font-family: var(--font-body);
-  min-width: 58px;
-  border-radius: 12px;
-}
-.nav-item:hover { color: var(--grey-300); background: rgba(255,255,255,0.035); }
-
-.nav-item.active { color: var(--white); background: rgba(255,255,255,0.07); }
-
-.nav-icon {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.nav-icon svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; }
-.nav-item.active .nav-icon svg { stroke-width: 2; }
-
-.nav-label {
-  font-size: 9px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-weight: 400;
-}
-
-/* ── SCREENS ── */
-.screen { display: none; animation: fadeIn 0.2s ease; }
-.screen.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
-
-/* ── SECTION LABEL ── */
-.section-label {
-  font-family: var(--font-display);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--grey-500);
-  margin-bottom: 12px;
-}
-
-/* ── CARDS ── */
-.card {
-  background: var(--grey-900);
-  border: 1px solid var(--grey-800);
-  border-radius: var(--radius-lg);
-  padding: 18px 20px;
-  margin-bottom: 12px;
-  box-shadow: 0 12px 34px rgba(0,0,0,0.18);
-}
-
-.card-flush {
-  background: var(--grey-900);
-  border: 1px solid var(--grey-800);
-  border-radius: var(--radius-lg);
-  margin-bottom: 10px;
-  overflow: hidden;
-}
-
-
-/* ── DAILY CZECH HERO ── */
-.hero-card {
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--radius-xl);
-  padding: 24px 22px;
-  margin-bottom: 14px;
-  background:
-    radial-gradient(circle at 100% 0%, rgba(255,255,255,0.10), transparent 34%),
-    linear-gradient(145deg, #151515, #0d0d0d 72%);
-  border: 1px solid rgba(255,255,255,0.10);
-  box-shadow: 0 18px 55px rgba(0,0,0,0.35);
-}
-
-.hero-kicker {
-  font-family: var(--font-display);
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--grey-500);
-  margin-bottom: 16px;
-}
-
-.hero-phrase {
-  font-size: clamp(36px, 10vw, 58px);
-  font-weight: 300;
-  letter-spacing: -0.06em;
-  line-height: 0.95;
-  color: var(--white);
-  margin-bottom: 8px;
-}
-
-.hero-translation {
-  font-size: 18px;
-  color: var(--grey-300);
-  margin-bottom: 18px;
-}
-
-.hero-copy {
-  font-size: 13px;
-  color: var(--grey-500);
-  line-height: 1.65;
-  max-width: 420px;
-  margin-bottom: 20px;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.hero-actions .btn-primary,
-.hero-actions .btn-ghost { flex: 1; min-width: 140px; }
-
-.quick-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.quick-card {
-  background: var(--grey-900);
-  border: 1px solid var(--grey-800);
-  border-radius: var(--radius-lg);
-  padding: 14px;
-  cursor: pointer;
-  transition: all var(--transition);
-}
-.quick-card:hover { border-color: var(--grey-600); background: var(--grey-800); }
-.quick-title { color: var(--white); font-size: 14px; margin-bottom: 3px; }
-.quick-meta { color: var(--grey-500); font-size: 11px; line-height: 1.45; }
-
-/* ── METRIC ROW ── */
-.metrics {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.metric {
-  background: var(--grey-900);
-  border: 1px solid var(--grey-800);
-  border-radius: var(--radius-lg);
-  padding: 12px 10px;
-  text-align: center;
-}
-
-.metric-val {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--white);
-  display: block;
-}
-
-.metric-lbl {
-  font-size: 9px;
-  color: var(--grey-500);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-top: 2px;
-}
-
-/* ── TABS (pill row) ── */
-.tab-row {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-}
-
-.tab {
-  padding: 6px 14px;
-  border: 1px solid var(--grey-700);
-  border-radius: 40px;
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  cursor: pointer;
-  background: none;
-  color: var(--grey-400);
-  font-family: var(--font-body);
-  transition: all var(--transition);
-  white-space: nowrap;
-}
-
-.tab:hover { border-color: var(--grey-500); color: var(--grey-200); }
-.tab.on { background: var(--white); color: var(--black); border-color: var(--white); font-weight: 500; }
-
-/* ── QUIZ CARD ── */
-.quiz-meta {
-  font-family: var(--font-display);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  color: var(--grey-500);
-  margin-bottom: 10px;
-}
-
-.quiz-prompt {
-  font-size: 24px;
-  font-weight: 300;
-  color: var(--white);
-  line-height: 1.25;
-  margin-bottom: 6px;
-  letter-spacing: -0.02em;
-}
-
-.quiz-dir {
-  font-size: 12px;
-  color: var(--grey-400);
-  margin-bottom: 18px;
-}
-
-/* ── OPTIONS GRID ── */
-.options {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 7px;
-}
-
-.opt {
-  padding: 13px 14px;
-  border: 1px solid var(--grey-700);
-  border-radius: var(--radius-lg);
-  background: var(--grey-900);
-  color: var(--grey-100);
-  font-size: 13px;
-  font-family: var(--font-body);
-  cursor: pointer;
-  text-align: left;
-  line-height: 1.35;
-  transition: all var(--transition);
-}
-
-.opt:hover { border-color: var(--grey-500); background: var(--grey-800); }
-.opt.correct { background: var(--correct-bg); border-color: var(--correct); color: #6dcc9a; }
-.opt.wrong { background: var(--wrong-bg); border-color: var(--wrong); color: #cc6d6d; }
-
-/* ── FEEDBACK ── */
-.feedback {
-  padding: 12px 14px;
-  border-radius: var(--radius-lg);
-  font-size: 13px;
-  line-height: 1.55;
-  margin-top: 10px;
-  display: none;
-  border-left: 3px solid;
-}
-
-.feedback.show { display: block; }
-.feedback.ok { background: var(--correct-bg); border-color: #2a7a4a; color: #8ddbb0; }
-.feedback.err { background: var(--wrong-bg); border-color: #7a2a2a; color: #dda0a0; }
-.feedback.info { background: var(--info-bg); border-color: #2a4a7a; color: #8aaad0; }
-
-.case-explain {
-  margin-top: 10px;
-  padding: 12px 14px;
-  background: var(--info-bg);
-  border: 1px solid var(--info-border);
-  border-radius: var(--radius-lg);
-  font-size: 12px;
-  line-height: 1.7;
-  color: var(--grey-300);
-  display: none;
-}
-
-.case-explain strong { color: var(--white); }
-
-/* ── NEXT BUTTON ── */
-.btn-next {
-  margin-top: 12px;
-  width: 100%;
-  padding: 12px;
-  border: 1px solid var(--grey-700);
-  border-radius: var(--radius-lg);
-  background: none;
-  color: var(--grey-400);
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  cursor: pointer;
-  font-family: var(--font-body);
-  display: none;
-  transition: all var(--transition);
-}
-
-.btn-next:hover { border-color: var(--grey-400); color: var(--white); }
-.btn-next.show { display: block; }
-
-/* ── PRIMARY / GHOST BUTTONS ── */
-.btn-primary {
-  padding: 12px 20px;
-  background: var(--white);
-  color: var(--black);
-  border: none;
-  border-radius: var(--radius-lg);
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  font-family: var(--font-body);
-  transition: opacity var(--transition);
-  letter-spacing: 0.02em;
-}
-
-.btn-primary:hover { opacity: 0.85; }
-
-.btn-ghost {
-  padding: 12px 20px;
-  background: none;
-  color: var(--grey-300);
-  border: 1px solid var(--grey-700);
-  border-radius: var(--radius-lg);
-  font-size: 13px;
-  cursor: pointer;
-  font-family: var(--font-body);
-  transition: all var(--transition);
-}
-
-.btn-ghost:hover { border-color: var(--grey-400); color: var(--white); }
-
-/* ── AUDIO BUTTON ── */
-.audio-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  border: 1px solid var(--grey-700);
-  border-radius: 40px;
-  background: none;
-  color: var(--grey-400);
-  font-size: 11px;
-  cursor: pointer;
-  transition: all var(--transition);
-  font-family: var(--font-body);
-  letter-spacing: 0.04em;
-}
-
-.audio-btn:hover { border-color: var(--grey-400); color: var(--white); }
-.audio-btn.speaking { border-color: var(--grey-300); color: var(--white); animation: pulse 1s infinite; }
-@keyframes pulse { 0%,100%{ opacity:1 } 50%{ opacity:0.5 } }
-
-/* ── MIC BUTTON ── */
-.mic-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  border: 1px solid var(--grey-700);
-  border-radius: 40px;
-  background: none;
-  color: var(--grey-400);
-  font-size: 11px;
-  cursor: pointer;
-  transition: all var(--transition);
-  font-family: var(--font-body);
-}
-
-.mic-btn.listening { border-color: #cc6d6d; color: #cc6d6d; animation: pulse 0.8s infinite; }
-.mic-btn:hover { border-color: var(--grey-400); color: var(--white); }
-
-/* ── VOCAB LIST ── */
-.vocab-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 11px 18px;
-  border-bottom: 1px solid var(--grey-800);
-}
-
-.vocab-row:last-child { border-bottom: none; }
-
-.vocab-cz {
-  font-weight: 400;
-  font-size: 14px;
-  color: var(--white);
-  min-width: 160px;
-  flex-shrink: 0;
-}
-
-.vocab-en {
-  font-size: 13px;
-  color: var(--grey-400);
-  flex: 1;
-}
-
-.vocab-unit {
-  font-family: var(--font-display);
-  font-size: 10px;
-  color: var(--grey-600);
-}
-
-/* ── FLASH CARDS ── */
-.flashcard-wrap {
-  perspective: 1000px;
-  cursor: pointer;
-  margin-bottom: 12px;
-}
-
-.flashcard {
-  position: relative;
-  width: 100%;
-  min-height: 180px;
-  transform-style: preserve-3d;
-  transition: transform 0.4s ease;
-}
-
-.flashcard.flipped { transform: rotateY(180deg); }
-
-.flashcard-face {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  background: var(--grey-900);
-  border: 1px solid var(--grey-800);
-  border-radius: var(--radius-lg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  text-align: center;
-}
-
-.flashcard-back { transform: rotateY(180deg); }
-
-.flashcard-word {
-  font-size: 28px;
-  font-weight: 300;
-  color: var(--white);
-  letter-spacing: -0.02em;
-  margin-bottom: 8px;
-}
-
-.flashcard-hint {
-  font-size: 11px;
-  color: var(--grey-600);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-family: var(--font-display);
-}
-
-.flashcard-translation {
-  font-size: 20px;
-  color: var(--grey-200);
-  font-weight: 300;
-  margin-bottom: 6px;
-}
-
-.flashcard-unit {
-  font-family: var(--font-display);
-  font-size: 10px;
-  color: var(--grey-600);
-}
-
-.fc-controls {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  margin-top: 10px;
-}
-
-.fc-result-btn {
-  padding: 9px 22px;
-  border-radius: 40px;
-  font-size: 12px;
-  cursor: pointer;
-  border: 1px solid;
-  font-family: var(--font-body);
-  transition: all var(--transition);
-}
-
-.fc-wrong-btn { background: var(--wrong-bg); border-color: var(--wrong); color: #cc9090; }
-.fc-ok-btn { background: none; border-color: var(--grey-600); color: var(--grey-300); }
-.fc-right-btn { background: var(--correct-bg); border-color: var(--correct); color: #8ddbb0; }
-
-/* ── CHAT ── */
-.chat-messages {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-height: 380px;
-  overflow-y: auto;
-  margin-bottom: 12px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--grey-700) transparent;
-}
-
-.chat-msg {
-  max-width: 86%;
-  padding: 10px 14px;
-  font-size: 13px;
-  line-height: 1.55;
-  white-space: pre-wrap;
-}
-
-.chat-msg.ai {
-  background: var(--grey-900);
-  border: 1px solid var(--grey-800);
-  border-radius: 0 var(--radius-lg) var(--radius-lg) var(--radius-lg);
-  color: var(--grey-200);
-  align-self: flex-start;
-}
-
-.chat-msg.user {
-  background: var(--white);
-  color: var(--black);
-  border-radius: var(--radius-lg) 0 var(--radius-lg) var(--radius-lg);
-  align-self: flex-end;
-  font-weight: 400;
-}
-
-.chat-input-area {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.chat-input {
-  flex: 1;
-  min-width: 200px;
-  padding: 12px 14px;
-  background: var(--grey-900);
-  border: 1px solid var(--grey-700);
-  border-radius: var(--radius-lg);
-  color: var(--white);
-  font-size: 13px;
-  font-family: var(--font-body);
-  outline: none;
-  transition: border-color var(--transition);
-}
-
-.chat-input:focus { border-color: var(--grey-400); }
-.chat-input::placeholder { color: var(--grey-600); }
-
-/* ── NUMBER DISPLAY ── */
-.num-big {
-  font-family: var(--font-display);
-  font-size: 64px;
-  font-weight: 300;
-  text-align: center;
-  color: var(--white);
-  padding: 28px 0 20px;
-  letter-spacing: -0.03em;
-  line-height: 1;
-}
-
-.num-text-big {
-  font-size: 32px;
-  font-weight: 300;
-  text-align: center;
-  color: var(--white);
-  padding: 28px 0 20px;
-  letter-spacing: 0;
-}
-
-/* ── INPUT ── */
-.text-input {
-  width: 100%;
-  padding: 13px 14px;
-  background: var(--grey-900);
-  border: 1px solid var(--grey-700);
-  border-radius: var(--radius-lg);
-  color: var(--white);
-  font-size: 16px;
-  font-family: var(--font-body);
-  outline: none;
-  text-align: center;
-  transition: border-color var(--transition);
-}
-
-.text-input:focus { border-color: var(--grey-400); }
-
-/* ── FILL GAP ── */
-.gap-sentence {
-  font-size: 20px;
-  font-weight: 300;
-  color: var(--white);
-  line-height: 1.5;
-  margin-bottom: 6px;
-  letter-spacing: -0.01em;
-}
-
-.gap-blank {
-  display: inline-block;
-  background: var(--grey-800);
-  border: 1px dashed var(--grey-600);
-  border-radius: 4px;
-  padding: 0 6px;
-  min-width: 80px;
-  color: var(--grey-600);
-  font-family: var(--font-display);
-  font-size: 16px;
-  vertical-align: middle;
-}
-
-.gap-blank.filled { color: var(--white); border-color: var(--grey-400); background: var(--grey-700); }
-
-/* ── CASE BADGE ── */
-.case-badge {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 40px;
-  font-family: var(--font-display);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  margin-bottom: 10px;
-  border: 1px solid;
-}
-
-/* ── PROGRESS BAR ── */
-.prog-bar {
-  height: 2px;
-  background: var(--grey-800);
-  border-radius: 1px;
-  overflow: hidden;
-  margin: 8px 0 4px;
-}
-
-.prog-fill {
-  height: 100%;
-  background: var(--white);
-  border-radius: 1px;
-  transition: width 0.5s ease;
-}
-
-/* ── PILL FILTERS ── */
-.pill-row { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 14px; }
-.pill {
-  padding: 4px 12px;
-  border: 1px solid var(--grey-700);
-  border-radius: 40px;
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  cursor: pointer;
-  background: none;
-  color: var(--grey-500);
-  font-family: var(--font-body);
-  transition: all var(--transition);
-}
-.pill:hover { border-color: var(--grey-500); color: var(--grey-300); }
-.pill.on { background: var(--white); color: var(--black); border-color: var(--white); }
-
-/* ── SENTENCE BUILDER ── */
-.build-area {
-  min-height: 56px;
-  background: var(--grey-800);
-  border-radius: var(--radius-lg);
-  padding: 14px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
-  margin-bottom: 12px;
-  border: 1px dashed var(--grey-600);
-}
-
-.word-chip {
-  padding: 5px 11px;
-  background: var(--grey-900);
-  border: 1px solid var(--grey-700);
-  border-radius: var(--radius);
-  font-size: 13px;
-  color: var(--grey-200);
-  cursor: pointer;
-  transition: all var(--transition);
-}
-
-.word-chip:hover { border-color: var(--grey-500); }
-.word-chip.placed { background: var(--grey-700); border-color: var(--grey-500); color: var(--white); }
-
-/* ── CASE TABLE ── */
-.case-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.case-table th {
-  text-align: left;
-  padding: 7px 8px;
-  color: var(--grey-500);
-  border-bottom: 1px solid var(--grey-800);
-  font-family: var(--font-display);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  font-weight: 400;
-}
-
-.case-table td { padding: 7px 8px; border-bottom: 1px solid var(--grey-800); color: var(--grey-300); }
-.case-table tr:last-child td { border-bottom: none; }
-.case-table .hl { color: var(--white); font-weight: 500; }
-.case-table td:first-child { font-family: var(--font-display); color: var(--grey-500); font-size: 11px; }
-
-/* ── SCROLLABLE STUDY LIST ── */
-.study-row {
-  display: flex;
-  gap: 16px;
-  padding: 12px 18px;
-  border-bottom: 1px solid var(--grey-800);
-  align-items: flex-start;
-}
-
-.study-row:last-child { border-bottom: none; }
-.study-cz { font-size: 14px; color: var(--white); min-width: 180px; flex-shrink: 0; font-weight: 400; }
-.study-en { font-size: 13px; color: var(--grey-400); flex: 1; }
-
-/* ── SELECT ── */
-select {
-  width: 100%;
-  padding: 10px 14px;
-  background: var(--grey-900);
-  border: 1px solid var(--grey-700);
-  border-radius: var(--radius-lg);
-  color: var(--grey-200);
-  font-size: 13px;
-  font-family: var(--font-body);
-  outline: none;
-  cursor: pointer;
-}
-
-/* ── TEXTAREA ── */
-textarea {
-  width: 100%;
-  padding: 12px 14px;
-  background: var(--grey-900);
-  border: 1px solid var(--grey-700);
-  border-radius: var(--radius-lg);
-  color: var(--white);
-  font-size: 13px;
-  font-family: var(--font-body);
-  outline: none;
-  resize: vertical;
-  min-height: 80px;
-  transition: border-color var(--transition);
-}
-
-textarea:focus { border-color: var(--grey-400); }
-
-/* ── DIVIDER ── */
-.divider { height: 1px; background: var(--grey-800); margin: 14px 0; }
-
-/* ── STAT ROW ── */
-.stat-row {
-  display: flex;
-  gap: 16px;
-  font-family: var(--font-display);
-  font-size: 11px;
-  color: var(--grey-500);
-  margin-top: 8px;
-  flex-wrap: wrap;
-}
-
-.stat-row strong { color: var(--grey-300); }
-
-/* ── ROADMAP ── */
-.rmap-week { margin-bottom: 12px; }
-.rmap-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13px;
-  font-weight: 400;
-  margin-bottom: 7px;
-}
-
-.rmap-num {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-size: 10px;
-  border: 1px solid var(--grey-700);
-  color: var(--grey-500);
-  flex-shrink: 0;
-}
-
-.rmap-num.done { border-color: var(--correct); color: #6dcc9a; }
-.rmap-num.cur { border-color: var(--grey-400); color: var(--white); }
-
-.rmap-tasks { display: flex; flex-wrap: wrap; gap: 5px; padding-left: 34px; }
-
-.rmap-chip {
-  font-size: 11px;
-  padding: 3px 10px;
-  border-radius: 40px;
-  background: var(--grey-900);
-  color: var(--grey-500);
-  border: 1px solid var(--grey-800);
-}
-
-.rmap-chip.done { color: #6dcc9a; background: var(--correct-bg); border-color: transparent; }
-.rmap-chip.active { color: var(--white); background: var(--grey-800); border-color: var(--grey-600); }
-
-/* ── SCROLLBAR ── */
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--grey-700); border-radius: 2px; }
-
-
-/* ── SMART TUTOR HYBRID MODES ── */
-.tutor-mode-panel{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:10px;
-  margin-bottom:12px;
-}
-.tutor-mode-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
-.tutor-status{
-  padding:12px 14px;
-  border-radius:var(--radius-lg);
-  background:var(--grey-900);
-  border:1px solid var(--grey-700);
-  font-size:12px;
-  line-height:1.6;
-  color:var(--grey-300);
-}
-.tutor-status strong{color:var(--white)}
-.tutor-mini-actions{display:flex;gap:8px;flex-wrap:wrap}
-.tutor-note{font-size:11px;color:var(--grey-500);line-height:1.6}
-@media (max-width:480px){.tutor-mode-grid{grid-template-columns:1fr}}
-
-/* ── RESPONSIVE ── */
-@media (max-width: 480px) {
-  .hdr-stats { gap: 10px; }
-  .xp-track { width: 42px; }
-  .brand-mark { width: 34px; height: 34px; }
-  .logo { font-size: 15px; }
-  .logo-sub { display: none; }
-  .quick-grid { grid-template-columns: 1fr; }
-  .metrics { grid-template-columns: repeat(2, 1fr); }
-  .options { grid-template-columns: 1fr; }
-  .quiz-prompt { font-size: 20px; }
-  .num-big { font-size: 48px; }
-}
-
-
-/* ═══════════════════════════════════════════
-   DAILY CZECH — MODERN UI/UX POLISH LAYER
-   Keeps all original IDs and functionality intact.
-   ═══════════════════════════════════════════ */
-:root {
-  --radius: 12px;
-  --radius-lg: 18px;
-  --radius-xl: 28px;
-  --shadow-soft: 0 18px 60px rgba(0,0,0,0.28);
-  --shadow-card: 0 10px 30px rgba(0,0,0,0.18);
-}
-
-body {
-  background:
-    radial-gradient(circle at 20% -10%, rgba(255,255,255,0.08), transparent 28%),
-    radial-gradient(circle at 90% 8%, rgba(255,255,255,0.045), transparent 28%),
-    linear-gradient(180deg, #0b0b0b 0%, #070707 55%, #050505 100%);
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.24;
-  background-image: linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: linear-gradient(to bottom, black 0%, transparent 72%);
-}
-
-.app { max-width: 760px; padding-inline: 18px; }
-
-.hdr {
-  margin: 10px auto 18px;
-  padding: 12px 14px;
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 22px;
-  background: rgba(13,13,13,0.76);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.30);
-}
-
-.brand-mark {
-  width: 42px;
-  height: 42px;
-  padding: 2px;
-  border-radius: 16px;
-  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.015));
-}
-
-.logo { font-size: 18px; letter-spacing: -0.045em; }
-.logo-sub { color: var(--grey-400); }
-
-.hdr-stats {
-  gap: 8px;
-  padding: 5px;
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 999px;
-  background: rgba(255,255,255,0.035);
-}
-
-.stat-chip {
-  padding: 5px 7px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.035);
-  color: var(--grey-300);
-}
-
-.xp-track { width: 48px; margin-right: 6px; }
-
-.hero-card {
-  min-height: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border-radius: 30px;
-  padding: 26px 24px 22px;
-  background:
-    radial-gradient(circle at 82% 10%, rgba(255,255,255,0.20), transparent 18%),
-    radial-gradient(circle at 14% 86%, rgba(255,255,255,0.10), transparent 24%),
-    linear-gradient(145deg, #202020 0%, #111111 48%, #080808 100%);
-  box-shadow: var(--shadow-soft);
-}
-
-.hero-card::before {
-  content: '';
-  position: absolute;
-  inset: 1px;
-  border-radius: 29px;
-  pointer-events: none;
-  border: 1px solid rgba(255,255,255,0.10);
-}
-
-.hero-card::after {
-  content: 'Č';
-  position: absolute;
-  right: -14px;
-  bottom: -54px;
-  font-family: var(--font-body);
-  font-size: 210px;
-  font-weight: 500;
-  line-height: 1;
-  color: rgba(255,255,255,0.035);
-  pointer-events: none;
-}
-
-.hero-kicker {
-  width: fit-content;
-  padding: 7px 11px;
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 999px;
-  background: rgba(255,255,255,0.045);
-  color: var(--grey-300);
-  margin-bottom: 26px;
-}
-
-.hero-phrase {
-  font-size: clamp(38px, 9.4vw, 68px);
-  font-weight: 300;
-  letter-spacing: -0.045em;
-  line-height: 1.08;
-  color: var(--white);
-  overflow-wrap: anywhere;
-  max-width: 92%;
-}
-
-.hero-translation {
-  margin-top: 12px;
-  font-size: 19px;
-  color: var(--grey-300);
-}
-
-.hero-copy {
-  max-width: 480px;
-  margin: 24px 0 18px;
-  font-size: 14px;
-  color: var(--grey-400);
-  line-height: 1.65;
-}
-
-.hero-actions { display: grid; grid-template-columns: 0.72fr 1.28fr; gap: 10px; position: relative; z-index: 1; }
-
-.btn-primary, .btn-ghost, .btn-next, .audio-btn, .opt, .tab, .pill, select, textarea, .text-input, .chat-input {
-  transition: transform var(--transition), border-color var(--transition), background var(--transition), color var(--transition), opacity var(--transition), box-shadow var(--transition);
-}
-
-.btn-primary {
-  min-height: 46px;
-  border-radius: 16px;
-  box-shadow: 0 10px 26px rgba(255,255,255,0.10);
-}
-
-.btn-primary:active, .btn-ghost:active, .audio-btn:active, .opt:active, .quick-card:active { transform: scale(0.985); }
-
-.btn-ghost, .btn-next, .audio-btn { border-radius: 16px; }
-
-.quick-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin: 14px 0 14px;
-}
-
-.quick-card {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  padding: 16px;
-  min-height: 112px;
-  border-radius: 22px;
-  background: rgba(255,255,255,0.045);
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: var(--shadow-card);
-}
-
-.quick-card::after {
-  content: '→';
-  position: absolute;
-  right: 16px;
-  bottom: 12px;
-  color: var(--grey-500);
-  font-family: var(--font-display);
-}
-
-.quick-title { font-size: 15px; font-weight: 500; color: var(--white); letter-spacing: -0.02em; margin-bottom: 6px; }
-.quick-meta { font-size: 12px; line-height: 1.55; color: var(--grey-500); padding-right: 18px; }
-
-.metrics { gap: 10px; margin: 14px 0; }
-.metric {
-  border-radius: 20px;
-  padding: 16px 10px;
-  background: rgba(255,255,255,0.038);
-  border-color: rgba(255,255,255,0.075);
-  box-shadow: var(--shadow-card);
-}
-.metric-val { font-size: 20px; }
-.metric-lbl { color: var(--grey-500); }
-
-.card, .card-flush {
-  background: rgba(17,17,17,0.82);
-  border-color: rgba(255,255,255,0.075);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.section-label { color: var(--grey-400); }
-
-.options { gap: 9px; }
-.opt {
-  border-radius: 16px;
-  padding: 15px 15px;
-  background: rgba(255,255,255,0.035);
-  border-color: rgba(255,255,255,0.09);
-}
-.opt:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(0,0,0,0.20); }
-
-.tab-row, .pill-row {
-  position: sticky;
-  top: 82px;
-  z-index: 80;
-  padding: 8px 0 10px;
-  background: linear-gradient(180deg, rgba(8,8,8,0.98), rgba(8,8,8,0.84));
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-}
-
-.tab, .pill { background: rgba(255,255,255,0.03); }
-
-.bottom-nav {
-  left: 50%;
-  right: auto;
-  transform: translateX(-50%);
-  width: min(760px, calc(100% - 18px));
-  bottom: 9px;
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 24px;
-  background: rgba(12,12,12,0.86);
-  box-shadow: 0 16px 55px rgba(0,0,0,0.45);
-  padding: 7px 8px max(7px, env(safe-area-inset-bottom));
-}
-
-.nav-item {
-  min-width: 62px;
-  padding: 8px 9px;
-  border-radius: 18px;
-}
-.nav-item.active { background: rgba(255,255,255,0.10); }
-.nav-label { font-size: 8.5px; }
-
-.flashcard-face { border-radius: 24px; background: rgba(255,255,255,0.04); }
-.chat-msg.ai { background: rgba(255,255,255,0.055); border-color: rgba(255,255,255,0.075); }
-.chat-msg.user { border-radius: 18px 5px 18px 18px; }
-.vocab-row, .study-row { padding-block: 14px; }
-
-@media (max-width: 560px) {
-  .app { padding-inline: 14px; }
-  .hdr { margin-top: 8px; border-radius: 20px; }
-  .brand-mark { width: 38px; height: 38px; }
-  .logo { font-size: 16px; }
-  .logo-sub { display: none; }
-  .hdr-stats { gap: 4px; }
-  .stat-chip { font-size: 10px; padding: 4px 6px; }
-  .xp-track { display: none; }
-  .hero-card { min-height: 270px; padding: 23px 20px 20px; }
-  .hero-actions { grid-template-columns: 1fr; }
-  .quick-grid { grid-template-columns: 1fr; }
-  .quick-card { min-height: 92px; }
-  .bottom-nav { width: calc(100% - 14px); }
-}
-
-
-
-/* ── BRIGHT MODE COMPLETION + IMPRESSUM ── */
-body.light-mode .card,
-body.light-mode .card-flush,
-body.light-mode .metric,
-body.light-mode .quick-card {
-  background: rgba(255,255,255,0.72);
-  border-color: rgba(0,0,0,0.08);
-  box-shadow: 0 18px 46px rgba(0,0,0,0.08);
-  color: var(--grey-100);
-}
-
-body.light-mode .card strong,
-body.light-mode .metric-val,
-body.light-mode .quick-title,
-body.light-mode .section-label + div strong { color: #171513 !important; }
-
-body.light-mode .section-label { color: #8a8176; }
-body.light-mode .quick-meta,
-body.light-mode .metric-lbl,
-body.light-mode .card div,
-body.light-mode .card label { color: #686057; }
-
-body.light-mode .prog-bar,
-body.light-mode .xp-track { background: rgba(0,0,0,0.10); }
-body.light-mode .prog-fill,
-body.light-mode .xp-fill { background: #171513; }
-
-body.light-mode .tab-row,
-body.light-mode .pill-row {
-  background: linear-gradient(180deg, rgba(246,245,242,0.98), rgba(246,245,242,0.86));
-}
-
-body.light-mode .bottom-nav {
-  background: rgba(255,255,255,0.80);
-  border-color: rgba(0,0,0,0.08);
-  box-shadow: 0 18px 60px rgba(0,0,0,0.12);
-}
-
-body.light-mode .btn-ghost,
-body.light-mode .audio-btn {
-  background: rgba(255,255,255,0.52);
-  border-color: rgba(0,0,0,0.12);
-  color: #4b4640;
-}
-
-body.light-mode input[type=checkbox] { accent-color: #111111; }
-
-.info-grid { display: grid; gap: 12px; }
-.info-list { display: grid; gap: 8px; }
-.info-link {
-  display: block;
-  padding: 14px 16px;
-  border-radius: var(--radius-lg);
-  border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.035);
-  color: var(--grey-200);
-  text-decoration: none;
-  transition: transform var(--transition), border-color var(--transition), background var(--transition);
-}
-.info-link:hover { transform: translateY(-1px); border-color: var(--grey-500); background: rgba(255,255,255,0.055); }
-.info-link strong { display:block; color: var(--white); font-weight: 500; margin-bottom: 3px; }
-.info-link span { display:block; color: var(--grey-500); font-size: 12px; line-height: 1.45; }
-body.light-mode .info-link { background: rgba(255,255,255,0.60); border-color: rgba(0,0,0,0.08); color: #4b4640; }
-body.light-mode .info-link strong { color: #171513; }
-body.light-mode .info-link span { color: #686057; }
-
-
-
-/* ── DARK MODE CONTRAST PATCH v5 ──
-   Stronger white outlines, clearer fields, and lighter bottom navigation icons. */
-body:not(.light-mode) {
-  --grey-900: #131313;
-  --grey-800: #242424;
-  --grey-700: #3a3a3a;
-  --grey-600: #585858;
-  --grey-500: #8a8a8a;
-  --grey-400: #b0b0b0;
-  --grey-300: #d0d0d0;
-  --grey-200: #e4e4e4;
-  --grey-100: #f3f3f3;
-}
-
-body:not(.light-mode) .card,
-body:not(.light-mode) .card-flush,
-body:not(.light-mode) .metric,
-body:not(.light-mode) .quick-card,
-body:not(.light-mode) .chat-wrap,
-body:not(.light-mode) .flashcard-face,
-body:not(.light-mode) .opt,
-body:not(.light-mode) .vocab-row,
-body:not(.light-mode) .study-row {
-  background: rgba(255,255,255,0.045);
-  border-color: rgba(255,255,255,0.17);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.055), 0 18px 50px rgba(0,0,0,0.28);
-}
-
-body:not(.light-mode) .hero-card,
-body:not(.light-mode) .hdr,
-body:not(.light-mode) .bottom-nav {
-  border-color: rgba(255,255,255,0.18);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 18px 60px rgba(0,0,0,0.35);
-}
-
-body:not(.light-mode) .chat-msg.ai {
-  background: rgba(255,255,255,0.075);
-  border-color: rgba(255,255,255,0.18);
-  color: rgba(255,255,255,0.84);
-}
-
-body:not(.light-mode) .chat-input,
-body:not(.light-mode) .text-input,
-body:not(.light-mode) textarea,
-body:not(.light-mode) select,
-body:not(.light-mode) input[type="text"] {
-  background: rgba(255,255,255,0.055) !important;
-  border: 1px solid rgba(255,255,255,0.20) !important;
-  color: rgba(255,255,255,0.90) !important;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.045);
-}
-
-body:not(.light-mode) select {
-  appearance: none;
-  -webkit-appearance: none;
-  background-image: linear-gradient(45deg, transparent 50%, rgba(255,255,255,0.72) 50%), linear-gradient(135deg, rgba(255,255,255,0.72) 50%, transparent 50%) !important;
-  background-position: calc(100% - 18px) 50%, calc(100% - 12px) 50% !important;
-  background-size: 6px 6px, 6px 6px !important;
-  background-repeat: no-repeat !important;
-  padding-right: 36px !important;
-}
-
-body:not(.light-mode) .chat-input::placeholder,
-body:not(.light-mode) .text-input::placeholder,
-body:not(.light-mode) textarea::placeholder,
-body:not(.light-mode) input[type="text"]::placeholder {
-  color: rgba(255,255,255,0.34) !important;
-}
-
-body:not(.light-mode) .btn-ghost,
-body:not(.light-mode) .audio-btn,
-body:not(.light-mode) .mic-btn,
-body:not(.light-mode) .tab,
-body:not(.light-mode) .pill {
-  border-color: rgba(255,255,255,0.18);
-  color: rgba(255,255,255,0.68);
-  background: rgba(255,255,255,0.035);
-}
-
-body:not(.light-mode) .btn-ghost:hover,
-body:not(.light-mode) .audio-btn:hover,
-body:not(.light-mode) .mic-btn:hover,
-body:not(.light-mode) .tab:hover,
-body:not(.light-mode) .pill:hover {
-  border-color: rgba(255,255,255,0.36);
-  color: rgba(255,255,255,0.92);
-  background: rgba(255,255,255,0.075);
-}
-
-body:not(.light-mode) .nav-item {
-  color: rgba(255,255,255,0.46);
-}
-body:not(.light-mode) .nav-item .nav-icon svg {
-  stroke: rgba(255,255,255,0.58);
-}
-body:not(.light-mode) .nav-item.active {
-  color: rgba(255,255,255,0.96);
-  background: rgba(255,255,255,0.10);
-}
-body:not(.light-mode) .nav-item.active .nav-icon svg {
-  stroke: rgba(255,255,255,0.98);
-}
-body:not(.light-mode) .nav-label {
-  color: currentColor;
-}
-
-body:not(.light-mode) .section-label,
-body:not(.light-mode) .quiz-meta,
-body:not(.light-mode) .stat-chip,
-body:not(.light-mode) .metric-lbl,
-body:not(.light-mode) .quick-meta,
-body:not(.light-mode) .stat-row,
-body:not(.light-mode) .vocab-unit {
-  color: rgba(255,255,255,0.48);
-}
-
-body:not(.light-mode) .quiz-dir,
-body:not(.light-mode) .vocab-en,
-body:not(.light-mode) .study-en,
-body:not(.light-mode) .logo-sub {
-  color: rgba(255,255,255,0.62);
-}
-
-/* Make bottom app bar a little more readable in dark mode */
-body:not(.light-mode) .bottom-nav {
-  background: rgba(12,12,12,0.94);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-}
-
-/* Ensure local tutor responses are visually separated */
-body:not(.light-mode) .chat-messages {
-  background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));
+:root{
+--bg:#f5f7fb;
+--card:#ffffff;
+--text:#111827;
+--text2:#6b7280;
+--border:#dbe2ea;
+--accent:#2563eb;
+--radius:24px;
 }
 
+[data-theme="dark"]{
+--bg:#0f1115;
+--card:#181b21;
+--text:#f3f4f6;
+--text2:#9ca3af;
+--border:#313844;
+--accent:#60a5fa;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+font-family:'Inter',sans-serif;
+background:var(--bg);
+color:var(--text);
+padding-bottom:100px;
+transition:.25s ease;
+}
+
+.app{
+max-width:760px;
+margin:auto;
+padding:20px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:24px;
+}
+
+.logo{
+font-size:28px;
+font-weight:700;
+}
+
+.theme-btn{
+border:none;
+background:var(--card);
+padding:12px 14px;
+border-radius:999px;
+cursor:pointer;
+font-size:18px;
+border:1px solid var(--border);
+}
+
+.hero{
+background:linear-gradient(135deg,#2563eb,#4f46e5);
+color:white;
+padding:32px;
+border-radius:32px;
+margin-bottom:22px;
+}
+
+.hero h1{
+font-size:36px;
+margin-bottom:12px;
+line-height:1.05;
+}
+
+.hero p{
+opacity:.92;
+line-height:1.7;
+}
+
+.section-title{
+font-size:24px;
+font-weight:700;
+margin-bottom:18px;
+margin-top:10px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:16px;
+}
+
+.card{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:var(--radius);
+padding:22px;
+}
+
+.lesson-card{
+cursor:pointer;
+transition:.2s ease;
+}
+
+.lesson-card:hover{
+transform:translateY(-3px);
+}
+
+.lesson-icon{
+font-size:34px;
+margin-bottom:14px;
+}
+
+.lesson-name{
+font-weight:700;
+margin-bottom:8px;
+}
+
+.lesson-desc{
+font-size:14px;
+line-height:1.6;
+color:var(--text2);
+}
+
+.screen{
+display:none;
+}
+
+.screen.active{
+display:block;
+}
+
+.bottom-nav{
+position:fixed;
+bottom:16px;
+left:50%;
+transform:translateX(-50%);
+width:min(92%,720px);
+background:var(--card);
+border:1px solid var(--border);
+border-radius:999px;
+display:flex;
+justify-content:space-around;
+padding:14px 10px;
+}
+
+.nav-item{
+cursor:pointer;
+font-size:12px;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:6px;
+color:var(--text2);
+}
+
+.nav-item.active{
+color:var(--accent);
+font-weight:700;
+}
+
+.search{
+width:100%;
+padding:14px;
+border-radius:18px;
+border:1px solid var(--border);
+margin-bottom:18px;
+background:var(--card);
+color:var(--text);
+}
+
+.vocab-row{
+display:flex;
+justify-content:space-between;
+padding:16px 0;
+border-bottom:1px solid var(--border);
+cursor:pointer;
+gap:16px;
+}
+
+.vocab-cz{
+font-weight:600;
+}
+
+.vocab-en{
+color:var(--text2);
+text-align:right;
+}
+
+.tab-row{
+display:flex;
+gap:10px;
+margin-bottom:16px;
+}
+
+.tab-btn{
+border:none;
+padding:10px 18px;
+border-radius:999px;
+cursor:pointer;
+background:#dbeafe;
+}
+
+.tab-btn.active{
+background:var(--accent);
+color:white;
+}
+
+@media(max-width:640px){
+.grid{
+grid-template-columns:1fr;
+}
+
+.hero h1{
+font-size:30px;
+}
+}
 </style>
 </head>
-<body class="light-mode">
+<body>
 
 <div class="app">
 
-<!-- HEADER -->
-<header class="hdr">
-  <div class="brand" aria-label="Daily Czech">
-    <svg class="brand-mark" viewBox="0 0 48 48" role="img" aria-hidden="true">
-      <path d="M10 8.5h28c3 0 5.5 2.5 5.5 5.5v18c0 3-2.5 5.5-5.5 5.5H22.5L10 43V14c0-3 2.5-5.5 5.5-5.5Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
-      <text x="24" y="30" text-anchor="middle" font-family="DM Sans, system-ui, sans-serif" font-size="20" font-weight="600" fill="currentColor">Č</text>
-    </svg>
-    <div class="brand-copy">
-      <div class="logo">Daily Czech</div>
-      <div class="logo-sub">One Czech step per day</div>
-    </div>
-  </div>
-  <div class="hdr-stats">
-    <div class="stat-chip">🔥 <span id="hStreak">1</span>d</div>
-    <div class="stat-chip"><span id="hXP">60</span> xp</div>
-    <div class="xp-track"><div class="xp-fill" id="xpFill" style="width:6%"></div></div>
-    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to bright mode" title="Bright / dark mode">💡</button>
-  </div>
-</header>
+<div class="topbar">
+<div class="logo">Daily Czech</div>
+<button class="theme-btn" id="themeBtn">💡</button>
+</div>
 
-<!-- ══ HOME ══ -->
-<div id="sc-home" class="screen active">
-  <div class="hero-card">
-    <div class="hero-kicker">Today’s Czech</div>
-    <div class="hero-phrase" id="heroCz">Ahoj.</div>
-    <div class="hero-translation" id="heroEn">Hello. / Hi.</div>
-    <div class="hero-copy">A focused micro-lesson for real situations — small enough to do daily, useful enough to remember.</div>
-    <div class="hero-actions">
-      <button class="audio-btn" id="hListenBtn" style="justify-content:center;padding:12px 16px;border-radius:var(--radius-lg)">▶ Listen</button>
-      <button class="btn-primary" id="hTodayBtn">Start today’s practice</button>
-    </div>
-  </div>
+<section class="screen active" id="homeScreen">
 
-  <div class="quick-grid">
-    <div class="quick-card" id="hQuickPhrases">
-      <div class="quick-title">Real phrases</div>
-      <div class="quick-meta">Greetings, daily life, travel, food, social situations.</div>
-    </div>
-    <div class="quick-card" id="hQuickCases">
-      <div class="quick-title">Case training</div>
-      <div class="quick-meta">Short drills for Czech grammar without overwhelm.</div>
-    </div>
-  </div>
+<div class="hero">
+<h1>Reach Czech B1 naturally.</h1>
+<p>Learn Czech through vocabulary, phrases, grammar, flashcards and gamified exercises.</p>
+</div>
 
-  <div class="metrics">
-    <div class="metric"><span class="metric-val" id="hSeen">0</span><div class="metric-lbl">words seen</div></div>
-    <div class="metric"><span class="metric-val" id="hAcc">—</span><div class="metric-lbl">accuracy</div></div>
-    <div class="metric"><span class="metric-val" id="hBest">0</span><div class="metric-lbl">best streak</div></div>
-    <div class="metric"><span class="metric-val">68d</span><div class="metric-lbl">to B1</div></div>
-  </div>
+<div class="section-title">Learning Modules</div>
 
-  <div class="card">
-    <div class="section-label">Progress — the 80% rule</div>
-    <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--grey-400);margin-bottom:4px">
-      <span>Words seen: <strong style="color:var(--white)" id="hSeen2">0</strong>/500</span>
-      <span>B1 target: 2,000</span>
-    </div>
-    <div class="prog-bar"><div class="prog-fill" id="hProgBar" style="width:0%"></div></div>
-    <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--grey-600);font-family:var(--font-display)">
-      <span>0</span><span>250 survive</span><span>500 chat</span><span>1000 daily</span><span>2000</span>
-    </div>
-    <div style="font-size:12px;color:var(--grey-500);line-height:1.6;margin-top:12px">
-      Know ~80% of words in a sentence to understand it without guessing. 250 = shops. 500 = conversations. 1,000 = 85% of daily speech. 2,000 = B1.
-    </div>
-  </div>
+<div class="grid">
 
-  <div class="card">
-    <div class="section-label">Today's missions</div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer;color:var(--grey-300)">
-        <input type="checkbox" id="d1" style="accent-color:var(--white)"> Answer 20 quiz questions
-        <span style="margin-left:auto;font-family:var(--font-display);font-size:10px;color:var(--grey-600)">+20 xp</span>
-      </label>
-      <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer;color:var(--grey-300)">
-        <input type="checkbox" id="d2" style="accent-color:var(--white)"> Study 10 flash cards
-        <span style="margin-left:auto;font-family:var(--font-display);font-size:10px;color:var(--grey-600)">+15 xp</span>
-      </label>
-      <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer;color:var(--grey-300)">
-        <input type="checkbox" id="d3" style="accent-color:var(--white)"> Practice 5 daily phrases
-        <span style="margin-left:auto;font-family:var(--font-display);font-size:10px;color:var(--grey-600)">+15 xp</span>
-      </label>
-      <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer;color:var(--grey-300)">
-        <input type="checkbox" id="d4" style="accent-color:var(--white)"> Get 3 cases right
-        <span style="margin-left:auto;font-family:var(--font-display);font-size:10px;color:var(--grey-600)">+25 xp</span>
-      </label>
-    </div>
-  </div>
+<div class="card lesson-card">
+<div class="lesson-icon">🧠</div>
+<div class="lesson-name">Quiz</div>
+<div class="lesson-desc">Interactive vocabulary and grammar quizzes.</div>
+</div>
 
-  
-<div class="card">
-  <div class="section-label">Learning Path</div>
+<div class="card lesson-card">
+<div class="lesson-icon">💬</div>
+<div class="lesson-name">Phrases</div>
+<div class="lesson-desc">Useful Czech phrases with translations.</div>
+</div>
 
-  <div style="display:grid;gap:14px;margin-top:10px">
+<div class="card lesson-card">
+<div class="lesson-icon">🎴</div>
+<div class="lesson-name">Cards</div>
+<div class="lesson-desc">Gamified flashcard learning system.</div>
+</div>
 
-    <div style="padding:16px;border-radius:18px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12)">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <strong style="font-size:16px">A1 Survival Czech</strong>
-        <span style="font-family:var(--font-display);font-size:11px;color:var(--grey-500)">LEVEL 1</span>
-      </div>
-      <div class="prog-bar"><div class="prog-fill" style="width:32%"></div></div>
-      <div style="font-size:12px;color:var(--grey-500);margin-top:8px">
-        Greetings • Food • Numbers • Daily situations • Simple questions
-      </div>
-    </div>
+<div class="card lesson-card">
+<div class="lesson-icon">🔢</div>
+<div class="lesson-name">Numbers</div>
+<div class="lesson-desc">Train numbers, time and dates.</div>
+</div>
 
-    <div style="padding:16px;border-radius:18px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.08)">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <strong style="font-size:16px">A2 Conversations</strong>
-        <span style="font-family:var(--font-display);font-size:11px;color:var(--grey-600)">LOCKED</span>
-      </div>
-      <div class="prog-bar"><div class="prog-fill" style="width:0%"></div></div>
-      <div style="font-size:12px;color:var(--grey-500);margin-top:8px">
-        Travel • Past tense • Ordering • Directions • Social interaction
-      </div>
-    </div>
+<div class="card lesson-card">
+<div class="lesson-icon">📚</div>
+<div class="lesson-name">Cases</div>
+<div class="lesson-desc">Understand Czech grammar cases.</div>
+</div>
 
-    <div style="padding:16px;border-radius:18px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06)">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <strong style="font-size:16px">B1 Real Life Czech</strong>
-        <span style="font-family:var(--font-display);font-size:11px;color:var(--grey-600)">LOCKED</span>
-      </div>
-      <div class="prog-bar"><div class="prog-fill" style="width:0%"></div></div>
-      <div style="font-size:12px;color:var(--grey-500);margin-top:8px">
-        Opinions • Work • Deeper grammar • Listening • Natural speaking
-      </div>
-    </div>
+<div class="card lesson-card">
+<div class="lesson-icon">🇨🇿</div>
+<div class="lesson-name">Vocabulary</div>
+<div class="lesson-desc">Browse all words and phrases.</div>
+</div>
 
-  </div>
+</div>
+
+</section>
+
+<section class="screen" id="vocabularyScreen">
+
+<div class="section-title">Vocabulary</div>
+
+<div class="tab-row">
+<button class="tab-btn active" data-tab="words">Words</button>
+<button class="tab-btn" data-tab="phrases">Phrases</button>
 </div>
 
 <div class="card">
-  <div class="section-label">XP System</div>
+<input class="search" id="searchInput" placeholder="Search Czech or English...">
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-
-    <div class="metric">
-      <span class="metric-val">+10</span>
-      <div class="metric-lbl">correct answer</div>
-    </div>
-
-    <div class="metric">
-      <span class="metric-val">+25</span>
-      <div class="metric-lbl">daily streak</div>
-    </div>
-
-    <div class="metric">
-      <span class="metric-val">+40</span>
-      <div class="metric-lbl">lesson completed</div>
-    </div>
-
-    <div class="metric">
-      <span class="metric-val">+100</span>
-      <div class="metric-lbl">weekly goal</div>
-    </div>
-
-  </div>
-
-  <div style="margin-top:16px;font-size:13px;line-height:1.7;color:var(--grey-400)">
-    The system now rewards consistency, lesson completion and real progression instead of only answering isolated quiz questions.
-  </div>
+<div id="vocabContainer"></div>
 </div>
 
+</section>
 
-<div style="display:flex;gap:8px;flex-wrap:wrap">
-    <button class="btn-primary" style="flex:1;min-width:130px" id="hPracBtn">Start quiz</button>
-    <button class="btn-ghost" style="flex:1;min-width:130px" id="hCardsBtn">Review cards</button>
-    
-  </div>
 </div>
 
-<!-- ══ QUIZ ══ -->
-<div id="sc-quiz" class="screen">
-  <div class="pill-row" id="qUnitFilter"></div>
-  <div class="card">
-    <div class="quiz-meta" id="qMeta"></div>
-    <div class="quiz-prompt" id="qPrompt"></div>
-    <div style="display:flex;gap:7px;margin-bottom:14px;align-items:center">
-      <div class="quiz-dir" id="qDir" style="margin-bottom:0;flex:1"></div>
-      <button class="audio-btn" id="qAudioBtn">▶ listen</button>
-    </div>
-    <div class="options" id="qOpts"></div>
-    <div class="feedback" id="qFb"></div>
-    <button class="btn-next" id="qNext">next question →</button>
-  </div>
-  <div class="stat-row">
-    <span>Correct: <strong id="qGood">0</strong></span>
-    <span>Answered: <strong id="qTotal">0</strong></span>
-    <span>Streak: <strong id="qStreak">0</strong> 🔥</span>
-    <span style="margin-left:auto" id="qPoolInfo"></span>
-  </div>
+<div class="bottom-nav">
+
+<div class="nav-item active" data-screen="homeScreen">
+<div>🏠</div>
+<span>Home</span>
 </div>
 
-<!-- ══ PHRASES ══ -->
-<div id="sc-phrases" class="screen">
-  <div class="tab-row" id="phraseTabs">
-    <button class="tab on" data-t="match">Match</button>
-    <button class="tab" data-t="fill">Fill gap</button>
-    <button class="tab" data-t="browse">Browse</button>
-  </div>
-
-  <div id="pt-match">
-    <div class="card">
-      <div class="quiz-meta" id="pmCat"></div>
-      <div class="quiz-prompt" id="pmCz"></div>
-      <div style="display:flex;gap:7px;margin-bottom:14px;align-items:center">
-        <div class="quiz-dir" style="margin-bottom:0">What does this phrase mean?</div>
-        <button class="audio-btn" id="pmAudioBtn">▶ listen</button>
-      </div>
-      <div class="options" id="pmOpts"></div>
-      <div class="feedback" id="pmFb"></div>
-      <button class="btn-next" id="pmNext">next phrase →</button>
-    </div>
-    <div class="stat-row"><span>Correct: <strong id="pmGood">0</strong></span><span>Answered: <strong id="pmTotal">0</strong></span></div>
-  </div>
-
-  <div id="pt-fill" style="display:none">
-    <div class="card">
-      <div class="section-label">Complete the sentence</div>
-      <div class="gap-sentence" id="pfSentence"></div>
-      <div style="font-size:12px;color:var(--grey-500);margin-bottom:14px;margin-top:6px" id="pfCtx"></div>
-      <div class="options" id="pfOpts"></div>
-      <div class="feedback" id="pfFb"></div>
-      <button class="btn-next" id="pfNext">next →</button>
-    </div>
-  </div>
-
-  <div id="pt-browse" style="display:none">
-    <div style="margin-bottom:12px"><select id="phraseCatSel"></select></div>
-    <div class="card-flush"><div id="phraseList"></div></div>
-  </div>
+<div class="nav-item" data-screen="vocabularyScreen">
+<div>🇨🇿</div>
+<span>Vocabulary</span>
 </div>
 
-<!-- ══ FLASH CARDS ══ -->
-<div id="sc-cards" class="screen">
-  <div class="tab-row" id="cardTabs">
-    <button class="tab on" data-ct="study">Study</button>
-    <button class="tab" data-ct="scroll">Scroll & repeat</button>
-  </div>
-
-  <div id="ct-study">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-      <div>
-        <select id="cardUnitSel" style="width:auto;padding:6px 10px;font-size:12px"></select>
-      </div>
-      <div class="stat-row" style="margin-top:0"><span>Card <strong id="fcIdx">1</strong> / <strong id="fcTotal">—</strong></span></div>
-    </div>
-    <div class="flashcard-wrap" id="fcWrap" onclick="flipCard()">
-      <div class="flashcard" id="flashcard">
-        <div class="flashcard-face flashcard-front">
-          <div class="flashcard-hint">tap to reveal translation</div>
-          <div class="flashcard-word" id="fcWord"></div>
-          <div style="margin-top:12px;display:flex;gap:8px">
-            <button class="audio-btn" onclick="event.stopPropagation();speakText(currentCard[0],'cs-CZ')">▶ Czech</button>
-          </div>
-        </div>
-        <div class="flashcard-face flashcard-back">
-          <div class="flashcard-word" id="fcWordBack"></div>
-          <div class="flashcard-translation" id="fcTrans"></div>
-          <div class="flashcard-unit" id="fcUnitBack"></div>
-          <div style="margin-top:12px;display:flex;gap:8px">
-            <button class="audio-btn" onclick="event.stopPropagation();speakText(currentCard[0],'cs-CZ')">▶ Czech</button>
-            <button class="audio-btn" onclick="event.stopPropagation();speakText(currentCard[1],'en-US')">▶ English</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="fc-controls" id="fcControls" style="display:none">
-      <button class="fc-result-btn fc-wrong-btn" id="fcWrong">✕ Again</button>
-      <button class="fc-result-btn fc-ok-btn" id="fcOk">~ Almost</button>
-      <button class="fc-result-btn fc-right-btn" id="fcRight">✓ Got it</button>
-    </div>
-    <div class="card" style="margin-top:12px">
-      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--grey-400)">
-        <span>✕ <strong id="fcAgain">0</strong> to repeat</span>
-        <span>~ <strong id="fcAlmost">0</strong> almost</span>
-        <span>✓ <strong id="fcKnown">0</strong> known</span>
-      </div>
-    </div>
-  </div>
-
-  <div id="ct-scroll" style="display:none">
-    <div style="margin-bottom:12px;display:flex;gap:8px">
-      <select id="scrollUnitSel" style="flex:1"></select>
-      <input type="text" id="scrollSearch" placeholder="Search…" style="width:120px;padding:10px 12px;background:var(--grey-900);border:1px solid var(--grey-700);border-radius:var(--radius-lg);color:var(--white);font-size:13px;outline:none">
-    </div>
-    <div style="font-size:11px;color:var(--grey-600);margin-bottom:8px" id="scrollCount"></div>
-    <div class="card-flush" style="max-height:480px;overflow-y:auto"><div id="scrollList"></div></div>
-  </div>
 </div>
-
-<!-- ══ NUMBERS ══ -->
-<div id="sc-numbers" class="screen">
-  <div class="tab-row">
-    <button class="tab on" data-nm="read" id="nm-read">Read</button>
-    <button class="tab" data-nm="hear" id="nm-hear">Type</button>
-    <button class="tab" data-nm="math" id="nm-math">Maths</button>
-    <button class="tab" data-nm="time" id="nm-time">Time</button>
-    <button class="tab" data-nm="date" id="nm-date">Date</button>
-  </div>
-  <div class="card">
-    <div class="section-label" id="numLabel">What is this number in Czech?</div>
-    <div id="numBig"></div>
-    <div style="font-size:12px;color:var(--grey-500);text-align:center;margin-bottom:16px" id="numHint"></div>
-    <div id="numOptsWrap"></div>
-    <div class="feedback" id="numFb"></div>
-    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
-      <button class="btn-primary" id="numCheck" style="display:none">Check</button>
-      <button class="btn-ghost" id="numSkip">Skip →</button>
-      <button class="audio-btn" id="numAudio" style="display:none">▶ hear it</button>
-    </div>
-  </div>
-  <div class="stat-row"><span>Correct: <strong id="numGood">0</strong></span><span>Answered: <strong id="numTotal">0</strong></span></div>
-</div>
-
-<!-- ══ CASES ══ -->
-<div id="sc-cases" class="screen">
-  <div class="tab-row" id="caseTabs">
-    <button class="tab on" data-ct="fill">Fill gap</button>
-    <button class="tab" data-ct="identify">Identify</button>
-    <button class="tab" data-ct="ref">Reference</button>
-  </div>
-
-  <div id="cas-fill">
-    <div class="card">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">
-        <span class="case-badge" id="caseBadge"></span>
-        <span style="font-size:11px;color:var(--grey-500);font-family:var(--font-display)" id="caseQW"></span>
-      </div>
-      <div class="quiz-prompt" id="casePrompt"></div>
-      <div class="quiz-dir">Choose the correct form:</div>
-      <div class="options" id="caseOpts"></div>
-      <div class="feedback" id="caseFb"></div>
-      <div class="case-explain" id="caseExplain"></div>
-      <button class="btn-next" id="caseNext">next →</button>
-    </div>
-    <div class="stat-row"><span>Correct: <strong id="caseGood">0</strong></span><span>Answered: <strong id="caseTotal">0</strong></span></div>
-  </div>
-
-  <div id="cas-identify" style="display:none">
-    <div class="card">
-      <div class="section-label">Which case is the underlined word?</div>
-      <div class="quiz-prompt" id="ciSentence" style="margin-bottom:6px;line-height:1.6"></div>
-      <div style="font-size:12px;color:var(--grey-500);margin-bottom:14px" id="ciTrans"></div>
-      <div class="options" id="ciOpts"></div>
-      <div class="feedback" id="ciFb"></div>
-      <div class="case-explain" id="ciExplain"></div>
-      <button class="btn-next" id="ciNext">next →</button>
-    </div>
-    <div class="stat-row"><span>Correct: <strong id="ciGood">0</strong></span><span>Answered: <strong id="ciTotal">0</strong></span></div>
-  </div>
-
-  <div id="cas-ref" style="display:none">
-    <div class="card">
-      <div class="section-label">All 7 cases</div>
-      <table class="case-table">
-        <tr><th>#</th><th>Case</th><th>Question</th><th>Use / Triggers</th></tr>
-        <tr><td>1</td><td class="hl">Nominative</td><td>Kdo? Co?</td><td>Subject. After "to be".</td></tr>
-        <tr><td>2</td><td class="hl">Genitive</td><td>Koho? Čeho?</td><td>Possession. After bez, od, z, do, u, pro.</td></tr>
-        <tr><td>3</td><td class="hl">Dative</td><td>Komu? Čemu?</td><td>Indirect object. After k/ke, díky, naproti.</td></tr>
-        <tr><td>4</td><td class="hl">Accusative</td><td>Koho? Co?</td><td>Direct object. After na, do, přes, pro.</td></tr>
-        <tr><td>5</td><td class="hl">Vocative</td><td>— (address)</td><td>Calling someone: "Petře!", "Mami!"</td></tr>
-        <tr><td>6</td><td class="hl">Locative</td><td>O kom? O čem?</td><td>Location. After v, na, o, při. Always with preposition.</td></tr>
-        <tr><td>7</td><td class="hl">Instrumental</td><td>S kým? S čím?</td><td>Means/tool. After s, za, pod, nad, mezi, před.</td></tr>
-      </table>
-    </div>
-    <div class="card" style="margin-top:0">
-      <div class="section-label">Key endings (singular)</div>
-      <table class="case-table">
-        <tr><th>Case</th><th>muž (m.anim)</th><th>žena (f.)</th><th>město (n.)</th></tr>
-        <tr><td>NOM</td><td>muž</td><td>žena</td><td>město</td></tr>
-        <tr><td>GEN</td><td>muže</td><td>ženy</td><td>města</td></tr>
-        <tr><td>DAT</td><td>muži</td><td>ženě</td><td>městu</td></tr>
-        <tr><td>ACC</td><td>muže</td><td>ženu</td><td>město</td></tr>
-        <tr><td>VOC</td><td>muži</td><td>ženo</td><td>město</td></tr>
-        <tr><td>LOC</td><td class="hl">muži</td><td class="hl">ženě</td><td class="hl">městě</td></tr>
-        <tr><td>INS</td><td class="hl">mužem</td><td class="hl">ženou</td><td class="hl">městem</td></tr>
-      </table>
-    </div>
-  </div>
-</div>
-
-<!-- ══ TUTOR ══ -->
-<div id="sc-tutor" class="screen">
-  <div class="tutor-mode-panel">
-    <div class="tutor-mode-grid">
-      <select id="tutorMode" title="Tutor mode">
-        <option value="offline" selected>Smart Offline Tutor</option>
-        <option value="external">External AI Assist</option>
-        <option value="dictation">Device Dictation Mode</option>
-      </select>
-      <select id="tutorTopic">
-    <option>Free conversation practice</option>
-    <option>Introduce yourself (Unit 1)</option>
-    <option>Talk about family (Unit 2)</option>
-    <option>Order food at a restaurant (Unit 3)</option>
-    <option>Describe the weather (Unit 4)</option>
-    <option>Health & doctor visit (Unit 5)</option>
-    <option>Sports and hobbies (Unit 6)</option>
-    <option>Daily schedule and time (Unit 7)</option>
-    <option>City navigation & directions (Unit 8)</option>
-    <option>Czech case grammar drill</option>
-    <option>Numbers and dates practice</option>
-    <option>Generate fill-in-the-gap exercise</option>
-    <option>Correct my Czech writing</option>
-      </select>
-    </div>
-    <div class="tutor-status" id="tutorStatus">
-      <strong>Smart Offline Tutor:</strong> this mode works on iPhone, Android and desktop without API keys. For real AI, use External AI Assist and paste the generated prompt into ChatGPT, Gemini or DeepSeek.
-    </div>
-    <div class="tutor-mini-actions">
-      <button class="btn-ghost" id="copyTutorPrompt" style="padding:9px 12px;font-size:12px">Copy AI prompt</button>
-      <button class="btn-ghost" id="openChatGPT" style="padding:9px 12px;font-size:12px">Open ChatGPT</button>
-      <button class="btn-ghost" id="openGemini" style="padding:9px 12px;font-size:12px">Open Gemini</button>
-      <button class="btn-ghost" id="openDeepSeek" style="padding:9px 12px;font-size:12px">Open DeepSeek</button>
-      <button class="btn-ghost" id="speechHelp" style="padding:9px 12px;font-size:12px">Speech help</button>
-    </div>
-  </div>
-  <div class="card-flush">
-    <div class="chat-messages" id="chatMessages"></div>
-  </div>
-  <div style="margin-top:10px">
-    <div class="chat-input-area">
-      <input type="text" class="chat-input" id="chatInput" placeholder="Type in Czech or English…">
-      <button class="btn-primary" id="chatSend" style="padding:12px 16px;white-space:nowrap">Send</button>
-      <button class="mic-btn" id="chatMic" title="Speak your answer">🎤 Speak</button>
-    </div>
-    <div style="font-size:11px;color:var(--grey-600);margin-top:8px;line-height:1.6">
-      <strong style="color:var(--grey-400)">Tutor can:</strong> offline corrections · grammar drills · scenarios · exercises · browser AI if supported · external AI prompt fallback · speech via browser or keyboard dictation
-    </div>
-  </div>
-</div>
-
-
-
-<!-- ══ LISTENING ══ -->
-<div id="sc-listening" class="sc">
-  <div class="card">
-    <div class="section-label">Listening Trainer</div>
-    <div class="subline">Listen carefully and type what you hear.</div>
-
-    <div style="margin-top:18px">
-      <div id="listenSentence" style="font-size:26px;font-weight:300;margin-bottom:18px;color:var(--grey-100)">
-        Dobrý den
-      </div>
-
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px">
-        <button class="btn-primary" id="playListeningBtn">▶ Play</button>
-        <button class="btn-ghost" id="newListeningBtn">New Sentence</button>
-      </div>
-
-      <input id="listeningInput" class="text-in" placeholder="Type what you heard..." />
-
-      <div style="display:flex;gap:10px;margin-top:14px">
-        <button class="btn-primary" id="checkListeningBtn">Check</button>
-      </div>
-
-      <div id="listeningFeedback" style="margin-top:18px"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ SPEAKING ══ -->
-<div id="sc-speaking" class="sc">
-  <div class="card">
-    <div class="section-label">Speaking & Pronunciation</div>
-    <div class="subline">Practice speaking Czech sentences aloud.</div>
-
-    <div style="margin-top:18px">
-      <div id="speakSentence" style="font-size:28px;font-weight:300;margin-bottom:10px;color:var(--grey-100)">
-        Jak se máte?
-      </div>
-
-      <div style="font-size:13px;color:var(--grey-500);margin-bottom:18px">
-        Tap play first, then repeat the sentence.
-      </div>
-
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
-        <button class="btn-primary" id="playSpeakBtn">▶ Listen</button>
-        <button class="btn-ghost" id="recordSpeakBtn">🎤 Record</button>
-        <button class="btn-ghost" id="nextSpeakBtn">Next</button>
-      </div>
-
-      <div id="speechResult" style="padding:16px;border-radius:18px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)">
-        Your spoken Czech will appear here.
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ VOCABULARY ══ -->
-<div id="sc-vocabulary" class="sc">
-  <div class="card">
-    <div class="section-label">Vocabulary</div>
-    <div class="subline">All Czech vocabulary in alphabetical order. Tap any word to hear pronunciation.</div>
-
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
-      <button class="btn-primary" id="exportVocabBtn">Export Vocabulary</button>
-      <button class="btn-ghost" id="exportSentencesBtn">Export Important Sentences</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="section-label">Important Sentences</div>
-    <div id="importantSentences"></div>
-  </div>
-
-  <div class="card">
-    <div class="section-label">Complete Vocabulary</div>
-    <div id="vocabularyList"></div>
-  </div>
-</div>
-
-
-<!-- ══ ROADMAP ══ -->
-<div id="sc-roadmap" class="screen">
-  <div class="card" style="margin-bottom:14px">
-    <div style="font-size:12px;color:var(--grey-400);line-height:1.7"><strong style="color:var(--grey-200)">10 weeks · ~45 min/day · 50 words/week · 2,000 word B1 vocabulary</strong></div>
-  </div>
-  <div id="roadmapWeeks"></div>
-  <div class="card" style="margin-top:14px;margin-bottom:0">
-    <div class="section-label">Install Daily Czech</div>
-    <div style="font-size:12px;color:var(--grey-400);line-height:1.7">
-      <strong style="color:var(--grey-200)">iPhone:</strong> Open in Safari → Share icon → Add to Home Screen.<br>
-      <strong style="color:var(--grey-200)">Desktop:</strong> Open in Chrome → install icon in address bar → Install.<br>
-      <strong style="color:var(--grey-200)">Hosting:</strong> Works as a single-file GitHub Pages / Netlify app.
-    </div>
-  </div>
-</div>
-
-
-<!-- ══ INFO / IMPRESSUM ══ -->
-<div id="sc-info" class="screen">
-  <div class="card">
-    <div class="section-label">Impressum</div>
-    <div style="font-size:13px;color:var(--grey-400);line-height:1.75">
-      <strong style="color:var(--grey-200)">Daily Czech</strong><br>
-      A personal Czech learning web app for daily vocabulary, phrases, grammar and B1 practice.<br><br>
-      <strong style="color:var(--grey-200)">Creator:</strong> Sirom Cazzolli<br>
-      <strong style="color:var(--grey-200)">Contact:</strong> <a href="mailto:sirom.cazzolli@email.com" style="color:inherit">sirom.cazzolli@email.com</a>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="section-label">Learning resources</div>
-    <div style="font-size:12px;color:var(--grey-500);line-height:1.65;margin-bottom:14px">
-      These external resources are useful references for Czech vocabulary, grammar, listening and study practice.
-    </div>
-    <div class="info-list">
-      <a class="info-link" href="https://realityczech.org" target="_blank" rel="noopener"><strong>Reality Czech</strong><span>Structured Czech learning material and curriculum orientation.</span></a>
-      <a class="info-link" href="https://slovnik.seznam.cz" target="_blank" rel="noopener"><strong>Seznam Slovník</strong><span>Czech dictionary and translation reference.</span></a>
-      <a class="info-link" href="https://glosbe.com/cs/en" target="_blank" rel="noopener"><strong>Glosbe Czech–English</strong><span>Dictionary examples and contextual translations.</span></a>
-      <a class="info-link" href="https://www.wordreference.com/encz/" target="_blank" rel="noopener"><strong>WordReference EN–CZ</strong><span>English–Czech dictionary reference.</span></a>
-      <a class="info-link" href="https://prirucka.ujc.cas.cz" target="_blank" rel="noopener"><strong>Internetová jazyková příručka ÚJČ</strong><span>Authoritative Czech grammar and language reference.</span></a>
-      <a class="info-link" href="https://www.nechybujte.cz" target="_blank" rel="noopener"><strong>Nechybujte.cz</strong><span>Czech spelling, grammar and dictionary support.</span></a>
-      <a class="info-link" href="https://www.memrise.com" target="_blank" rel="noopener"><strong>Memrise</strong><span>Vocabulary repetition and language learning practice.</span></a>
-      <a class="info-link" href="https://slowczech.com" target="_blank" rel="noopener"><strong>Slow Czech</strong><span>Listening, stories and learner-friendly Czech content.</span></a>
-      <a class="info-link" href="https://www.czechonline.org" target="_blank" rel="noopener"><strong>Czech Online</strong><span>Online Czech learning exercises and study material.</span></a>
-      <a class="info-link" href="https://reword.app" target="_blank" rel="noopener"><strong>ReWord Czech Learning</strong><span>Vocabulary and spaced-repetition style Czech learning practice.</span></a>
-    </div>
-  </div>
-
-  <div class="card" style="margin-bottom:0">
-    <div class="section-label">Note</div>
-    <div style="font-size:12px;color:var(--grey-500);line-height:1.65">
-      Daily Czech is an independent learning tool. The listed resources are references and are not affiliated with this app unless explicitly stated.
-    </div>
-  </div>
-</div>
-
-
-</div><!-- /app -->
-
-<!-- BOTTOM NAV -->
-<nav class="bottom-nav" id="bottomNav">
-  <button class="nav-item active" data-s="home">
-    <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></div>
-    <span class="nav-label">Home</span>
-  </button>
-  <button class="nav-item" data-s="quiz">
-    <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg></div>
-    <span class="nav-label">Quiz</span>
-  </button>
-  <button class="nav-item" data-s="phrases">
-    <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
-    <span class="nav-label">Phrases</span>
-  </button>
-  <button class="nav-item" data-s="cards">
-    <div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
-    <span class="nav-label">Cards</span>
-  </button>
-  <button class="nav-item" data-s="numbers">
-    <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M4 7h4m-4 5h16M4 17h4m6 0l2-6 2 6"/></svg></div>
-    <span class="nav-label">Numbers</span>
-  </button>
-  <button class="nav-item" data-s="cases">
-    <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M12 3L3 8.5v7L12 21l9-5.5v-7L12 3z"/><path d="M12 12v9M3 8.5l9 3.5 9-3.5"/></svg></div>
-    <span class="nav-label">Cases</span>
-  </button>
-  <button class="nav-item" data-s="tutor">
-    <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3z"/></svg></div>
-    <span class="nav-label">Tutor</span>
-  </button>
-  <button class="nav-item" data-s="roadmap">
-    <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-10"/></svg></div>
-    <span class="nav-label">Plan</span>
-  </button>
-  <button class="nav-item" data-s="info">
-    <div class="nav-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 10v7"/><path d="M12 7h.01"/></svg></div>
-    <span class="nav-label">Info</span>
-  </button>
-</nav>
 
 <script>
-// ══════════════════════════════════════════════
-// DATA
-// ══════════════════════════════════════════════
-const AW=[
-['jmenuji se','my name is',1],['jak se jmenujete?','what is your name?',1],['odkud jste?','where are you from?',1],['jsem z','I am from',1],['kolik vám je let?','how old are you?',1],['je mi … let','I am … years old',1],['čím se zabýváte?','what do you do?',1],['mluvíte česky?','do you speak Czech?',1],['trochu','a little',1],['nerozumím','I do not understand',1],['prosím zopakujte','please repeat',1],['rád/a vás poznávám','nice to meet you',1],['na shledanou','goodbye',1],['dobrý den','good day / hello',1],['dobré ráno','good morning',1],['dobrou noc','good night',1],['ahoj','hi / bye (informal)',1],['děkuji','thank you',1],['prosím','please / you\'re welcome',1],['ano','yes',1],['ne','no',1],['možná','maybe',1],['promiňte','excuse me / sorry',1],['nevím','I don\'t know',1],['rozumím','I understand',1],['mluvím','I speak',1],['učím se','I am learning',1],['bydlím v','I live in',1],['pracuji jako','I work as',1],['studuji','I study',1],['jsem student/ka','I am a student',1],['jsem učitel/ka','I am a teacher',1],['jsem z Rakouska','I am from Austria',1],['jak se máte?','how are you?',1],['mám se dobře','I am fine',1],['kolik','how many / how much',1],['kdo','who',1],['co','what',1],['kde','where',1],['kdy','when',1],['jak','how',1],['proč','why',1],['který','which',1],['a','and',1],['ale','but',1],['nebo','or',1],['protože','because',1],['také','also / too',1],['velmi','very',1],['ještě','still / yet',1],
-['matka','mother',2],['otec','father',2],['sestra','sister',2],['bratr','brother',2],['babička','grandmother',2],['dědeček','grandfather',2],['vnuk','grandson',2],['vnučka','granddaughter',2],['teta','aunt',2],['strýc','uncle',2],['bratranec','male cousin',2],['sestřenice','female cousin',2],['syn','son',2],['dcera','daughter',2],['manžel','husband',2],['manželka','wife',2],['přítel','boyfriend',2],['přítelkyně','girlfriend',2],['dítě','child',2],['děti','children',2],['rodina','family',2],['rodiče','parents',2],['sourozenec','sibling',2],['svobodný/á','single',2],['ženatý/vdaná','married',2],['rozvedený/á','divorced',2],['starší','older',2],['mladší','younger',2],['milý/á','kind / dear',2],['vtipný/á','funny',2],['chytrý/á','clever',2],['hodný/á','good / nice',2],['veselý/á','cheerful',2],['klidný/á','calm',2],['příjemný/á','pleasant',2],['kamarád/ka','friend (casual)',2],['soused/ka','neighbour',2],['kolega','colleague',2],['spolužák/ka','classmate',2],['navštívit','to visit',2],['zavolat','to call',2],['napsat','to write',2],['potkat','to meet',2],['líbit se','to like',2],['starat se','to take care of',2],['pomáhat','to help',2],['věřit','to believe',2],['znát','to know (person)',2],['vědět','to know (fact)',2],['pamatovat si','to remember',2],
-['snídaně','breakfast',3],['oběd','lunch',3],['večeře','dinner',3],['svačina','snack',3],['jídlo','food',3],['pití','drink',3],['voda','water',3],['pivo','beer',3],['víno','wine',3],['káva','coffee',3],['čaj','tea',3],['džus','juice',3],['mléko','milk',3],['chléb','bread',3],['rohlík','bread roll',3],['máslo','butter',3],['sýr','cheese',3],['šunka','ham',3],['vejce','egg',3],['maso','meat',3],['kuřecí','chicken',3],['vepřové','pork',3],['hovězí','beef',3],['ryba','fish',3],['zelenina','vegetables',3],['ovoce','fruit',3],['polévka','soup',3],['salát','salad',3],['knedlík','bread dumpling',3],['smažený řízek','fried schnitzel',3],['jídelní lístek','menu',3],['účet','bill',3],['číšník','waiter',3],['stůl','table',3],['rezervace','reservation',3],['chci','I want',3],['dám si','I\'ll have',3],['zaplatím','I will pay',3],['je to dobré','it is good',3],['jsem vegetarián/ka','I am vegetarian',3],['bez','without',3],['porce','portion',3],['lahev','bottle',3],['sklenička','glass',3],['lžíce','spoon',3],['vidlička','fork',3],['nůž','knife',3],['sladký','sweet',3],['slaný','salty',3],['čerstvý','fresh',3],
-['počasí','weather',4],['dnes','today',4],['slunečno','sunny',4],['zataženo','cloudy',4],['prší','it is raining',4],['sněží','it is snowing',4],['fouká vítr','the wind is blowing',4],['teplo','warm',4],['horko','hot',4],['chladno','cold',4],['mráz','frost',4],['mlha','fog',4],['bouřka','thunderstorm',4],['déšť','rain',4],['sníh','snow',4],['slunce','sun',4],['oblek','suit',4],['šaty','dress',4],['kalhoty','trousers',4],['džíny','jeans',4],['košile','shirt',4],['tričko','t-shirt',4],['svetr','sweater',4],['kabát','coat',4],['bunda','jacket',4],['rukavice','gloves',4],['šála','scarf',4],['čepice','hat',4],['deštník','umbrella',4],['boty','shoes',4],['ponožky','socks',4],['velikost','size',4],['barva','colour',4],['červený','red',4],['modrý','blue',4],['zelený','green',4],['žlutý','yellow',4],['bílý','white',4],['černý','black',4],['šedý','grey',4],['hnědý','brown',4],['jaká je teplota?','what is the temperature?',4],['léto','summer',4],['jaro','spring',4],['podzim','autumn',4],['zima','winter',4],['světlý','light-coloured',4],['tmavý','dark-coloured',4],['vlhko','humid',4],['sucho','dry',4],
-['zdraví','health',5],['nemocný/á','sick',5],['zdravý/á','healthy',5],['bolí mě hlava','my head hurts',5],['bolí mě záda','my back hurts',5],['bolí mě břicho','my stomach hurts',5],['mám teplotu','I have a fever',5],['mám rýmu','I have a cold',5],['kašel','cough',5],['unaven/á','tired',5],['závrať','dizziness',5],['lékař/ka','doctor',5],['nemocnice','hospital',5],['lékárna','pharmacy',5],['recept','prescription',5],['lék','medicine',5],['tableta','tablet',5],['injekce','injection',5],['sanitka','ambulance',5],['pojištění','insurance',5],['pomoc!','help!',5],['zavolej záchranku','call an ambulance',5],['potřebuji lékaře','I need a doctor',5],['kde je nejbližší lékárna?','where is the nearest pharmacy?',5],['alergický/á','allergic',5],['alergie','allergy',5],['operace','surgery',5],['zlomená ruka','broken arm',5],['rána','wound',5],['krev','blood',5],['tlak','blood pressure',5],['hlava','head',5],['záda','back',5],['břicho','stomach',5],['srdce','heart',5],['plíce','lungs',5],['koleno','knee',5],['rameno','shoulder',5],['zub','tooth',5],['zubař/ka','dentist',5],['bolí','it hurts',5],['předepsat','to prescribe',5],['léčit','to treat',5],['odpočívat','to rest',5],['spát','to sleep',5],['pít hodně vody','drink plenty of water',5],['teploměr','thermometer',5],['náplast','plaster',5],['obvaz','bandage',5],['záchranáři','paramedics',5],
-['sport','sport',6],['fotbal','football',6],['tenis','tennis',6],['plavání','swimming',6],['běhání','running',6],['cyklistika','cycling',6],['lyžování','skiing',6],['tanec','dancing',6],['jóga','yoga',6],['fitness','gym / fitness',6],['koníček','hobby',6],['čtení','reading',6],['psaní','writing',6],['kreslení','drawing',6],['fotografování','photography',6],['vaření','cooking',6],['zahradničení','gardening',6],['hudba','music',6],['zpívání','singing',6],['hra na kytaru','playing guitar',6],['cestování','travelling',6],['filmy','films',6],['divadlo','theatre',6],['muzeum','museum',6],['hrát','to play',6],['sportovat','to do sport',6],['cvičit','to exercise',6],['plavat','to swim',6],['běhat','to run',6],['jezdit na kole','to ride a bike',6],['rád/a čtu','I like reading',6],['každý den','every day',6],['jednou týdně','once a week',6],['občas','sometimes',6],['nikdy','never',6],['vždy','always',6],['jak trávíte volný čas?','how do you spend free time?',6],['baví mě','I enjoy',6],['výhra','victory / win',6],['prohra','defeat',6],['trénink','training',6],['závodit','to compete',6],['fanoušek','fan',6],['stadion','stadium',6],['zápas','match / game',6],['tým','team',6],['soutěž','competition',6],['výsledek','result',6],['hřiště','playing field',6],['míč','ball',6],
-['ráno','morning',7],['dopoledne','late morning',7],['odpoledne','afternoon',7],['večer','evening',7],['noc','night',7],['půlnoc','midnight',7],['poledne','noon',7],['hodina','hour',7],['minuta','minute',7],['v kolik hodin?','at what time?',7],['vstávám','I get up',7],['sprchuju se','I shower',7],['snídám','I have breakfast',7],['jdu do práce','I go to work',7],['obědvám','I have lunch',7],['vracím se domů','I return home',7],['večeřím','I have dinner',7],['jdu spát','I go to sleep',7],['brzy','early / soon',7],['pozdě','late',7],['zítra','tomorrow',7],['včera','yesterday',7],['tento týden','this week',7],['příští týden','next week',7],['minulý týden','last week',7],['měsíc','month',7],['rok','year',7],['pondělí','Monday',7],['úterý','Tuesday',7],['středa','Wednesday',7],['čtvrtek','Thursday',7],['pátek','Friday',7],['sobota','Saturday',7],['neděle','Sunday',7],['víkend','weekend',7],['dovolená','holiday',7],['leden','January',7],['únor','February',7],['březen','March',7],['duben','April',7],['květen','May',7],['červen','June',7],['červenec','July',7],['srpen','August',7],['září','September',7],['říjen','October',7],['listopad','November',7],['prosinec','December',7],['dnes je','today is',7],['za týden','in one week',7],
-['škola','school',8],['univerzita','university',8],['knihovna','library',8],['třída','class',8],['přednáška','lecture',8],['zkouška','exam',8],['úkol','homework',8],['projekt','project',8],['ulice','street',8],['náměstí','square / plaza',8],['obchod','shop',8],['supermarket','supermarket',8],['pošta','post office',8],['banka','bank',8],['hotel','hotel',8],['restaurace','restaurant',8],['kavárna','café',8],['hospoda','pub',8],['kino','cinema',8],['kostel','church',8],['radnice','town hall',8],['stanice metra','metro station',8],['autobusová zastávka','bus stop',8],['vlakové nádraží','train station',8],['letiště','airport',8],['kde je…?','where is…?',8],['jak se dostanu na…?','how do I get to…?',8],['jděte rovně','go straight ahead',8],['odbočte doleva','turn left',8],['odbočte doprava','turn right',8],['přejděte přes ulici','cross the street',8],['je to daleko?','is it far?',8],['je to blízko','it is close',8],['mapa','map',8],['adresa','address',8],['první patro','first floor',8],['přízemí','ground floor',8],['výtah','lift',8],['schody','stairs',8],['semafor','traffic light',8],['přechod pro chodce','pedestrian crossing',8],['park','park',8],['galerie','gallery',8],['parkoviště','car park',8],['hřiště','playground',8],['benzínová stanice','petrol station',8],['nemocnice','hospital',8],['lékárna','pharmacy',8],['poliklinika','health centre',8],['divadlo','theatre',8],
-['narozeniny','birthday',9],['svátek','name day',9],['Vánoce','Christmas',9],['Velikonoce','Easter',9],['Nový rok','New Year',9],['Silvestr','New Year\'s Eve',9],['oslava','celebration',9],['dárek','gift',9],['dort','cake',9],['svíčka','candle',9],['šampaňské','champagne',9],['gratulace','congratulations',9],['hodně štěstí!','good luck!',9],['vše nejlepší!','all the best!',9],['šťastný nový rok!','happy New Year!',9],['veselé Vánoce!','merry Christmas!',9],['slavit','to celebrate',9],['dekorace','decoration',9],['balónek','balloon',9],['tancovat','to dance',9],['bavit se','to have fun',9],['setkání','gathering',9],['tradice','tradition',9],['zvyk','custom',9],['zábava','fun',9],['ohňostroj','fireworks',9],['stromek','Christmas tree',9],['kraslice','decorated Easter egg',9],['pomlázka','Easter whip',9],['jarmark','fair',9],['ples','ball / dance',9],['pozvánka','invitation',9],['slavnostní','festive',9],['přípitek','toast (speech)',9],['blahopřání','greeting card',9],['masopust','carnival',9],['Štědrý den','Christmas Eve',9],['Valentýn','Valentine\'s Day',9],['výroční','anniversary',9],['jubileum','jubilee',9],['přání','wish',9],['kapela','band',9],['host','guest',9],['párty','party',9],['narozeninová oslava','birthday party',9],['dárkový poukaz','gift voucher',9],['věneček','wreath',9],['punč','punch (drink)',9],['mašle','ribbon / bow',9],['řeč','speech',9],
-['cestovat','to travel',10],['výlet','trip',10],['dovolená','vacation',10],['pas','passport',10],['vízum','visa',10],['letenka','plane ticket',10],['jízdenka','bus/train ticket',10],['rezervace','booking',10],['zavazadlo','luggage',10],['kufr','suitcase',10],['batoh','backpack',10],['celnice','customs',10],['hranice','border',10],['letadlo','aeroplane',10],['vlak','train',10],['autobus','bus',10],['metro','metro',10],['tramvaj','tram',10],['taxi','taxi',10],['auto','car',10],['kolo','bicycle',10],['loď','boat',10],['příjezd','arrival',10],['odjezd','departure',10],['zpoždění','delay',10],['nástupiště','platform',10],['jízdní řád','timetable',10],['lístek','ticket',10],['zpáteční lístek','return ticket',10],['jednosměrný','one-way',10],['první třída','first class',10],['kde se nastupuje?','where do I board?',10],['kdy odjíždí vlak?','when does the train leave?',10],['je sedadlo volné?','is the seat free?',10],['průvodčí','conductor',10],['ubytování','accommodation',10],['recepce','reception',10],['pokoj','room',10],['jednolůžkový pokoj','single room',10],['dvoulůžkový pokoj','double room',10],['snídaně v ceně','breakfast included',10],['bankomat','ATM',10],['kurz','exchange rate',10],['turistická mapa','tourist map',10],['informační centrum','tourist info',10],['pojišťovna','insurance',10],['výměna peněz','currency exchange',10],['místní čas','local time',10],['zpáteční cesta','return journey',10],['check-in','check-in',10],
+
+const WORDS = [
+['ahoj','hello'],
+['děkuji','thank you'],
+['prosím','please'],
+['jídlo','food'],
+['škola','school'],
+['vlak','train'],
+['město','city'],
+['čas','time'],
+['rodina','family'],
+['kniha','book']
 ];
 
-const PHRASES=[
-{cz:'Kde je toaleta?',en:'Where is the bathroom?',cat:'travel',fill:'Kde je ___?',blank:'toaleta',opts:['toaleta','lékárna','banka','stanice']},
-{cz:'Kolik to stojí?',en:'How much does it cost?',cat:'shop',fill:'Kolik to ___?',blank:'stojí',opts:['stojí','máte','dáte','chcete']},
-{cz:'Mluvíte anglicky?',en:'Do you speak English?',cat:'social',fill:'Mluvíte ___?',blank:'anglicky',opts:['anglicky','česky','německy','rychle']},
-{cz:'Zavolej záchranku!',en:'Call an ambulance!',cat:'emergency',fill:'Zavolej ___!',blank:'záchranku',opts:['záchranku','policii','lékaře','taxíka']},
-{cz:'Mám se dobře, díky.',en:'I am fine, thanks.',cat:'greet',fill:'Mám se ___, díky.',blank:'dobře',opts:['dobře','špatně','unavene','pozdě']},
-{cz:'Prosím, jeden čaj.',en:'One tea please.',cat:'food',fill:'Prosím, jeden ___.',blank:'čaj',opts:['čaj','pivo','voda','káva']},
-{cz:'Dám si smažený sýr.',en:'I\'ll have fried cheese.',cat:'food',fill:'Dám si smažený ___.',blank:'sýr',opts:['sýr','řízek','salát','knedlík']},
-{cz:'Kde je nejbližší banka?',en:'Where is the nearest bank?',cat:'travel',fill:'Kde je nejbližší ___?',blank:'banka',opts:['banka','park','metro','muzeum']},
-{cz:'Na shledanou, hezký den!',en:'Goodbye, have a nice day!',cat:'greet',fill:'Na shledanou, hezký ___!',blank:'den',opts:['den','večer','víkend','rok']},
-{cz:'Promiňte, nevím.',en:'Sorry, I don\'t know.',cat:'social',fill:'Promiňte, ___.',blank:'nevím',opts:['nevím','rozumím','mluvím','jdu']},
-{cz:'Mohu platit kartou?',en:'Can I pay by card?',cat:'shop',fill:'Mohu platit ___?',blank:'kartou',opts:['kartou','hotovostí','převodem','šekem']},
-{cz:'Chci rezervovat pokoj.',en:'I want to book a room.',cat:'travel',fill:'Chci ___ pokoj.',blank:'rezervovat',opts:['rezervovat','vidět','koupit','pronajmout']},
-{cz:'Co děláte ve volném čase?',en:'What do you do in your free time?',cat:'small',fill:'Co děláte ve volném ___?',blank:'čase',opts:['čase','dni','týdnu','roce']},
-{cz:'Vlak má zpoždění.',en:'The train is delayed.',cat:'travel',fill:'Vlak má ___.',blank:'zpoždění',opts:['zpoždění','místo','problém','stanici']},
-{cz:'Bolí mě zub.',en:'My tooth hurts.',cat:'emergency',fill:'Bolí mě ___.',blank:'zub',opts:['zub','hlava','noha','ruka']},
-{cz:'Kde mohu vyměnit peníze?',en:'Where can I exchange money?',cat:'shop',fill:'Kde mohu vyměnit ___?',blank:'peníze',opts:['peníze','lístky','batoh','kufr']},
-{cz:'Jaké je dnes počasí?',en:'What is the weather like today?',cat:'small',fill:'Jaké je dnes ___?',blank:'počasí',opts:['počasí','datum','jídlo','číslo']},
-{cz:'Těší mě.',en:'Nice to meet you.',cat:'greet',fill:'Těší ___.',blank:'mě',opts:['mě','vás','tě','ho']},
-{cz:'To je v pořádku.',en:'That\'s OK / no problem.',cat:'social',fill:'To je v ___.',blank:'pořádku',opts:['pořádku','klidu','problému','pospěchu']},
-{cz:'Uvidíme se brzy.',en:'See you soon.',cat:'greet',fill:'Uvidíme se ___.',blank:'brzy',opts:['brzy','zítra','pozdě','večer']},
-{cz:'Mám hlad.',en:'I am hungry.',cat:'food',fill:'Mám ___.',blank:'hlad',opts:['hlad','žízeň','čas','zájem']},
-{cz:'Jdu rovně a pak doleva.',en:'I go straight then left.',cat:'travel',fill:'Jdu rovně a pak ___.',blank:'doleva',opts:['doleva','doprava','nahoru','domů']},
-{cz:'Nemluví česky.',en:'He/she doesn\'t speak Czech.',cat:'social',fill:'Nemluví ___ .',blank:'česky',opts:['česky','anglicky','pomalu','dobře']},
-{cz:'Mám rád/a českou kuchyni.',en:'I like Czech cuisine.',cat:'food',fill:'Mám rád/a českou ___.',blank:'kuchyni',opts:['kuchyni','kulturu','hudbu','přírodu']},
-{cz:'Potřebuji pomoc.',en:'I need help.',cat:'emergency',fill:'Potřebuji ___.',blank:'pomoc',opts:['pomoc','peníze','lékař','taxi']},
+const PHRASES = [
+['Jak se máš?','How are you?'],
+['Mám se dobře.','I am fine.'],
+['Kde je nádraží?','Where is the train station?'],
+['Kolik to stojí?','How much does it cost?'],
+['Mluvíte anglicky?','Do you speak English?']
 ];
 
-const CZ_NUMS={0:'nula',1:'jedna',2:'dvě',3:'tři',4:'čtyři',5:'pět',6:'šest',7:'sedm',8:'osm',9:'devět',10:'deset',11:'jedenáct',12:'dvanáct',13:'třináct',14:'čtrnáct',15:'patnáct',16:'šestnáct',17:'sedmnáct',18:'osmnáct',19:'devatenáct',20:'dvacet',21:'dvacet jedna',22:'dvacet dva',23:'dvacet tři',30:'třicet',40:'čtyřicet',50:'padesát',60:'šedesát',70:'sedmdesát',80:'osmdesát',90:'devadesát',100:'sto',200:'dvě stě',300:'tři sta',400:'čtyři sta',500:'pět set',1000:'tisíc'};
-const HOURS_CZ=['nula','jedna','dvě','tři','čtyři','pět','šest','sedm','osm','devět','deset','jedenáct','dvanáct'];
-const MONTHS_CZ=['ledna','února','března','dubna','května','června','července','srpna','září','října','listopadu','prosince'];
-const MONTHS_EN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+let currentTab = 'words';
 
-const CASE_DRILLS=[
-{prompt:'Vidím ___. (I see the dog.)',correct:'psa',opts:['pes','psa','psu','psem'],caseName:'ACC',question:'Koho? Co?',why:'The verb "vidět" (to see) requires accusative for its direct object.',rule:'Masc. animate nouns take -a in accusative: pes → psa.'},
-{prompt:'Jdu do ___ . (I go to the city.)',correct:'města',opts:['město','města','městu','městem'],caseName:'GEN',question:'Koho? Čeho?',why:'The preposition "do" (into/to) always requires genitive.',rule:'Neuter nouns ending in -o change to -a in genitive: město → města.'},
-{prompt:'Dám dárek ___. (I give a gift to my sister.)',correct:'sestře',opts:['sestra','sestry','sestře','sestrou'],caseName:'DAT',question:'Komu? Čemu?',why:'Verbs of giving (dát, poslat, ukázat) require dative for the recipient.',rule:'Feminine -a nouns change to -ě in dative: sestra → sestře.'},
-{prompt:'Mluvím o ___ . (I am talking about Prague.)',correct:'Praze',opts:['Praha','Prahy','Praze','Prahou'],caseName:'LOC',question:'O kom? O čem?',why:'The preposition "o" (about) always requires locative. Locative is ONLY used with prepositions.',rule:'Feminine -a nouns: Praha → Praze. The -h- softens to -z-.'},
-{prompt:'Jedu ___. (I travel by bus.)',correct:'autobusem',opts:['autobus','autobusu','autobusem','autobuse'],caseName:'INS',question:'S kým? S čím?',why:'Means of transport uses instrumental WITHOUT any preposition.',rule:'Masc./neuter nouns take -em in instrumental: autobus → autobusem.'},
-{prompt:'Je to kniha ___ . (It is my brother\'s book.)',correct:'bratra',opts:['bratr','bratra','bratru','bratrem'],caseName:'GEN',question:'Koho? Čeho?',why:'Possession in Czech uses genitive: "kniha bratra" = "brother\'s book".',rule:'Masc. animate nouns take -a in genitive: bratr → bratra.'},
-{prompt:'Jdu s ___ do kina. (I go to the cinema with my friend.)',correct:'přítelem',opts:['přítel','přítele','příteli','přítelem'],caseName:'INS',question:'S kým? S čím?',why:'The preposition "s" (with) always requires instrumental.',rule:'Masc. animate nouns take -em in instrumental: přítel → přítelem.'},
-{prompt:'Bydlím v ___ . (I live in Prague.)',correct:'Praze',opts:['Praha','Prahy','Praze','Prahou'],caseName:'LOC',question:'O kom? O čem?',why:'The preposition "v" (in, for location) requires locative.',rule:'Same as "o Praze" — locative of Praha is always Praze.'},
-{prompt:'Jsem bez ___ . (I am without money.)',correct:'peněz',opts:['peníze','peněz','penězím','penězmi'],caseName:'GEN',question:'Koho? Čeho?',why:'The preposition "bez" (without) always requires genitive.',rule:'Peníze → peněz is an irregular genitive plural.'},
-{prompt:'Volám ___ . (I am calling my mum.)',correct:'mamce',opts:['mamka','mamky','mamce','mamkou'],caseName:'DAT',question:'Komu? Čemu?',why:'The verb "volat" (to call someone) takes dative for the person called.',rule:'Feminine -ka nouns change to -ce in dative: mamka → mamce.'},
-{prompt:'Vidím ___ . (I see the woman.)',correct:'ženu',opts:['žena','ženy','ženě','ženu'],caseName:'ACC',question:'Koho? Co?',why:'"Vidět" requires accusative. Feminine nouns are different from animate masculine.',rule:'Feminine -a nouns change to -u in accusative: žena → ženu.'},
-{prompt:'Jdu k ___ . (I am going to the doctor.)',correct:'lékaři',opts:['lékař','lékaře','lékaři','lékařem'],caseName:'DAT',question:'Komu? Čemu?',why:'The preposition "k/ke" (towards/to) requires dative.',rule:'Masc. animate nouns take -i in dative: lékař → lékaři.'},
-];
+const vocabContainer = document.getElementById('vocabContainer');
+const searchInput = document.getElementById('searchInput');
 
-const CI_DRILLS=[
-{sentence:'Dávám <u>sestře</u> dárek.',correct:'DAT',opts:['NOM','GEN','DAT','ACC'],explain:'"Sestře" is dative — she receives the gift. Komu dávám dárek? → sestře.',trans:'I give a gift to [my sister].'},
-{sentence:'Čtu <u>knihu</u> každý den.',correct:'ACC',opts:['NOM','GEN','ACC','LOC'],explain:'"Knihu" is accusative — direct object of "číst". Co čtu? → knihu.',trans:'I read [a book] every day.'},
-{sentence:'Jsem z <u>Prahy</u>.',correct:'GEN',opts:['NOM','GEN','DAT','INS'],explain:'"Prahy" is genitive after preposition "z" (from). Odkud? Z čeho? → Prahy.',trans:'I am from [Prague].'},
-{sentence:'Mluvíme o <u>počasí</u>.',correct:'LOC',opts:['NOM','ACC','LOC','INS'],explain:'"Počasí" is locative after "o" (about). O čem mluvíme? → o počasí.',trans:'We talk about [the weather].'},
-{sentence:'Jedu <u>vlakem</u> do Brna.',correct:'INS',opts:['ACC','DAT','LOC','INS'],explain:'"Vlakem" is instrumental — means of transport. Čím jedu? → vlakem.',trans:'I travel by [train] to Brno.'},
-{sentence:'<u>Matka</u> vaří oběd.',correct:'NOM',opts:['NOM','GEN','ACC','DAT'],explain:'"Matka" is nominative — she is the subject. Kdo vaří? → matka.',trans:'[Mother] is cooking lunch.'},
-{sentence:'Dám to <u>Petrovi</u>.',correct:'DAT',opts:['NOM','GEN','DAT','ACC'],explain:'"Petrovi" is dative — Petr receives it. Komu dám? → Petrovi.',trans:'I\'ll give it to [Petr].'},
-{sentence:'Byl jsem na <u>výstavě</u>.',correct:'LOC',opts:['NOM','GEN','ACC','LOC'],explain:'"Výstavě" is locative after "na" (at). Na čem/kde byl? → na výstavě.',trans:'I was at [the exhibition].'},
-];
-
-// ══════════════════════════════════════════════
-// STATE
-// ══════════════════════════════════════════════
-let xp=60, streak=1, bestStreak=0, scoreGood=0, scoreTotal=0;
-let qPool=[], qIdx=0, qAns=false, qUF=0;
-let pmPool=[], pmIdx=0, pmAns=false, pmGood=0, pmTotal=0;
-let pfPool=[], pfIdx=0, pfAns=false;
-let numMode='read', numGood=0, numTotal=0;
-let casePool=[], caseIdx=0, caseAns=false, caseGood=0, caseTotal=0;
-let ciPool=[], ciIdx=0, ciAns=false, ciGood=0, ciTotal=0;
-let fcPool=[], fcIdx=0, fcFlipped=false, fcAgain=0, fcAlmost=0, fcKnown=0, fcUF=0;
-let currentCard=null;
-let chatHistory=[], tutorReady=false;
-let seenWords=new Set();
-
-// ══════════════════════════════════════════════
-// AUDIO — Web Speech API
-// ══════════════════════════════════════════════
-function speakText(text, lang='cs-CZ') {
-  if(!window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  const clean=text.replace(/\/.*$/,'').replace(/[._!?…]/g,'').trim();
-  const utt=new SpeechSynthesisUtterance(clean);
-  utt.lang=lang;
-  utt.rate=0.85;
-  utt.pitch=1;
-  window.speechSynthesis.speak(utt);
+function speak(text){
+const u = new SpeechSynthesisUtterance(text);
+u.lang = 'cs-CZ';
+speechSynthesis.cancel();
+speechSynthesis.speak(u);
 }
 
-function startListening(callback) {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const isSecure = window.isSecureContext || location.protocol === 'https:' || location.hostname === 'localhost';
-  if(!isSecure) {
-    callback({error:'Speech recognition needs HTTPS. Use your GitHub Pages URL, not a local file.'});
-    return null;
-  }
-  if(!SpeechRecognition) {
-    callback({error:'Speech recognition is not available in this browser. Try Chrome on desktop/Android. On iPhone, use the keyboard dictation mic in the text field.'});
-    return null;
-  }
-  let finished = false;
-  const rec = new SpeechRecognition();
-  rec.lang = 'cs-CZ';
-  rec.interimResults = false;
-  rec.continuous = false;
-  rec.maxAlternatives = 1;
-  rec.onresult = e => {
-    finished = true;
-    const text = e.results && e.results[0] && e.results[0][0] ? e.results[0][0].transcript : '';
-    callback(text || {error:'I could not hear anything. Try again closer to the microphone.'});
-  };
-  rec.onerror = e => {
-    finished = true;
-    const msg = e && e.error ? e.error : 'unknown error';
-    callback({error:'Microphone problem: '+msg+'. Check browser microphone permission and try again.'});
-  };
-  rec.onend = () => {
-    if(!finished) callback({error:'No speech detected. Try again and speak after the red listening state appears.'});
-  };
-  try { rec.start(); }
-  catch(err) { callback({error:'Could not start microphone: '+err.message}); return null; }
-  return rec;
-}
+function renderVocabulary(){
 
-// ══════════════════════════════════════════════
-// NAVIGATION
-// ══════════════════════════════════════════════
-document.getElementById('bottomNav').addEventListener('click', e => {
-  const btn = e.target.closest('.nav-item');
-  if(!btn) return;
-  goScreen(btn.dataset.s);
-});
+const query = searchInput.value.toLowerCase();
 
-function goScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-  document.getElementById('sc-'+id).classList.add('active');
-  document.querySelector('.nav-item[data-s="'+id+'"]').classList.add('active');
-  if(id==='quiz') { initQuiz(); }
-  if(id==='phrases') { initPhrases(); }
-  if(id==='cards') { initCards(); }
-  if(id==='numbers') { initNumbers(); }
-  if(id==='cases') { initCases(); }
-  if(id==='roadmap') renderRoadmap();
-  if(id==='tutor' && !tutorReady) { tutorReady=true; initTutor(); }
-  updateHome();
-}
+const data = currentTab === 'words' ? WORDS : PHRASES;
 
-document.getElementById('hPracBtn').addEventListener('click',()=>goScreen('quiz'));
-document.getElementById('hTodayBtn').addEventListener('click',()=>goScreen('quiz'));
-document.getElementById('hCardsBtn').addEventListener('click',()=>goScreen('cards'));
-document.getElementById('hTutorBtn').addEventListener('click',()=>goScreen('tutor'));
-document.getElementById('hListenBtn').addEventListener('click',()=>speakText('Ahoj','cs-CZ'));
-document.getElementById('hQuickPhrases').addEventListener('click',()=>goScreen('phrases'));
-document.getElementById('hQuickCases').addEventListener('click',()=>goScreen('cases'));
+const filtered = data.filter(item =>
+item[0].toLowerCase().includes(query) ||
+item[1].toLowerCase().includes(query)
+);
 
-// ══════════════════════════════════════════════
-// QUIZ
-// ══════════════════════════════════════════════
-function buildQPool(u) {
-  const pool = u===0 ? AW : AW.filter(w=>w[2]===u);
-  const qs=[];
-  pool.forEach(([cz,en,unit])=>{
-    const uw=AW.filter(w=>w[2]===unit&&w[0]!==cz);
-    const getD=(fi,ex)=>{ let s=uw.map(w=>w[fi]).filter(v=>v!==ex); shuf(s); let e=AW.filter(w=>w[0]!==cz&&w[2]!==unit).map(w=>w[fi]); shuf(e); return[...s,...e].filter(v=>v!==ex).slice(0,3); };
-    qs.push({prompt:cz,answer:en,opts:shuf([en,...getD(1,en)]).slice(0,4),dir:'What does this mean in English?',unit,type:'cz-en',czWord:cz});
-    qs.push({prompt:en,answer:cz,opts:shuf([cz,...getD(0,cz)]).slice(0,4),dir:'How do you say this in Czech?',unit,type:'en-cz',czWord:cz});
-  });
-  return shuf(qs);
-}
-
-function initQuiz() {
-  if(!qPool.length) {
-    renderQUF();
-    qPool=buildQPool(0);
-    renderQ();
-  }
-}
-
-function renderQUF() {
-  const labels=['All','U1','U2','U3','U4','U5','U6','U7','U8','U9','U10'];
-  const el=document.getElementById('qUnitFilter');
-  el.innerHTML=labels.map((l,i)=>`<button class="pill ${i===qUF?'on':''}" data-u="${i}">${l}</button>`).join('');
-  el.querySelectorAll('.pill').forEach(p=>p.addEventListener('click',()=>{
-    qUF=parseInt(p.dataset.u);qPool=buildQPool(qUF);qIdx=0;
-    el.querySelectorAll('.pill').forEach(x=>x.classList.remove('on'));p.classList.add('on');
-    renderQ();
-  }));
-}
-
-function renderQ() {
-  if(qIdx>=qPool.length){qPool=buildQPool(qUF);qIdx=0;}
-  const q=qPool[qIdx++];
-  seenWords.add(q.czWord);qAns=false;
-  document.getElementById('qMeta').textContent=`Unit ${q.unit} · ${q.type==='cz-en'?'CZ → EN':'EN → CZ'}`;
-  document.getElementById('qPrompt').textContent=q.prompt;
-  document.getElementById('qDir').textContent=q.dir;
-  document.getElementById('qFb').className='feedback';
-  document.getElementById('qNext').className='btn-next';
-  document.getElementById('qPoolInfo').textContent=`${Math.min(qIdx,qPool.length)}/${qPool.length}`;
-  const czText=q.type==='cz-en'?q.prompt:q.answer;
-  document.getElementById('qAudioBtn').onclick=()=>speakText(czText,'cs-CZ');
-  const c=document.getElementById('qOpts');
-  c.innerHTML=shuf([...q.opts]).map(o=>`<button class="opt" data-a="${esc(o)}">${o}</button>`).join('');
-  c.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>answerQ(b,q)));
-}
-
-function answerQ(btn,q) {
-  if(qAns) return;qAns=true;scoreTotal++;
-  const ok=btn.dataset.a===q.answer;
-  btn.classList.add(ok?'correct':'wrong');
-  if(!ok) document.querySelectorAll('.opt').forEach(b=>{if(b.dataset.a===q.answer)b.classList.add('correct');});
-  const fb=document.getElementById('qFb');
-  fb.className='feedback show '+(ok?'ok':'err');
-  if(ok){scoreGood++;streak++; if(streak>bestStreak)bestStreak=streak;addXP(10);
-    fb.textContent=streak>=5?`🔥 ${streak} in a row — Skvěle! +10 xp`:streak>=3?`Výborně! ${streak} streak — +10 xp`:'Správně! +10 xp';
-  } else {streak=0; fb.textContent=`Špatně. Answer: "${q.answer}"`;}
-  document.getElementById('qGood').textContent=scoreGood;
-  document.getElementById('qTotal').textContent=scoreTotal;
-  document.getElementById('qStreak').textContent=streak;
-  document.getElementById('qNext').className='btn-next show';
-  updateHome();
-}
-document.getElementById('qNext').addEventListener('click',renderQ);
-
-// ══════════════════════════════════════════════
-// PHRASES
-// ══════════════════════════════════════════════
-document.getElementById('phraseTabs').addEventListener('click',e=>{
-  const b=e.target.closest('.tab');if(!b)return;
-  const t=b.dataset.t;
-  document.getElementById('pt-match').style.display=t==='match'?'block':'none';
-  document.getElementById('pt-fill').style.display=t==='fill'?'block':'none';
-  document.getElementById('pt-browse').style.display=t==='browse'?'block':'none';
-  document.querySelectorAll('#phraseTabs .tab').forEach(x=>x.classList.toggle('on',x.dataset.t===t));
-  if(t==='browse') renderPhraseBrowse();
-});
-
-function initPhrases(){
-  pmPool=shuf([...PHRASES]);pmIdx=0;
-  pfPool=shuf([...PHRASES]);pfIdx=0;
-  renderPM();renderPF();
-  const sel=document.getElementById('phraseCatSel');
-  if(!sel.options.length){
-    [['all','All categories'],['greet','Greetings'],['shop','Shopping'],['travel','Transport'],['social','Social'],['emergency','Emergency'],['food','Restaurant'],['small','Small talk']].forEach(([v,l])=>{const o=document.createElement('option');o.value=v;o.textContent=l;sel.appendChild(o);});
-    sel.addEventListener('change',renderPhraseBrowse);
-  }
-}
-
-function renderPM(){
-  if(pmIdx>=pmPool.length){pmPool=shuf([...PHRASES]);pmIdx=0;}
-  const p=pmPool[pmIdx++];pmAns=false;
-  document.getElementById('pmCat').textContent=p.cat.toUpperCase();
-  document.getElementById('pmCz').textContent=p.cz;
-  document.getElementById('pmAudioBtn').onclick=()=>speakText(p.cz,'cs-CZ');
-  document.getElementById('pmFb').className='feedback';
-  document.getElementById('pmNext').className='btn-next';
-  const others=PHRASES.filter(x=>x.en!==p.en).map(x=>x.en);shuf(others);
-  const opts=shuf([p.en,...others.slice(0,3)]);
-  const c=document.getElementById('pmOpts');
-  c.innerHTML=opts.map(o=>`<button class="opt" data-a="${esc(o)}">${o}</button>`).join('');
-  c.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
-    if(pmAns)return;pmAns=true;pmTotal++;
-    const ok=b.dataset.a===p.en;
-    b.classList.add(ok?'correct':'wrong');
-    if(!ok)c.querySelectorAll('.opt').forEach(x=>{if(x.dataset.a===p.en)x.classList.add('correct');});
-    const fb=document.getElementById('pmFb');
-    fb.className='feedback show '+(ok?'ok':'err');
-    if(ok){pmGood++;addXP(10);fb.textContent='Správně! +10 xp';}
-    else fb.textContent=`Špatně. "${p.en}"`;
-    document.getElementById('pmGood').textContent=pmGood;
-    document.getElementById('pmTotal').textContent=pmTotal;
-    document.getElementById('pmNext').className='btn-next show';
-  }));
-}
-document.getElementById('pmNext').addEventListener('click',renderPM);
-
-function renderPF(){
-  if(pfIdx>=pfPool.length){pfPool=shuf([...PHRASES]);pfIdx=0;}
-  const p=pfPool[pfIdx++];pfAns=false;
-  document.getElementById('pfSentence').innerHTML=p.fill.replace('___','<span class="gap-blank" id="gapBlank">?</span>');
-  document.getElementById('pfCtx').textContent='🇬🇧 '+p.en;
-  document.getElementById('pfFb').className='feedback';
-  document.getElementById('pfNext').className='btn-next';
-  const opts=shuf([...p.opts]);
-  const c=document.getElementById('pfOpts');
-  c.innerHTML=opts.map(o=>`<button class="opt" data-a="${esc(o)}">${o}</button>`).join('');
-  c.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
-    if(pfAns)return;pfAns=true;
-    const ok=b.dataset.a===p.blank;
-    b.classList.add(ok?'correct':'wrong');
-    if(!ok)c.querySelectorAll('.opt').forEach(x=>{if(x.dataset.a===p.blank)x.classList.add('correct');});
-    const gap=document.getElementById('gapBlank');
-    if(gap){gap.textContent=p.blank;gap.classList.add('filled');}
-    const fb=document.getElementById('pfFb');
-    fb.className='feedback show '+(ok?'ok':'err');
-    if(ok){addXP(10);fb.textContent=`Správně! "${p.cz}" +10 xp`;}
-    else fb.textContent=`Špatně. Full sentence: "${p.cz}"`;
-    if(ok) setTimeout(()=>speakText(p.cz,'cs-CZ'),300);
-    document.getElementById('pfNext').className='btn-next show';
-  }));
-}
-document.getElementById('pfNext').addEventListener('click',renderPF);
-
-function renderPhraseBrowse(){
-  const cat=document.getElementById('phraseCatSel').value;
-  const list=cat==='all'?PHRASES:PHRASES.filter(p=>p.cat===cat);
-  document.getElementById('phraseList').innerHTML=list.map(p=>`
-    <div class="study-row">
-      <span class="study-cz">${p.cz}</span>
-      <span class="study-en">${p.en}</span>
-      <button class="audio-btn" style="flex-shrink:0" onclick="speakText('${p.cz.replace(/'/g,"\\'")}','cs-CZ')">▶</button>
-    </div>`).join('');
-}
-
-// ══════════════════════════════════════════════
-// FLASH CARDS
-// ══════════════════════════════════════════════
-function buildUnitSelect(elId, all=true){
-  const sel=document.getElementById(elId);
-  sel.innerHTML='';
-  if(all){const o=document.createElement('option');o.value=0;o.textContent='All units (500 words)';sel.appendChild(o);}
-  for(let u=1;u<=10;u++){const o=document.createElement('option');o.value=u;o.textContent=`Unit ${u}`;sel.appendChild(o);}
-}
-
-function initCards(){
-  buildUnitSelect('cardUnitSel');
-  buildUnitSelect('scrollUnitSel');
-  document.getElementById('cardUnitSel').addEventListener('change',()=>{fcIdx=0;fcAgain=0;fcAlmost=0;fcKnown=0;buildFCPool();showCard();updateFCStats();});
-  document.getElementById('scrollUnitSel').addEventListener('change',renderScrollList);
-  document.getElementById('scrollSearch').addEventListener('input',renderScrollList);
-  buildFCPool();showCard();
-  renderScrollList();
-  // tab toggle
-  document.getElementById('cardTabs').addEventListener('click',e=>{
-    const b=e.target.closest('.tab');if(!b)return;
-    const t=b.dataset.ct;
-    document.getElementById('ct-study').style.display=t==='study'?'block':'none';
-    document.getElementById('ct-scroll').style.display=t==='scroll'?'block':'none';
-    document.querySelectorAll('#cardTabs .tab').forEach(x=>x.classList.toggle('on',x.dataset.ct===t));
-  });
-  document.getElementById('fcWrong').addEventListener('click',()=>rateFCard('wrong'));
-  document.getElementById('fcOk').addEventListener('click',()=>rateFCard('ok'));
-  document.getElementById('fcRight').addEventListener('click',()=>rateFCard('right'));
-}
-
-function buildFCPool(){
-  const u=parseInt(document.getElementById('cardUnitSel').value)||0;
-  fcPool=shuf(u===0?[...AW]:[...AW.filter(w=>w[2]===u)]);
-  fcIdx=0;
-  document.getElementById('fcTotal').textContent=fcPool.length;
-}
-
-function showCard(){
-  if(!fcPool.length)return;
-  if(fcIdx>=fcPool.length){fcIdx=0;fcPool=shuf([...fcPool]);}
-  currentCard=fcPool[fcIdx++];
-  fcFlipped=false;
-  document.getElementById('flashcard').classList.remove('flipped');
-  document.getElementById('fcWord').textContent=currentCard[0];
-  document.getElementById('fcWordBack').textContent=currentCard[0];
-  document.getElementById('fcTrans').textContent=currentCard[1];
-  document.getElementById('fcUnitBack').textContent='Unit '+currentCard[2];
-  document.getElementById('fcIdx').textContent=fcIdx;
-  document.getElementById('fcControls').style.display='none';
-}
-
-function flipCard(){
-  if(!currentCard)return;
-  fcFlipped=!fcFlipped;
-  document.getElementById('flashcard').classList.toggle('flipped',fcFlipped);
-  document.getElementById('fcControls').style.display=fcFlipped?'flex':'none';
-}
-
-function rateFCard(r){
-  if(r==='wrong')fcAgain++;
-  else if(r==='ok')fcAlmost++;
-  else{fcKnown++;addXP(5);}
-  updateFCStats();
-  showCard();
-}
-
-function updateFCStats(){
-  document.getElementById('fcAgain').textContent=fcAgain;
-  document.getElementById('fcAlmost').textContent=fcAlmost;
-  document.getElementById('fcKnown').textContent=fcKnown;
-}
-
-function renderScrollList(){
-  const u=parseInt(document.getElementById('scrollUnitSel').value)||0;
-  const q=(document.getElementById('scrollSearch').value||'').toLowerCase();
-  const words=u===0?AW:AW.filter(w=>w[2]===u);
-  const f=q?words.filter(w=>w[0].toLowerCase().includes(q)||w[1].toLowerCase().includes(q)):words;
-  document.getElementById('scrollCount').textContent=`${f.length} words`;
-  document.getElementById('scrollList').innerHTML=f.map(w=>`
-    <div class="study-row">
-      <span class="study-cz">${w[0]}</span>
-      <span class="study-en">${w[1]}</span>
-      <button class="audio-btn" style="flex-shrink:0" onclick="speakText('${w[0].replace(/'/g,"\\'")}','cs-CZ')">▶</button>
-    </div>`).join('');
-}
-
-// ══════════════════════════════════════════════
-// NUMBERS
-// ══════════════════════════════════════════════
-let nmMode='read';
-function initNumbers(){
-  document.querySelectorAll('[data-nm]').forEach(b=>b.addEventListener('click',()=>{
-    nmMode=b.dataset.nm;
-    document.querySelectorAll('[data-nm]').forEach(x=>x.classList.remove('on'));
-    b.classList.add('on');renderNum();
-  }));
-  renderNum();
-}
-
-function renderNum(){
-  document.getElementById('numFb').className='feedback';
-  document.getElementById('numCheck').style.display='none';
-  document.getElementById('numAudio').style.display='none';
-  const optsWrap=document.getElementById('numOptsWrap');
-  optsWrap.innerHTML='';
-  const numKeys=Object.keys(CZ_NUMS).map(Number);
-
-  if(nmMode==='read'){
-    const n=numKeys[Math.floor(Math.random()*numKeys.length)];
-    const ans=CZ_NUMS[n];
-    document.getElementById('numLabel').textContent='What is this number in Czech?';
-    document.getElementById('numBig').innerHTML=`<div class="num-big">${n}</div>`;
-    document.getElementById('numHint').textContent='';
-    const wrongs=Object.values(CZ_NUMS).filter(v=>v!==ans);shuf(wrongs);
-    const opts=shuf([ans,...wrongs.slice(0,3)]);
-    optsWrap.innerHTML=`<div class="options">${opts.map(o=>`<button class="opt" data-a="${esc(o)}">${o}</button>`).join('')}</div>`;
-    document.getElementById('numAudio').style.display='inline-flex';
-    document.getElementById('numAudio').onclick=()=>speakText(ans,'cs-CZ');
-    optsWrap.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
-      const ok=b.dataset.a===ans;
-      b.classList.add(ok?'correct':'wrong');
-      if(!ok)optsWrap.querySelectorAll('.opt').forEach(x=>{if(x.dataset.a===ans)x.classList.add('correct');});
-      const fb=document.getElementById('numFb');fb.className='feedback show '+(ok?'ok':'err');
-      if(ok){numGood++;addXP(10);fb.textContent=`Správně! ${n} = "${ans}" +10 xp`;speakText(ans,'cs-CZ');}
-      else fb.textContent=`Špatně. ${n} in Czech: "${ans}"`;
-      numTotal++;document.getElementById('numGood').textContent=numGood;document.getElementById('numTotal').textContent=numTotal;
-      setTimeout(renderNum,1800);
-    }));
-  } else if(nmMode==='hear'){
-    const n=numKeys[Math.floor(Math.random()*numKeys.length)];const ans=CZ_NUMS[n];
-    document.getElementById('numLabel').textContent='Type this Czech word as a digit:';
-    document.getElementById('numBig').innerHTML=`<div class="num-text-big">${ans}</div>`;
-    document.getElementById('numHint').textContent='';
-    optsWrap.innerHTML=`<input class="text-input" id="numTypeInput" placeholder="type the number…" style="margin-bottom:10px">`;
-    document.getElementById('numCheck').style.display='inline-flex';
-    document.getElementById('numCheck').onclick=()=>{
-      const v=document.getElementById('numTypeInput').value.trim();
-      const ok=parseInt(v)===n;
-      const fb=document.getElementById('numFb');fb.className='feedback show '+(ok?'ok':'err');
-      if(ok){numGood++;addXP(10);fb.textContent=`Správně! "${ans}" = ${n} +10 xp`;}
-      else fb.textContent=`Špatně. "${ans}" = ${n}`;
-      numTotal++;document.getElementById('numGood').textContent=numGood;document.getElementById('numTotal').textContent=numTotal;
-    };
-  } else if(nmMode==='math'){
-    const a=Math.floor(Math.random()*20)+1,b=Math.floor(Math.random()*20)+1;
-    const ops=['+','-','×'];const op=ops[Math.floor(Math.random()*3)];
-    const res=op==='+'?a+b:op==='-'?a-b:a*b;
-    const expCz=CZ_NUMS[res]||(res+'');
-    document.getElementById('numLabel').textContent='Solve and type the result in Czech:';
-    document.getElementById('numBig').innerHTML=`<div class="num-big" style="font-size:42px">${a} ${op} ${b} = ?</div>`;
-    document.getElementById('numHint').textContent='Type the Czech word for the answer';
-    optsWrap.innerHTML=`<input class="text-input" id="numTypeInput" placeholder="czech word…" style="margin-bottom:10px">`;
-    document.getElementById('numCheck').style.display='inline-flex';
-    document.getElementById('numCheck').onclick=()=>{
-      const v=document.getElementById('numTypeInput').value.trim().toLowerCase();
-      const ok=v===expCz||v===res.toString();
-      const fb=document.getElementById('numFb');fb.className='feedback show '+(ok?'ok':'err');
-      if(ok){numGood++;addXP(10);fb.textContent=`Správně! ${a}${op}${b}=${res} → "${expCz}" +10 xp`;}
-      else fb.textContent=`Špatně. ${a}${op}${b}=${res} → Czech: "${expCz}"`;
-      numTotal++;document.getElementById('numGood').textContent=numGood;document.getElementById('numTotal').textContent=numTotal;
-    };
-  } else if(nmMode==='time'){
-    const h=Math.floor(Math.random()*12);const m=[0,15,30,45][Math.floor(Math.random()*4)];
-    let disp,hint;
-    if(m===0){disp=`${h}:00`;hint=`${HOURS_CZ[h]} hodin`;}
-    else if(m===30){disp=`${h}:30`;hint=`půl ${HOURS_CZ[(h+1)%13]||h+1}é`;}
-    else{disp=`${h}:${m<10?'0'+m:m}`;hint=`${CZ_NUMS[m]} minut po ${HOURS_CZ[h]}`;}
-    document.getElementById('numLabel').textContent='Say this time in Czech:';
-    document.getElementById('numBig').innerHTML=`<div class="num-big">${disp}</div>`;
-    document.getElementById('numHint').textContent=`Hint: ${hint}`;
-    document.getElementById('numAudio').style.display='inline-flex';
-    document.getElementById('numAudio').onclick=()=>speakText(hint,'cs-CZ');
-    optsWrap.innerHTML=`<input class="text-input" id="numTypeInput" placeholder="e.g. sedm hodin…" style="margin-bottom:10px">`;
-    document.getElementById('numCheck').style.display='inline-flex';
-    document.getElementById('numCheck').onclick=()=>{
-      const v=document.getElementById('numTypeInput').value.trim().toLowerCase();
-      const ok=v.includes(HOURS_CZ[h])||v.includes('půl');
-      const fb=document.getElementById('numFb');fb.className='feedback show '+(ok?'ok':'err');
-      if(ok){numGood++;addXP(10);fb.textContent=`Správně! One correct form: "${hint}" +10 xp`;}
-      else fb.textContent=`One correct form: "${hint}"`;
-      numTotal++;document.getElementById('numGood').textContent=numGood;document.getElementById('numTotal').textContent=numTotal;
-    };
-  } else if(nmMode==='date'){
-    const d=Math.floor(Math.random()*28)+1,m=Math.floor(Math.random()*12);
-    document.getElementById('numLabel').textContent='Say this date in Czech:';
-    document.getElementById('numBig').innerHTML=`<div class="num-big" style="font-size:40px">${d}. ${MONTHS_EN[m]}</div>`;
-    document.getElementById('numHint').textContent=`Month in Czech genitive: ${MONTHS_CZ[m]}`;
-    document.getElementById('numAudio').style.display='inline-flex';
-    document.getElementById('numAudio').onclick=()=>speakText(`${d}. ${MONTHS_CZ[m]}`,'cs-CZ');
-    optsWrap.innerHTML=`<input class="text-input" id="numTypeInput" placeholder="e.g. prvního ledna…" style="margin-bottom:10px">`;
-    document.getElementById('numCheck').style.display='inline-flex';
-    document.getElementById('numCheck').onclick=()=>{
-      const v=document.getElementById('numTypeInput').value.trim().toLowerCase();
-      const ok=v.includes(MONTHS_CZ[m]);
-      const fb=document.getElementById('numFb');fb.className='feedback show '+(ok?'ok':'err');
-      if(ok){numGood++;addXP(10);fb.textContent=`Správně! Month: "${MONTHS_CZ[m]}" ✓ +10 xp`;}
-      else fb.textContent=`Month should be: "${MONTHS_CZ[m]}" (genitive of ${MONTHS_EN[m]})`;
-      numTotal++;document.getElementById('numGood').textContent=numGood;document.getElementById('numTotal').textContent=numTotal;
-    };
-  }
-}
-document.getElementById('numSkip').addEventListener('click',renderNum);
-
-// ══════════════════════════════════════════════
-// CASES
-// ══════════════════════════════════════════════
-const CASE_COLORS={ACC:'#7a2a2a',GEN:'#5a4010',DAT:'#1e5a3a',LOC:'#0f4a5a',INS:'#4a3a7a',NOM:'#3a5a2a',VOC:'#5a2a5a'};
-const CASE_BG={ACC:'#200d0d',GEN:'#1a1005',DAT:'#0d2018',LOC:'#0d1520',INS:'#15102a',NOM:'#101a0d',VOC:'#1a0d1a'};
-
-function initCases(){
-  casePool=shuf([...CASE_DRILLS]);caseIdx=0;
-  ciPool=shuf([...CI_DRILLS]);ciIdx=0;
-  renderCaseDrill();renderCI();
-  document.getElementById('caseTabs').addEventListener('click',e=>{
-    const b=e.target.closest('.tab');if(!b)return;
-    const t=b.dataset.ct;
-    document.getElementById('cas-fill').style.display=t==='fill'?'block':'none';
-    document.getElementById('cas-identify').style.display=t==='identify'?'block':'none';
-    document.getElementById('cas-ref').style.display=t==='ref'?'block':'none';
-    document.querySelectorAll('#caseTabs .tab').forEach(x=>x.classList.toggle('on',x.dataset.ct===t));
-  });
-}
-
-function renderCaseDrill(){
-  if(caseIdx>=casePool.length){casePool=shuf([...CASE_DRILLS]);caseIdx=0;}
-  const q=casePool[caseIdx++];caseAns=false;
-  const c=q.caseName;
-  const badge=document.getElementById('caseBadge');
-  badge.textContent=c;
-  badge.style.background=CASE_BG[c];
-  badge.style.borderColor=CASE_COLORS[c];
-  badge.style.color=Object.keys(CASE_COLORS).includes(c)?'#ccc':'#999';
-  document.getElementById('caseQW').textContent='Question: '+q.question;
-  document.getElementById('casePrompt').textContent=q.prompt;
-  document.getElementById('caseFb').className='feedback';
-  document.getElementById('caseExplain').style.display='none';
-  document.getElementById('caseNext').className='btn-next';
-  const opts=shuf([...q.opts]);
-  const cont=document.getElementById('caseOpts');
-  cont.innerHTML=opts.map(o=>`<button class="opt" data-a="${esc(o)}">${o}</button>`).join('');
-  cont.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
-    if(caseAns)return;caseAns=true;caseTotal++;
-    const ok=b.dataset.a===q.correct;
-    b.classList.add(ok?'correct':'wrong');
-    if(!ok)cont.querySelectorAll('.opt').forEach(x=>{if(x.dataset.a===q.correct)x.classList.add('correct');});
-    const fb=document.getElementById('caseFb');
-    fb.className='feedback show '+(ok?'ok':'err');
-    fb.textContent=ok?`Správně! "${q.correct}" +15 xp`:`Špatně. Correct form: "${q.correct}"`;
-    const ex=document.getElementById('caseExplain');
-    ex.style.display='block';
-    ex.innerHTML=`<strong>Why this case?</strong> ${q.why}<br><br><strong>Rule:</strong> ${q.rule}`;
-    if(ok){caseGood++;addXP(15);}
-    document.getElementById('caseGood').textContent=caseGood;
-    document.getElementById('caseTotal').textContent=caseTotal;
-    document.getElementById('caseNext').className='btn-next show';
-  }));
-}
-document.getElementById('caseNext').addEventListener('click',renderCaseDrill);
-
-function renderCI(){
-  if(ciIdx>=ciPool.length){ciPool=shuf([...CI_DRILLS]);ciIdx=0;}
-  const q=ciPool[ciIdx++];ciAns=false;
-  document.getElementById('ciSentence').innerHTML=q.sentence;
-  document.getElementById('ciTrans').textContent='🇬🇧 '+q.trans;
-  document.getElementById('ciFb').className='feedback';
-  document.getElementById('ciExplain').style.display='none';
-  document.getElementById('ciNext').className='btn-next';
-  const caseNames={NOM:'Nominative',GEN:'Genitive',DAT:'Dative',ACC:'Accusative',VOC:'Vocative',LOC:'Locative',INS:'Instrumental'};
-  const opts=shuf([...q.opts]);
-  const c=document.getElementById('ciOpts');
-  c.innerHTML=opts.map(o=>`<button class="opt" data-a="${o}" style="font-size:12px">${o} — ${caseNames[o]}</button>`).join('');
-  c.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
-    if(ciAns)return;ciAns=true;ciTotal++;
-    const ok=b.dataset.a===q.correct;
-    b.classList.add(ok?'correct':'wrong');
-    if(!ok)c.querySelectorAll('.opt').forEach(x=>{if(x.dataset.a===q.correct)x.classList.add('correct');});
-    const fb=document.getElementById('ciFb');
-    fb.className='feedback show '+(ok?'ok':'err');
-    fb.textContent=ok?`Správně! It's ${q.correct} (${caseNames[q.correct]}) +15 xp`:`Špatně. It's ${q.correct} (${caseNames[q.correct]}).`;
-    const ex=document.getElementById('ciExplain');
-    ex.style.display='block';ex.textContent=q.explain;
-    if(ok){ciGood++;addXP(15);}
-    document.getElementById('ciGood').textContent=ciGood;
-    document.getElementById('ciTotal').textContent=ciTotal;
-    document.getElementById('ciNext').className='btn-next show';
-  }));
-}
-document.getElementById('ciNext').addEventListener('click',renderCI);
-
-// ══════════════════════════════════════════════
-// AI TUTOR
-// ══════════════════════════════════════════════
-function addMsg(role,text){
-  const chat=document.getElementById('chatMessages');
-  const div=document.createElement('div');
-  div.className='chat-msg '+role;
-  div.textContent=text;
-  // add audio button for AI messages
-  if(role==='ai'){
-    div.addEventListener('dblclick',()=>speakText(text,'cs-CZ'));
-    div.title='Double-tap to hear';
-  }
-  chat.appendChild(div);chat.scrollTop=chat.scrollHeight;
-  if(role==='ai')chatHistory.push({role:'assistant',content:text});
-}
-
-function initTutor(){
-  addMsg('ai','Ahoj! 👋 I\'m your Czech tutor. I\'ll help you reach B1 in 10 weeks.\n\nI can:\n• Correct your Czech sentences and explain why\n• Drill grammar cases with examples\n• Run conversation scenarios (café, doctor, hotel…)\n• Generate fill-in-the-gap exercises\n• Explain any Czech grammar question\n• Quiz you on vocabulary\n• Listen to your spoken Czech 🎤\n\nDouble-tap any of my messages to hear them.\nUse the 🎤 button to speak Czech and I\'ll correct you.\n\nCo chcete procvičovat dnes? (What shall we practise?)');
-}
-
-function normalizeCzechInput(text){
-  return (text||'').trim().replace(/\s+/g,' ');
-}
-
-function localTutorReply(rawText, topic){
-  const text = normalizeCzechInput(rawText);
-  const low = text.toLowerCase();
-  const known = AW.find(w => low.includes(w[0].toLowerCase()) || low.includes(w[1].toLowerCase()));
-
-  // Strong deterministic local tutor: works without API keys, servers, CORS, or Claude credits.
-  if(topic.includes('Correct') || / oprav|correct|check|správ|chyba|grammar|gramatika/i.test(low)){
-    let notes=[];
-    if(/mam\b/.test(low)) notes.push('Use Czech diacritics when possible: "mám", not "mam".');
-    if(/dobre\b/.test(low)) notes.push('Use "dobře" with ř: "Mám se dobře."');
-    if(/deku/i.test(low)) notes.push('Use "děkuji" or informal "díky".');
-    if(/cesk/i.test(low)) notes.push('Use "česky" for "in Czech".');
-    if(/jmenuji|jmenuju/.test(low) && !/se/.test(low)) notes.push('Remember the reflexive pronoun: "jmenuji se" / "jmenuju se".');
-    if(!notes.length) notes.push('I do not see an obvious beginner-level mistake. Try making the sentence a little longer and I can comment on word order and cases.');
-    return 'Skvěle — I can check this locally.\n\n' + notes.map(n=>'• '+n).join('\n') + '\n\nTry again with one full Czech sentence.';
-  }
-
-  if(topic.includes('case') || /case|cases|pád|pady|genitive|dative|accusative|locative|instrumental|nominative/i.test(low)){
-    const q = CASE_DRILLS[Math.floor(Math.random()*CASE_DRILLS.length)];
-    return `Pádový mini-drill:\n\n🇨🇿 ${q.prompt}\n\nChoose mentally: ${q.opts.join(' / ')}\n\nAnswer: ${q.correct}\nWhy: ${q.why}\nRule: ${q.rule}`;
-  }
-
-  if(topic.includes('gap') || /gap|fill|exercise|cvičení|dopln/i.test(low)){
-    const picks = shuf([...PHRASES]).slice(0,4);
-    return 'Fill the gaps:\n\n' + picks.map((p,i)=>`${i+1}. ${p.fill}`).join('\n') + '\n\nAnswers:\n' + picks.map((p,i)=>`${i+1}. ${p.blank} — ${p.en}`).join('\n');
-  }
-
-  if(topic.includes('Numbers') || /number|numbers|číslo|čísla|date|time|čas|datum/i.test(low)){
-    const keys=Object.keys(CZN).map(Number); const n=keys[Math.floor(Math.random()*keys.length)];
-    return `Number practice:\n\n${n} = 🇨🇿 ${CZN[n]}\n\nNow type another number, or go to the Numbers tab for interactive practice.`;
-  }
-
-  if(topic.includes('Introduce') || /name|jmenuj|odkud|from|introduce|představ/i.test(low)){
-    return 'Let’s practise introduction:\n\n🇨🇿 Jmenuji se Sirom.\n🇨🇿 Jsem z Rakouska.\n🇨🇿 Bydlím v Brně.\n🇨🇿 Učím se česky.\n\nYour turn: write 2–4 sentences about yourself.';
-  }
-
-  if(topic.includes('restaurant') || /food|restaurant|café|kava|káva|jídlo|pivo|čaj|order/i.test(low)){
-    return 'Restaurant scenario:\n\nA: Dobrý den, co si dáte?\nB: Dám si kávu a vodu, prosím.\nA: Ještě něco?\nB: Ne, děkuji. Kolik to stojí?\n\nNow answer as B and order something different.';
-  }
-
-  if(topic.includes('doctor') || /doctor|health|lékař|bolí|nemoc|zdrav/i.test(low)){
-    return 'Health scenario:\n\n🇨🇿 Bolí mě hlava. = My head hurts.\n🇨🇿 Mám teplotu. = I have a fever.\n🇨🇿 Potřebuji lékaře. = I need a doctor.\n\nTry one sentence: what hurts?';
-  }
-
-  if(topic.includes('directions') || /where|kde|direction|rovně|doleva|doprava|city|město/i.test(low)){
-    return 'Directions practice:\n\n🇨🇿 Kde je nádraží?\n🇨🇿 Jděte rovně a potom doprava.\n🇨🇿 Je to blízko.\n\nNow ask me where something is in Czech.';
-  }
-
-  if(known){
-    return `I recognised this useful word/phrase:\n\n🇨🇿 ${known[0]}\n🇬🇧 ${known[1]}\nUnit ${known[2]}\n\nMake one sentence with it, and I’ll correct it.`;
-  }
-
-  if(/does it work|work now|test|hello|hi/i.test(low)){
-    return 'Yes — the local tutor is working now. I received your message and I can answer without Claude API, without backend, and without credits. Try: “Correct my Czech: Mam se dobre, diky.”';
-  }
-
-  if(text.length>0){
-    return `Dobrá práce — I received:\n“${text}”\n\nThis tutor now runs locally, so it can give structured drills and beginner corrections without an API connection. For deeper AI corrections later, you’ll need a small backend/proxy with an API key.\n\nTry: “Correct my Czech: Mam se dobre, diky.”`;
-  }
-  return 'Write a Czech sentence, ask for a case drill, or choose a topic above.';
-}
-
-
-function isIOS(){
-  return /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-}
-function isAndroid(){ return /Android/i.test(navigator.userAgent); }
-
-async function copyText(text){
-  try{
-    await navigator.clipboard.writeText(text);
-    return true;
-  }catch(e){
-    const ta=document.createElement('textarea');
-    ta.value=text; ta.style.position='fixed'; ta.style.left='-9999px';
-    document.body.appendChild(ta); ta.focus(); ta.select();
-    let ok=false;
-    try{ ok=document.execCommand('copy'); }catch(_){ ok=false; }
-    ta.remove(); return ok;
-  }
-}
-
-function getExternalTutorPrompt(userText='', topic){
-  return `You are Daily Czech, a friendly Czech tutor for an adult learner aiming for B1.
-
-Topic: ${topic || 'Free conversation practice'}
-User input: ${userText || '(no input yet)'}
-
-Please do this:
-1. If the user wrote Czech, correct it gently.
-2. First mention what is already correct.
-3. Mark mistakes and give the corrected version.
-4. Explain the grammar shortly, especially Czech cases when relevant.
-5. Give 2–3 useful example sentences.
-6. Keep the answer concise and practical.
-7. Use Czech examples with English translations.`;
-}
-
-function updateTutorStatus(){
-  const mode=document.getElementById('tutorMode')?.value || 'offline';
-  const el=document.getElementById('tutorStatus');
-  if(!el)return;
-  if(mode==='external'){
-    el.innerHTML='<strong>External AI Assist:</strong> Daily Czech creates a high-quality tutor prompt. Paste it into ChatGPT, Gemini or DeepSeek. This is the free real-AI workaround for iPhone and Android.';
-  }else if(mode==='dictation'){
-    el.innerHTML='<strong>Device Dictation Mode:</strong> use your phone keyboard microphone to dictate Czech into the text field, then press Send. This is more reliable on iPhone than browser speech recognition.';
-  }else{
-    el.innerHTML='<strong>Smart Offline Tutor:</strong> works directly in the app on iPhone, Android and desktop. It is rule-based, not real AI, but good for corrections, drills and phrases.';
-  }
-}
-
-async function sendChat(){
-  const inp=document.getElementById('chatInput');
-  const text=inp.value.trim();if(!text)return;
-  inp.value='';
-  addMsg('user',text);
-  chatHistory.push({role:'user',content:text});
-  const topic=document.getElementById('tutorTopic').value;
-  const mode=document.getElementById('tutorMode')?.value || 'auto';
-
-  if(mode==='external'){
-    const prompt=getExternalTutorPrompt(text, topic);
-    const copied=await copyText(prompt);
-    addMsg('ai',(copied?'Copied. ':'Copy this prompt manually if clipboard is blocked. ')+'Paste it into ChatGPT, Gemini, DeepSeek or another free assistant.\n\nPrompt:\n'+prompt);
-    return;
-  }
-
-  const reply=localTutorReply(text, topic);
-  setTimeout(()=>{ addMsg('ai',reply); addXP(5); }, 120);
-}
-
-document.getElementById('chatSend').addEventListener('click',sendChat);
-document.getElementById('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat();});
-document.getElementById('tutorMode')?.addEventListener('change',updateTutorStatus);
-document.getElementById('tutorTopic')?.addEventListener('change',updateTutorStatus);
-
-
-document.getElementById('openChatGPT')?.addEventListener('click',()=>window.open('https://chatgpt.com/','_blank'));
-document.getElementById('openGemini')?.addEventListener('click',()=>window.open('https://gemini.google.com/','_blank'));
-document.getElementById('openDeepSeek')?.addEventListener('click',()=>window.open('https://chat.deepseek.com/','_blank'));
-
-document.getElementById('copyTutorPrompt')?.addEventListener('click',async()=>{
-  const txt=document.getElementById('chatInput')?.value || '';
-  const prompt=getExternalTutorPrompt(txt, document.getElementById('tutorTopic')?.value);
-  try{await navigator.clipboard.writeText(prompt); addMsg('ai','Copied. Paste this prompt into ChatGPT, Gemini, DeepSeek or another free AI assistant.');}
-  catch(e){addMsg('ai','Clipboard blocked. Here is the prompt:\n\n'+prompt);}
-});
-document.getElementById('speechHelp')?.addEventListener('click',()=>{
-  const msg = isIOS()
-    ? 'iPhone tip: direct browser speech recognition often does not work reliably. Tap the text field, use the iOS keyboard microphone, dictate your Czech, then press Send.'
-    : isAndroid()
-      ? 'Android tip: the 🎤 button usually works best in Chrome. You can also use the keyboard microphone if browser recognition fails.'
-      : 'Desktop tip: Chrome usually supports speech recognition. Safari/Firefox may be limited. You can always type or use system dictation.';
-  addMsg('ai', msg);
-});
-
-// MIC BUTTON
-let micRec=null;
-document.getElementById('chatMic').addEventListener('click',()=>{
-  const btn=document.getElementById('chatMic');
-  if(micRec){micRec.stop();micRec=null;btn.classList.remove('listening');btn.textContent='🎤 Speak';return;}
-  btn.classList.add('listening');btn.textContent='🔴 Listening…';
-  micRec=startListening(result=>{
-    btn.classList.remove('listening');btn.textContent='🎤 Speak';micRec=null;
-    if(result && typeof result === 'object' && result.error){
-      if(typeof addMsg === 'function') addMsg('ai', result.error);
-      else alert(result.error);
-      return;
-    }
-    if(result){document.getElementById('chatInput').value=result;sendChat();}
-  });
-  if(!micRec){btn.classList.remove('listening');btn.textContent='🎤 Speak';}
-});
-
-// ══════════════════════════════════════════════
-// ROADMAP
-// ══════════════════════════════════════════════
-const RM=[
-  {wk:1,topic:'Unit 1 — O sobě',tasks:['Alphabet & pronunciation','Greetings','Numbers 1–20','50 core words'],done:true},
-  {wk:2,topic:'Unit 2 — Rodina a známí',tasks:['Family vocab (50 w)','Noun genders','Possessives','Describe your family'],cur:true},
-  {wk:3,topic:'Unit 3 — Jídlo a pití',tasks:['Food & drink (50 w)','Accusative case','Restaurant ordering','Pay & tip']},
-  {wk:4,topic:'Unit 4 — Počasí a oblečení',tasks:['Weather (50 w)','Clothing vocab','Adjective agreement','Small talk']},
-  {wk:5,topic:'Unit 5 — Zdraví',tasks:['Health vocab (50 w)','Modal verbs','At the doctor','Numbers in context']},
-  {wk:6,topic:'Unit 6 — Sport a koníčky',tasks:['Hobbies (50 w)','Present tense','Frequency adverbs','Likes & dislikes']},
-  {wk:7,topic:'Unit 7 — Denní program',tasks:['Daily life (50 w)','Telling the time','Days & months','Locative case']},
-  {wk:8,topic:'Unit 8 — Studium a město',tasks:['City vocab (50 w)','Dative case','Asking directions','Transport']},
-  {wk:9,topic:'Unit 9 — Svátky a oslavy',tasks:['Celebrations (50 w)','Past tense intro','Genitive case','Czech traditions']},
-  {wk:10,topic:'Unit 10 — Cestování',tasks:['Travel vocab (50 w)','Future tense','B1 mock exam','Oral exam practice']},
-];
-function renderRoadmap(){
-  document.getElementById('roadmapWeeks').innerHTML=RM.map(w=>`
-    <div class="rmap-week">
-      <div class="rmap-header">
-        <div class="rmap-num ${w.done?'done':w.cur?'cur':''}">${w.done?'✓':w.wk}</div>
-        <strong style="color:${w.done?'#6dcc9a':w.cur?'var(--white)':'var(--grey-400)'}">Week ${w.wk}</strong>
-        <span style="color:var(--grey-500);font-size:12px">— ${w.topic}</span>
-      </div>
-      <div class="rmap-tasks">${w.tasks.map((t,i)=>`<span class="rmap-chip ${w.done?'done':w.cur&&i===0?'active':''}">${t}</span>`).join('')}</div>
-    </div>`).join('');
-}
-
-// ══════════════════════════════════════════════
-// XP / HOME
-// ══════════════════════════════════════════════
-function addXP(n){
-  xp+=n;
-  document.getElementById('hXP').textContent=xp;
-  document.getElementById('xpFill').style.width=Math.min(100,Math.round(xp/1000*100))+'%';
-}
-
-function updateHome(){
-  const acc=scoreTotal>0?Math.round(scoreGood/scoreTotal*100)+'%':'—';
-  document.getElementById('hSeen').textContent=scoreTotal;
-  document.getElementById('hAcc').textContent=acc;
-  document.getElementById('hBest').textContent=bestStreak;
-  document.getElementById('hSeen2').textContent=Math.min(seenWords.size,500);
-  const pct=Math.round(seenWords.size/500*100);
-  document.getElementById('hProgBar').style.width=pct+'%';
-}
-
-document.querySelectorAll('input[type=checkbox]').forEach(cb=>cb.addEventListener('change',()=>{
-  if(document.querySelectorAll('input:checked').length===4)addXP(70);
-}));
-
-// ══════════════════════════════════════════════
-// UTILS
-// ══════════════════════════════════════════════
-function shuf(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-function esc(s){return(s||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
-
-
-
-// THEME TOGGLE — light bulb on/off
-(function(){
-  const btn = document.getElementById('themeToggle');
-  if(!btn) return;
-  const saved = localStorage.getItem('dailyCzechThemeV3') || 'light';
-  const apply = (mode) => {
-    document.body.classList.toggle('light-mode', mode === 'light');
-    const meta = document.querySelector('meta[name="theme-color"]');
-    if(meta) meta.setAttribute('content', mode === 'light' ? '#f6f5f2' : '#0a0a0a');
-    btn.textContent = mode === 'light' ? '💡' : '◐';
-    btn.setAttribute('aria-label', mode === 'light' ? 'Switch to dark mode' : 'Switch to bright mode');
-    btn.setAttribute('title', mode === 'light' ? 'Bright mode on' : 'Night mode');
-  };
-  apply(saved);
-  btn.addEventListener('click', () => {
-    const next = document.body.classList.contains('light-mode') ? 'dark' : 'light';
-    localStorage.setItem('dailyCzechThemeV3', next);
-    apply(next);
-  });
-})();
-
-// DAILY CZECH UI POLISH — dynamic daily hero phrase
-(function initDailyHero(){
-  const heroCz = document.getElementById('heroCz');
-  const heroEn = document.getElementById('heroEn');
-  const listen = document.getElementById('hListenBtn');
-  if (!heroCz || !heroEn || !Array.isArray(PHRASES) || !PHRASES.length) return;
-  const dayKey = Math.floor(Date.now() / 86400000);
-  const p = PHRASES[dayKey % PHRASES.length];
-  heroCz.textContent = p.cz;
-  heroEn.textContent = p.en;
-  if (listen) listen.onclick = () => speakText(p.cz, 'cs-CZ');
-})();
-</script>
-
-<!-- ══ RESOURCES ══ -->
-<div id="sc-resources" class="screen">
-  <div class="card">
-    <div class="section-label">Integrated Czech Learning Resources</div>
-    <div class="info-grid">
-
-      <a class="info-link" href="https://www.mozaika.eu/category/cestina-online-zdarma/" target="_blank">
-        <strong>Mozaika Czech Online</strong>
-        <span>Professional Czech exercises, grammar and beginner learning material.</span>
-      </a>
-
-      <a class="info-link" href="https://www.mozaika.eu/lehrmaterialien-zum-download/" target="_blank">
-        <strong>Mozaika Downloads</strong>
-        <span>Printable PDFs, grammar tables, exercises and Czech worksheets.</span>
-      </a>
-
-      <a class="info-link" href="https://www.czechstepbystep.cz/en/cestina-on-line" target="_blank">
-        <strong>Czech Step by Step</strong>
-        <span>Structured Czech learning platform with online exercises.</span>
-      </a>
-
-      <a class="info-link" href="https://www.studyczech.cz/materials-for-learning-czech/" target="_blank">
-        <strong>Study Czech</strong>
-        <span>Official Czech language learning resources and study material.</span>
-      </a>
-
-      <a class="info-link" href="https://realityczech.org" target="_blank">
-        <strong>Reality Czech</strong>
-        <span>Immersive Czech learning videos and practical language examples.</span>
-      </a>
-
-      <a class="info-link" href="https://slowczech.com" target="_blank">
-        <strong>Slow Czech</strong>
-        <span>Podcast-based natural Czech listening practice.</span>
-      </a>
-
-      <a class="info-link" href="https://slovnik.seznam.cz" target="_blank">
-        <strong>Seznam Slovník</strong>
-        <span>Fast Czech-English online dictionary.</span>
-      </a>
-
-      <a class="info-link" href="https://glosbe.com/cs/en" target="_blank">
-        <strong>Glosbe</strong>
-        <span>Contextual sentence translations and phrase examples.</span>
-      </a>
-
-      <a class="info-link" href="https://www.wordreference.com/encz/" target="_blank">
-        <strong>WordReference</strong>
-        <span>Vocabulary, forum discussions and grammar context.</span>
-      </a>
-
-      <a class="info-link" href="https://prirucka.ujc.cas.cz" target="_blank">
-        <strong>Czech Language Institute</strong>
-        <span>Official Czech grammar and spelling reference.</span>
-      </a>
-
-      <a class="info-link" href="https://www.nechybujte.cz" target="_blank">
-        <strong>Nechybujte</strong>
-        <span>Czech spelling and grammar correctness checker.</span>
-      </a>
-
-      <a class="info-link" href="https://www.memrise.com" target="_blank">
-        <strong>Memrise</strong>
-        <span>Vocabulary memorization and spaced repetition learning.</span>
-      </a>
-
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="section-label">Impressum</div>
-    <div style="line-height:1.8;font-size:14px;color:var(--grey-300)">
-      <strong>Daily Czech v12</strong><br><br>
-      Creator: Sirom Cazzolli<br>
-      Contact: sirom.cazzolli@email.com<br><br>
-      Educational resource references integrated from public Czech learning platforms and language institutes.
-    </div>
-  </div>
-
-<button class="nav-item" onclick="showScreen('resources')">
-  <div class="nav-icon">◎</div>
-  <div class="nav-label">Resources</div>
-</button>
-
+vocabContainer.innerHTML = filtered.map(item => `
+<div class="vocab-row" onclick="speak('${item[0]}')">
+<div class="vocab-cz">${item[0]}</div>
+<div class="vocab-en">${item[1]}</div>
 </div>
+`).join('');
+}
+
+renderVocabulary();
+
+searchInput.addEventListener('input', renderVocabulary);
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+btn.addEventListener('click',()=>{
+
+document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+
+currentTab = btn.dataset.tab;
+
+renderVocabulary();
+
+});
+});
+
+document.querySelectorAll('.nav-item').forEach(item=>{
+
+item.addEventListener('click',()=>{
+
+document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
+item.classList.add('active');
+
+document.querySelectorAll('.screen').forEach(screen=>{
+screen.classList.remove('active');
+});
+
+document.getElementById(item.dataset.screen).classList.add('active');
+
+});
+
+});
+
+const themeBtn = document.getElementById('themeBtn');
+
+function setTheme(mode){
+document.documentElement.setAttribute('data-theme', mode);
+localStorage.setItem('daily-czech-theme', mode);
+themeBtn.textContent = mode === 'dark' ? '🌙' : '💡';
+}
+
+const savedTheme = localStorage.getItem('daily-czech-theme') || 'light';
+setTheme(savedTheme);
+
+themeBtn.addEventListener('click',()=>{
+
+const current = document.documentElement.getAttribute('data-theme');
+
+setTheme(current === 'dark' ? 'light' : 'dark');
+
+});
+
+</script>
 
 </body>
 </html>
