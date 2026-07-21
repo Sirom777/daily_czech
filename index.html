@@ -215,6 +215,39 @@ input,select,textarea{font-family:var(--f)}
 .gh-box code{background:rgba(0,0,0,.08);padding:1px 6px;border-radius:4px;font-size:11px;font-family:monospace;color:var(--dark)}
 .gh-box strong{color:var(--dark)}
 
+
+/* ── Daily Use tab ── */
+.du-section{margin-bottom:18px}
+.du-section-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin-bottom:10px;padding:0 2px}
+.du-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:4px}
+.du-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.du-cell{padding:11px 10px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);text-align:center;cursor:pointer;transition:all .13s}
+.du-cell:hover{border-color:var(--dark);transform:translateY(-1px)}
+.du-cell:active{transform:scale(.97)}
+.du-cz{font-size:15px;font-weight:700;color:var(--black);line-height:1.2;margin-bottom:3px}
+.du-en{font-size:11px;color:var(--mid)}
+.du-cell.q .du-cz{color:#c0155a}
+.du-cell.some .du-cz{color:#1a6b9e}
+.du-cell.no .du-cz{color:var(--ok)}
+.du-cell.neg .du-cz{color:var(--err)}
+/* pattern table */
+.pat-tbl{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+.pat-tbl th{padding:7px 10px;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--soft);border-bottom:2px solid var(--line);text-align:center}
+.pat-tbl td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:center;line-height:1.35}
+.pat-tbl tr:last-child td{border-bottom:none}
+.pat-tbl .cz-q{font-weight:700;color:#c0155a;font-size:15px}
+.pat-tbl .cz-s{font-weight:700;color:#1a6b9e;font-size:15px}
+.pat-tbl .cz-n{font-weight:700;color:var(--ok);font-size:15px}
+.pat-tbl .en{font-size:11px;color:var(--mid);display:block;margin-top:2px}
+/* useful phrases rows */
+.up-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .12s}
+.up-row:last-child{border-bottom:none}
+.up-row:hover{background:var(--bg)}
+.up-cz{font-size:14px;font-weight:600;flex:1;color:var(--black)}
+.up-en{font-size:12px;color:var(--mid);text-align:right;flex-shrink:0;max-width:45%}
+/* grammar additions */
+.gram-new{border-left:3px solid #c0155a;border-radius:0 var(--r) var(--r) 0}
+
 /* phrases extra */
 .ph-card{padding:22px 20px 20px}
 .ph-q{font-size:20px;font-weight:600;letter-spacing:-.02em;line-height:1.35;margin-bottom:6px;color:var(--black)}
@@ -240,6 +273,7 @@ input,select,textarea{font-family:var(--f)}
     <button class="sb-item"    data-s="sentences"  onclick="go('sentences')"><svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg> Sentences</button>
     <button class="sb-item"    data-s="convo"      onclick="go('convo')"><svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg> Conversation</button>
     <button class="sb-item"    data-s="vocab"      onclick="go('vocab')"><svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> Vocabulary</button>
+    <button class="sb-item"    data-s="daily"      onclick="go('daily')"><svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Daily Use</button>
     <button class="sb-item"    data-s="grammar"    onclick="go('grammar')"><svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg> Grammar</button>
   </nav>
   <div class="sb-foot">&copy; 2025 Daily Czech</div>
@@ -298,6 +332,60 @@ input,select,textarea{font-family:var(--f)}
   <div class="btn-row">
     <button class="btn-o" style="flex:1" onclick="go('phrases')">&#128172; Phrases</button>
     <button class="btn-o" style="flex:1" onclick="go('convo')">&#128101; Conversation</button>
+  </div>
+</div>
+</div>
+
+<!-- DAILY USE -->
+<div id="sc-daily" class="sc">
+<div class="pg-title">Daily Use</div>
+<div class="pg-sub">Essential Czech for real life — tap any phrase to hear it</div>
+<div class="pg" style="padding-top:0">
+
+  <!-- Section filter pills -->
+  <div class="vf-bar" id="du-tabs" style="margin-bottom:16px"></div>
+
+  <!-- KDO/NĚKDO/NIKDO pattern -->
+  <div class="du-section" data-sec="pattern">
+    <div class="du-section-title">Question → NĚ- (some-) → NI- (no-) &nbsp;<span style="font-size:10px;color:var(--warn)">⚠ NI- needs negative verb</span></div>
+    <div class="card" style="padding:12px 14px 10px;overflow-x:auto">
+      <table class="pat-tbl">
+        <tr>
+          <th style="text-align:left;color:#c0155a">Question</th>
+          <th style="color:#1a6b9e">NĚ- some-</th>
+          <th style="color:var(--ok)">NI- no-</th>
+        </tr>
+        <tbody id="du-kdokde"></tbody>
+      </table>
+      <div style="font-size:11px;color:var(--warn);padding:6px 2px 2px"><strong>Nikdo nepřišel.</strong> Nobody came. &nbsp;|&nbsp; <strong>Nic nevím.</strong> I know nothing.</div>
+    </div>
+  </div>
+
+  <!-- Dynamic sections — rendered by JS -->
+  <div id="du-greetings"   class="cf du-section" data-sec="greetings"></div>
+  <div id="du-intro"       class="cf du-section" data-sec="intro"></div>
+  <div id="du-language"    class="cf du-section" data-sec="language"></div>
+  <div id="du-shopping"    class="cf du-section" data-sec="shopping"></div>
+  <div id="du-food"        class="cf du-section" data-sec="food"></div>
+  <div id="du-transport"   class="cf du-section" data-sec="transport"></div>
+  <div id="du-health"      class="cf du-section" data-sec="health"></div>
+  <div id="du-housing"     class="cf du-section" data-sec="housing"></div>
+  <div id="du-social"      class="cf du-section" data-sec="social"></div>
+  <div id="du-phone"       class="cf du-section" data-sec="phone"></div>
+  <div id="du-weather"     class="cf du-section" data-sec="weather"></div>
+  <div id="du-work"        class="cf du-section" data-sec="work"></div>
+  <div id="du-feelings"    class="cf du-section" data-sec="feelings"></div>
+
+  <!-- Days, Months, Time, Numbers in context -->
+  <div class="du-section" data-sec="time">
+    <div class="du-section-title">Days of the week</div>
+    <div class="du-grid-2" id="du-days"></div>
+    <div class="du-section-title" style="margin-top:12px">Months</div>
+    <div class="du-grid" id="du-months"></div>
+    <div class="du-section-title" style="margin-top:12px">Time expressions</div>
+    <div class="cf" id="du-time"></div>
+    <div class="du-section-title" style="margin-top:12px">Quantities &amp; approximations</div>
+    <div class="cf" id="du-numctx"></div>
   </div>
 </div>
 </div>
@@ -496,8 +584,11 @@ input,select,textarea{font-family:var(--f)}
     <button class="gt"    data-g="past"      onclick="showG('past')">Past</button>
     <button class="gt"    data-g="future"    onclick="showG('future')">Future</button>
     <button class="gt"    data-g="questions" onclick="showG('questions')">Questions</button>
+    <button class="gt"    data-g="negation"  onclick="showG('negation')">Negation</button>
     <button class="gt"    data-g="numbers"   onclick="showG('numbers')">Numbers</button>
     <button class="gt"    data-g="cases"     onclick="showG('cases')">Cases</button>
+    <button class="gt"    data-g="prepositions" onclick="showG('prepositions')">Prepositions</button>
+    <button class="gt"    data-g="adjectives"   onclick="showG('adjectives')">Adjectives</button>
   </div>
 
   <div class="gsec on" id="g-basics">
@@ -529,6 +620,108 @@ input,select,textarea{font-family:var(--f)}
   <div class="gsec" id="g-cases">
     <div class="card gc"><div class="gt-title">The 7 Czech cases</div><div class="gt-body"><table class="gt-tbl"><tr><th>#</th><th>Case</th><th>Question</th><th>Use</th></tr><tr><td>1</td><td><strong>Nominative</strong></td><td class="cz">Kdo? Co?</td><td>Subject</td></tr><tr><td>2</td><td><strong>Genitive</strong></td><td class="cz">Koho? Čeho?</td><td>Possession; after bez, od, z, do</td></tr><tr><td>3</td><td><strong>Dative</strong></td><td class="cz">Komu? Čemu?</td><td>Indirect object; after k/ke</td></tr><tr><td>4</td><td><strong>Accusative</strong></td><td class="cz">Koho? Co?</td><td>Direct object; after na, pro</td></tr><tr><td>5</td><td><strong>Vocative</strong></td><td>—</td><td>Addressing: "Petře!", "Mami!"</td></tr><tr><td>6</td><td><strong>Locative</strong></td><td class="cz">O kom? O čem?</td><td>Location; after v, na, o, při</td></tr><tr><td>7</td><td><strong>Instrumental</strong></td><td class="cz">S kým? S čím?</td><td>Means/company; after s, za, pod</td></tr></table></div></div>
     <div class="card gc"><div class="gt-title">Examples</div><div class="gt-body"><div class="ex"><strong>NOM:</strong> Muž jde domů.<br><strong>GEN:</strong> Jsem bez peněz.<br><strong>DAT:</strong> Dám to mamce.<br><strong>ACC:</strong> Vidím psa.<br><strong>VOC:</strong> Ahoj, Jano!<br><strong>LOC:</strong> Bydlím v Praze.<br><strong>INS:</strong> Jedu autobusem.</div></div></div>
+
+  <div class="gsec" id="g-negation">
+    <div class="card gc"><div class="gt-title">Ne- prefix (negation)</div><div class="gt-body">
+      Add <strong>ne-</strong> to any verb to negate it. It is always one word with the verb.<br><br>
+      <table class="gt-tbl"><tr><th>Positive</th><th>Negative</th><th>English</th></tr>
+      <tr><td class="cz">jsem</td><td class="cz">nejsem</td><td>I am / I am not</td></tr>
+      <tr><td class="cz">mám</td><td class="cz">nemám</td><td>I have / I do not have</td></tr>
+      <tr><td class="cz">mluvím</td><td class="cz">nemluvím</td><td>I speak / I do not speak</td></tr>
+      <tr><td class="cz">vím</td><td class="cz">nevím</td><td>I know / I do not know</td></tr>
+      <tr><td class="cz">rozumím</td><td class="cz">nerozumím</td><td>I understand / I do not understand</td></tr>
+      <tr><td class="cz">vidím</td><td class="cz">nevidím</td><td>I see / I do not see</td></tr>
+      <tr><td class="cz">chci</td><td class="cz">nechci</td><td>I want / I do not want</td></tr>
+      <tr><td class="cz">líbí se mi</td><td class="cz">nelíbí se mi</td><td>I like / I do not like</td></tr>
+      </table>
+      <div class="ex"><strong>Nerozumím česky.</strong> — I do not understand Czech.<br>
+      <strong>Nemám čas.</strong> — I do not have time.<br>
+      <strong>To není pravda.</strong> — That is not true.</div>
+    </div></div>
+    <div class="card gc"><div class="gt-title">NI- words (nobody, nothing, never…)</div><div class="gt-body">
+      Czech uses <strong>double negation</strong> — the verb must also be negative.<br><br>
+      <table class="gt-tbl"><tr><th>Question</th><th>Some-</th><th>No-</th><th>English (no-)</th></tr>
+      <tr><td class="cz">kdo</td><td class="cz">někdo</td><td class="cz">nikdo</td><td>nobody</td></tr>
+      <tr><td class="cz">co</td><td class="cz">něco</td><td class="cz">nic</td><td>nothing</td></tr>
+      <tr><td class="cz">kde</td><td class="cz">někde</td><td class="cz">nikde</td><td>nowhere</td></tr>
+      <tr><td class="cz">kam</td><td class="cz">někam</td><td class="cz">nikam</td><td>nowhere (to)</td></tr>
+      <tr><td class="cz">kdy</td><td class="cz">někdy</td><td class="cz">nikdy</td><td>never</td></tr>
+      <tr><td class="cz">jak</td><td class="cz">nějak</td><td class="cz">nijak</td><td>no way / not at all</td></tr>
+      </table>
+      <div class="ex"><strong>Nikdo nepřišel.</strong> — Nobody came. (double neg!)<br>
+      <strong>Nic nevím.</strong> — I know nothing.<br>
+      <strong>Nikdy nezapomenu.</strong> — I will never forget.</div>
+    </div></div>
+  </div>
+
+  <div class="gsec" id="g-prepositions">
+    <div class="card gc"><div class="gt-title">Key prepositions + cases</div><div class="gt-body">
+      Every preposition in Czech requires a specific case.<br><br>
+      <table class="gt-tbl"><tr><th>Preposition</th><th>Case</th><th>Meaning</th><th>Example</th></tr>
+      <tr><td class="cz">v / ve</td><td>Locative</td><td>in, at</td><td class="cz">v Praze, ve škole</td></tr>
+      <tr><td class="cz">na</td><td>Locative</td><td>on, at (location)</td><td class="cz">na stole, na nádraží</td></tr>
+      <tr><td class="cz">na</td><td>Accusative</td><td>onto, for (direction)</td><td class="cz">na kávu, na víkend</td></tr>
+      <tr><td class="cz">do</td><td>Genitive</td><td>into, to</td><td class="cz">do Prahy, do školy</td></tr>
+      <tr><td class="cz">z / ze</td><td>Genitive</td><td>from, out of</td><td class="cz">z Německa, ze školy</td></tr>
+      <tr><td class="cz">od</td><td>Genitive</td><td>from (a person/time)</td><td class="cz">od kamaráda, od pondělí</td></tr>
+      <tr><td class="cz">bez</td><td>Genitive</td><td>without</td><td class="cz">bez mléka, bez peněz</td></tr>
+      <tr><td class="cz">pro</td><td>Accusative</td><td>for</td><td class="cz">pro tebe, pro mě</td></tr>
+      <tr><td class="cz">s / se</td><td>Instrumental</td><td>with</td><td class="cz">s přítelem, se sestrou</td></tr>
+      <tr><td class="cz">k / ke</td><td>Dative</td><td>to, towards</td><td class="cz">k doktorovi, ke škole</td></tr>
+      <tr><td class="cz">o</td><td>Locative</td><td>about</td><td class="cz">o čem mluvíš?</td></tr>
+      <tr><td class="cz">před</td><td>Instrumental</td><td>in front of, before</td><td class="cz">před domem, před hodinou</td></tr>
+      <tr><td class="cz">po</td><td>Locative</td><td>after, around</td><td class="cz">po obědě, po městě</td></tr>
+      </table>
+    </div></div>
+    <div class="card gc"><div class="gt-title">Location vs direction</div><div class="gt-body">
+      This is one of the most important patterns in Czech:<br><br>
+      <table class="gt-tbl"><tr><th></th><th>Location (where?)</th><th>Direction (where to?)</th></tr>
+      <tr><td><strong>v/na + …</strong></td><td class="cz">v Praze (LOC)</td><td class="cz">do Prahy (GEN)</td></tr>
+      <tr><td><strong>doma</strong></td><td class="cz">Jsem doma.</td><td class="cz">Jdu domů.</td></tr>
+      <tr><td><strong>škola</strong></td><td class="cz">ve škole</td><td class="cz">do školy</td></tr>
+      <tr><td><strong>obchod</strong></td><td class="cz">v obchodě</td><td class="cz">do obchodu</td></tr>
+      </table>
+      <div class="ex"><strong>Kde jsi?</strong> — Jsem v kavárně. (I am in the café.)<br>
+      <strong>Kam jdeš?</strong> — Jdu do kavárny. (I am going to the café.)</div>
+    </div></div>
+  </div>
+
+  <div class="gsec" id="g-adjectives">
+    <div class="card gc"><div class="gt-title">Adjective agreement</div><div class="gt-body">
+      Adjectives must agree with the noun in <strong>gender, number and case</strong>. Nominative singular endings:<br><br>
+      <table class="gt-tbl"><tr><th>Gender</th><th>Ending</th><th>Example</th><th>English</th></tr>
+      <tr><td>Masculine</td><td class="cz">-ý / -í</td><td class="cz">dobrý muž</td><td>a good man</td></tr>
+      <tr><td>Feminine</td><td class="cz">-á / -í</td><td class="cz">dobrá žena</td><td>a good woman</td></tr>
+      <tr><td>Neuter</td><td class="cz">-é / -í</td><td class="cz">dobré město</td><td>a good city</td></tr>
+      </table>
+      <br><strong>Hard adjectives</strong> (most common): dobrý/dobrá/dobré<br>
+      <strong>Soft adjectives</strong> (end in -í for all genders): moderní muž / moderní žena / moderní město<br><br>
+      <div class="ex">
+        <strong>Mluvím s hezkým mužem.</strong> — I am talking with a handsome man. (INS)<br>
+        <strong>Vidím hezkou ženu.</strong> — I see a beautiful woman. (ACC)<br>
+        <strong>To je zajímavé město.</strong> — That is an interesting city.
+      </div>
+    </div></div>
+    <div class="card gc"><div class="gt-title">Common adjectives</div><div class="gt-body">
+      <table class="gt-tbl"><tr><th>Czech (m/f/n)</th><th>English</th></tr>
+      <tr><td class="cz">velký / velká / velké</td><td>big, large</td></tr>
+      <tr><td class="cz">malý / malá / malé</td><td>small, little</td></tr>
+      <tr><td class="cz">dobrý / dobrá / dobré</td><td>good</td></tr>
+      <tr><td class="cz">špatný / špatná / špatné</td><td>bad, wrong</td></tr>
+      <tr><td class="cz">nový / nová / nové</td><td>new</td></tr>
+      <tr><td class="cz">starý / stará / staré</td><td>old</td></tr>
+      <tr><td class="cz">hezký / hezká / hezké</td><td>pretty, nice</td></tr>
+      <tr><td class="cz">mladý / mladá / mladé</td><td>young</td></tr>
+      <tr><td class="cz">krásný / krásná / krásné</td><td>beautiful</td></tr>
+      <tr><td class="cz">těžký / těžká / těžké</td><td>heavy, difficult</td></tr>
+      <tr><td class="cz">lehký / lehká / lehké</td><td>light, easy</td></tr>
+      <tr><td class="cz">rychlý / rychlá / rychlé</td><td>fast, quick</td></tr>
+      <tr><td class="cz">pomalý / pomalá / pomalé</td><td>slow</td></tr>
+      <tr><td class="cz">levný / levná / levné</td><td>cheap</td></tr>
+      <tr><td class="cz">drahý / drahá / drahé</td><td>expensive, dear</td></tr>
+      </table>
+    </div></div>
+  </div>
   </div>
 </div>
 </div>
@@ -541,6 +734,7 @@ input,select,textarea{font-family:var(--f)}
   <button class="ni"    id="ni-quiz"     onclick="go('quiz')"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Quiz</button>
   <button class="ni"    id="ni-phrases"  onclick="go('phrases')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Phrases</button>
   <button class="ni"    id="ni-vocab"    onclick="go('vocab')"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>Vocab</button>
+  <button class="ni"    id="ni-daily"    onclick="go('daily')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Daily</button>
   <button class="ni"    id="ni-grammar"  onclick="go('grammar')"><svg viewBox="0 0 24 24"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>Grammar</button>
 </nav>
 </div><!-- /main -->
@@ -3346,7 +3540,7 @@ function closePronGuide() { document.getElementById('pron-guide').classList.remo
 // ═══════════════════════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════════════════════
-const ALL_SCREENS = ['home','cards','quiz','phrases','sentences','convo','vocab','grammar'];
+const ALL_SCREENS = ['home','cards','quiz','phrases','sentences','convo','vocab','grammar','daily'];
 
 function go(id) {
   ALL_SCREENS.forEach(s => {
@@ -3368,6 +3562,7 @@ function go(id) {
   if (id === 'sentences' && !_sbOk)  initSB();
   if (id === 'convo'     && !_cvOk)  initConv();
   if (id === 'vocab'     && !_vOk)   initVocab();
+  if (id === 'daily'     && !_duOk)  initDaily();
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -3815,6 +4010,477 @@ function showG(id) {
   document.getElementById('g-' + id).classList.add('on');
   document.querySelectorAll('.gt').forEach(b => b.classList.toggle('on', b.dataset.g === id));
 }
+
+
+// ═══════════════════════════════════════════════════════════
+// DAILY USE TAB
+// ═══════════════════════════════════════════════════════════
+let _duOk = false;
+
+const DU_SECTIONS = [
+  {
+    id: 'du-greetings',
+    title: 'Greetings & small talk',
+    items: [
+      {cz:'Dobrý den!',             en:'Good day! (formal, always safe)'},
+      {cz:'Ahoj!',                  en:'Hi! / Bye! (informal)'},
+      {cz:'Nazdar!',                en:'Hey! (very casual)'},
+      {cz:'Dobré ráno!',            en:'Good morning!'},
+      {cz:'Dobré odpoledne!',       en:'Good afternoon!'},
+      {cz:'Dobrý večer!',           en:'Good evening!'},
+      {cz:'Na shledanou!',          en:'Goodbye! (formal)'},
+      {cz:'Čau! / Ahoj!',           en:'Bye! (informal)'},
+      {cz:'Dobrou noc!',            en:'Good night!'},
+      {cz:'Jak se máš?',            en:'How are you? (informal)'},
+      {cz:'Jak se máte?',           en:'How are you? (formal)'},
+      {cz:'Mám se dobře, díky.',    en:'I am fine, thanks.'},
+      {cz:'Mám se skvěle!',         en:'I am great!'},
+      {cz:'Nic moc.',               en:'Not great. / So-so.'},
+      {cz:'Ujde to.',               en:'Could be worse. / It is OK.'},
+      {cz:'A ty?',                  en:'And you?'},
+      {cz:'Těší mě.',               en:'Nice to meet you.'},
+      {cz:'Rád/ráda tě poznávám.',  en:'Pleased to meet you. (m/f)'},
+      {cz:'Dlouho jsme se neviděli!',en:'Long time no see!'},
+      {cz:'Co je nového?',          en:'What is new?'},
+      {cz:'Nic zvláštního.',        en:'Nothing special.'},
+      {cz:'Tak zase příště!',       en:'See you next time!'},
+    ]
+  },
+  {
+    id: 'du-intro',
+    title: 'Introducing yourself',
+    items: [
+      {cz:'Jak se jmenuješ?',        en:'What is your name? (informal)'},
+      {cz:'Jak se jmenujete?',       en:'What is your name? (formal)'},
+      {cz:'Jmenuji se…',             en:'My name is…'},
+      {cz:'Jsem…',                   en:'I am…'},
+      {cz:'Odkud jsi?',              en:'Where are you from?'},
+      {cz:'Jsem z Německa.',         en:'I am from Germany.'},
+      {cz:'Jsem z Rakouska.',        en:'I am from Austria.'},
+      {cz:'Bydlím v Brně.',          en:'I live in Brno.'},
+      {cz:'Kolik ti je let?',        en:'How old are you? (informal)'},
+      {cz:'Je mi třicet let.',       en:'I am thirty years old.'},
+      {cz:'Čím se živíš?',           en:'What do you do for a living?'},
+      {cz:'Jsem… (podnikatel/učitel/student)', en:'I am a… (entrepreneur/teacher/student)'},
+      {cz:'Mluvím trochu česky.',    en:'I speak a little Czech.'},
+      {cz:'Učím se česky.',          en:'I am learning Czech.'},
+      {cz:'Moje čeština není moc dobrá.', en:'My Czech is not very good.'},
+      {cz:'Jsem tady na návštěvě.',  en:'I am here visiting.'},
+      {cz:'Přestěhoval/a jsem se sem.', en:'I moved here. (m/f)'},
+      {cz:'Mám tady přátele.',       en:'I have friends here.'},
+    ]
+  },
+  {
+    id: 'du-language',
+    title: 'When Czech gets hard',
+    items: [
+      {cz:'Nerozumím.',              en:'I do not understand.'},
+      {cz:'Nerozumím česky.',        en:'I do not understand Czech.'},
+      {cz:'Můžete to zopakovat?',    en:'Can you repeat that?'},
+      {cz:'Mluvte pomaleji, prosím.',en:'Please speak more slowly.'},
+      {cz:'Jak se to řekne česky?',  en:'How do you say that in Czech?'},
+      {cz:'Co to znamená?',          en:'What does that mean?'},
+      {cz:'Jak se to píše?',         en:'How do you spell / write that?'},
+      {cz:'Mluvíte anglicky?',       en:'Do you speak English?'},
+      {cz:'Mluvíte německy?',        en:'Do you speak German?'},
+      {cz:'Promiňte, nerozumím.',    en:'Sorry, I do not understand.'},
+      {cz:'Rozumím trochu.',         en:'I understand a little.'},
+      {cz:'Rozumím, ale neumím mluvit.', en:'I understand but cannot speak.'},
+      {cz:'Můžete to napsat?',       en:'Can you write that down?'},
+      {cz:'Prosím mluvte česky.',    en:'Please speak Czech (to me).'},
+      {cz:'Jak se to vyslovuje?',    en:'How do you pronounce that?'},
+      {cz:'To slovo neznám.',        en:'I do not know that word.'},
+    ]
+  },
+  {
+    id: 'du-shopping',
+    title: 'Shopping & money',
+    items: [
+      {cz:'Kolik to stojí?',         en:'How much does it cost?'},
+      {cz:'Kolik stojí…?',           en:'How much does… cost?'},
+      {cz:'To je moc drahé.',        en:'That is too expensive.'},
+      {cz:'Máte něco levnějšího?',   en:'Do you have something cheaper?'},
+      {cz:'Hledám…',                 en:'I am looking for…'},
+      {cz:'Máte to v jiné velikosti?',en:'Do you have it in a different size?'},
+      {cz:'Máte to v jiné barvě?',   en:'Do you have it in a different colour?'},
+      {cz:'Můžu si to vyzkoušet?',   en:'Can I try it on?'},
+      {cz:'Vezmu si to.',            en:'I will take it.'},
+      {cz:'Nechci to.',              en:'I do not want it.'},
+      {cz:'Mohu platit kartou?',     en:'Can I pay by card?'},
+      {cz:'Platím hotově.',          en:'I am paying cash.'},
+      {cz:'Máte drobné?',            en:'Do you have change?'},
+      {cz:'Účet, prosím.',           en:'The receipt / bill, please.'},
+      {cz:'Kde je pokladna?',        en:'Where is the checkout / cashier?'},
+      {cz:'Je to ve slevě?',         en:'Is it on sale / discounted?'},
+      {cz:'Otevřeno / Zavřeno',      en:'Open / Closed'},
+      {cz:'Otevírací doba',          en:'Opening hours'},
+      {cz:'Vrátit peníze',           en:'To get a refund'},
+    ]
+  },
+  {
+    id: 'du-food',
+    title: 'Food & restaurants',
+    items: [
+      {cz:'Stůl pro dva, prosím.',   en:'A table for two, please.'},
+      {cz:'Máte volný stůl?',        en:'Do you have a free table?'},
+      {cz:'Jídelní lístek, prosím.', en:'The menu, please.'},
+      {cz:'Co doporučujete?',        en:'What do you recommend?'},
+      {cz:'Dám si…',                 en:'I will have… (ordering)'},
+      {cz:'Pro mě to samé.',         en:'The same for me.'},
+      {cz:'Jsem vegetarián/ka.',     en:'I am vegetarian. (m/f)'},
+      {cz:'Jsem alergický/á na…',    en:'I am allergic to… (m/f)'},
+      {cz:'Bez masa, prosím.',       en:'Without meat, please.'},
+      {cz:'Je to pikantní?',         en:'Is it spicy?'},
+      {cz:'Dobrou chuť!',            en:'Enjoy your meal! (said to others)'},
+      {cz:'To bylo výborné!',        en:'That was excellent!'},
+      {cz:'Zaplatím.',               en:'I will pay.'},
+      {cz:'Dáme si to dohromady?',   en:'Shall we split the bill?'},
+      {cz:'Je obsluha zahrnuta?',    en:'Is service included?'},
+      {cz:'Sklenička vody, prosím.', en:'A glass of water, please.'},
+      {cz:'Ještě jedno pivo, prosím.',en:'One more beer, please.'},
+      {cz:'S sebou, prosím.',        en:'To go, please.'},
+      {cz:'Bez ledu.',               en:'Without ice.'},
+    ]
+  },
+  {
+    id: 'du-transport',
+    title: 'Getting around',
+    items: [
+      {cz:'Kde je…?',                en:'Where is…?'},
+      {cz:'Jak se dostanu na…?',     en:'How do I get to…?'},
+      {cz:'Je to daleko?',           en:'Is it far?'},
+      {cz:'Jdu pěšky.',              en:'I am going on foot.'},
+      {cz:'Jdu rovně.',              en:'I go straight ahead.'},
+      {cz:'Odbočte doleva / doprava.',en:'Turn left / right.'},
+      {cz:'Na křižovatce.',          en:'At the intersection.'},
+      {cz:'Kde je zastávka autobusu?',en:'Where is the bus stop?'},
+      {cz:'Kde je nejbližší metro?', en:'Where is the nearest metro?'},
+      {cz:'Kdy jede příští tramvaj?',en:'When does the next tram leave?'},
+      {cz:'Jízdenka na jednu jízdu.',en:'A single ticket.'},
+      {cz:'Kde si koupím jízdenku?', en:'Where can I buy a ticket?'},
+      {cz:'Tato jízdenka platí hodinu.',en:'This ticket is valid for one hour.'},
+      {cz:'Zastavte tady, prosím.',  en:'Stop here, please. (taxi)'},
+      {cz:'Na letiště, prosím.',     en:'To the airport, please.'},
+      {cz:'Vlak má zpoždění.',       en:'The train is delayed.'},
+      {cz:'Zmeškal jsem vlak.',      en:'I missed the train.'},
+      {cz:'Odkud odjíždí vlak do…?', en:'From where does the train to… depart?'},
+      {cz:'Na kterém nástupišti?',   en:'Which platform?'},
+    ]
+  },
+  {
+    id: 'du-health',
+    title: 'Health & emergencies',
+    items: [
+      {cz:'Pomozte mi!',             en:'Help me!'},
+      {cz:'Zavolejte záchranku!',    en:'Call an ambulance!'},
+      {cz:'Zavolejte policii!',      en:'Call the police!'},
+      {cz:'Je mi špatně.',           en:'I feel unwell / sick.'},
+      {cz:'Bolí mě…',               en:'My… hurts.'},
+      {cz:'Bolí mě hlava.',          en:'I have a headache.'},
+      {cz:'Bolí mě žaludek.',        en:'My stomach hurts.'},
+      {cz:'Mám horečku.',            en:'I have a fever.'},
+      {cz:'Jsem alergický/á na…',    en:'I am allergic to… (m/f)'},
+      {cz:'Potřebuji lékaře.',       en:'I need a doctor.'},
+      {cz:'Kde je lékárna?',         en:'Where is the pharmacy?'},
+      {cz:'Kde je nemocnice?',       en:'Where is the hospital?'},
+      {cz:'Mám pojištění.',          en:'I have insurance.'},
+      {cz:'Tady mě bolí.',           en:'It hurts here.'},
+      {cz:'Od kdy vás to bolí?',     en:'Since when has it been hurting?'},
+      {cz:'Dejte mi něco na bolest.',en:'Give me something for the pain.'},
+      {cz:'Jsem diabetik/diabetička.',en:'I am diabetic. (m/f)'},
+      {cz:'Beru léky na…',          en:'I take medication for…'},
+    ]
+  },
+  {
+    id: 'du-housing',
+    title: 'Housing & services',
+    items: [
+      {cz:'Hledám byt.',             en:'I am looking for an apartment.'},
+      {cz:'Pronajmu si pokoj.',      en:'I will rent a room.'},
+      {cz:'Kolik stojí nájem?',      en:'How much is the rent?'},
+      {cz:'Je to s energiemi?',      en:'Are utilities included?'},
+      {cz:'Kde je nejbližší supermarket?', en:'Where is the nearest supermarket?'},
+      {cz:'Potřebuji opravit…',      en:'I need to repair…'},
+      {cz:'Neteče mi horká voda.',   en:'I have no hot water.'},
+      {cz:'Je tu Wi-Fi?',            en:'Is there Wi-Fi here?'},
+      {cz:'Jaké je heslo?',          en:'What is the password?'},
+      {cz:'Kdy vyvážejí odpad?',     en:'When is the rubbish collected?'},
+      {cz:'Kde jsou schránky?',      en:'Where are the post boxes?'},
+      {cz:'Potřebuji nové klíče.',   en:'I need new keys.'},
+      {cz:'Kde je nejbližší banka?', en:'Where is the nearest bank?'},
+      {cz:'Potřebuji otevřít účet.', en:'I need to open an account.'},
+      {cz:'Kde si mohu zaregistrovat adresu?', en:'Where can I register my address?'},
+    ]
+  },
+  {
+    id: 'du-social',
+    title: 'Social & making friends',
+    items: [
+      {cz:'Máš chuť jít na…?',       en:'Do you feel like going to…?'},
+      {cz:'Chceš jít na pivo?',       en:'Do you want to go for a beer?'},
+      {cz:'Dáme si kafe?',            en:'Shall we grab a coffee?'},
+      {cz:'Jsem volný/á v pátek.',    en:'I am free on Friday. (m/f)'},
+      {cz:'Sejdeme se v sedm.',       en:'Let us meet at seven.'},
+      {cz:'Kde se sejdeme?',          en:'Where shall we meet?'},
+      {cz:'Trochu pozdím.',           en:'I am running a bit late.'},
+      {cz:'Jsem na cestě.',           en:'I am on my way.'},
+      {cz:'Počkej na mě.',            en:'Wait for me.'},
+      {cz:'To je skvělé!',            en:'That is great!'},
+      {cz:'To je škoda.',             en:'That is a pity.'},
+      {cz:'Fakt?!',                   en:'Really?! / No way!'},
+      {cz:'Super!',                   en:'Super! / Cool!'},
+      {cz:'Nevadí.',                  en:'Never mind.'},
+      {cz:'To mi nevadí.',            en:'That does not bother me.'},
+      {cz:'Záleží…',                 en:'It depends…'},
+      {cz:'Nemám náladu.',            en:'I am not in the mood.'},
+      {cz:'Jsem unavený/á.',          en:'I am tired. (m/f)'},
+      {cz:'Musím jít.',               en:'I have to go.'},
+      {cz:'Bylo to fajn!',            en:'That was nice / fun!'},
+      {cz:'Příští týden?',            en:'Next week?'},
+      {cz:'Dej mi vědět.',            en:'Let me know.'},
+      {cz:'Ozvu se ti.',              en:'I will get in touch.'},
+    ]
+  },
+  {
+    id: 'du-phone',
+    title: 'Phone, internet & admin',
+    items: [
+      {cz:'Můžu vás prosím volat?',   en:'May I call you?'},
+      {cz:'Jaké je vaše číslo?',      en:'What is your number?'},
+      {cz:'Pošlu vám zprávu.',        en:'I will send you a message.'},
+      {cz:'Neslyším vás.',            en:'I cannot hear you.'},
+      {cz:'Spojení je špatné.',       en:'The connection is bad.'},
+      {cz:'Zavolám vám zpátky.',      en:'I will call you back.'},
+      {cz:'Zanechte zprávu.',         en:'Leave a message.'},
+      {cz:'Je tu Wi-Fi?',             en:'Is there Wi-Fi?'},
+      {cz:'Jaké je heslo na Wi-Fi?',  en:'What is the Wi-Fi password?'},
+      {cz:'Potřebuji nabíječku.',     en:'I need a charger.'},
+      {cz:'Kde si koupím SIM kartu?', en:'Where can I buy a SIM card?'},
+      {cz:'Vytiskněte mi to, prosím.',en:'Please print this for me.'},
+      {cz:'Potřebuji podepsat smlouvu.', en:'I need to sign a contract.'},
+      {cz:'Kde je pošta?',            en:'Where is the post office?'},
+      {cz:'Chci poslat balíček.',     en:'I want to send a parcel.'},
+    ]
+  },
+  {
+    id: 'du-weather',
+    title: 'Weather',
+    items: [
+      {cz:'Jaké je počasí?',          en:'What is the weather like?'},
+      {cz:'Je hezky.',                en:'The weather is nice.'},
+      {cz:'Je ošklivě.',              en:'The weather is bad.'},
+      {cz:'Je teplo / zima.',         en:'It is warm / cold.'},
+      {cz:'Je horko.',                en:'It is hot.'},
+      {cz:'Je vedro!',                en:'It is really hot!'},
+      {cz:'Prší.',                    en:'It is raining.'},
+      {cz:'Sněží.',                   en:'It is snowing.'},
+      {cz:'Fouká vítr.',              en:'It is windy.'},
+      {cz:'Je zataženo.',             en:'It is cloudy.'},
+      {cz:'Je mlha.',                 en:'It is foggy.'},
+      {cz:'Svítí slunce.',            en:'The sun is shining.'},
+      {cz:'Bude pršet?',              en:'Will it rain?'},
+      {cz:'Vezmi si deštník.',        en:'Take an umbrella.'},
+      {cz:'Oblékni se teple.',        en:'Dress warmly.'},
+      {cz:'Zima je krutá letos.',     en:'The winter is harsh this year.'},
+    ]
+  },
+  {
+    id: 'du-work',
+    title: 'Work & business',
+    items: [
+      {cz:'Mám schůzku.',             en:'I have a meeting.'},
+      {cz:'Jsem na schůzce.',         en:'I am in a meeting.'},
+      {cz:'Mohu si domluvit schůzku?',en:'Can I make an appointment?'},
+      {cz:'Pracuji z domova.',        en:'I work from home.'},
+      {cz:'Jsem na home office.',     en:'I am working remotely.'},
+      {cz:'Posílám email.',           en:'I am sending an email.'},
+      {cz:'Potřebuji to do pátku.',   en:'I need it by Friday.'},
+      {cz:'Termín je…',              en:'The deadline is…'},
+      {cz:'Projekt jde dobře.',       en:'The project is going well.'},
+      {cz:'Máme problém.',            en:'We have a problem.'},
+      {cz:'Jak to vyřešíme?',         en:'How will we solve it?'},
+      {cz:'Souhlasím.',               en:'I agree.'},
+      {cz:'Nesouhlasím.',             en:'I disagree.'},
+      {cz:'Mám nápad.',               en:'I have an idea.'},
+      {cz:'Dám vám vědět.',           en:'I will let you know.'},
+      {cz:'Kde podepíšu?',            en:'Where do I sign?'},
+      {cz:'Potřebuji fakturu.',       en:'I need an invoice.'},
+      {cz:'DIČ / IČO',               en:'VAT number / Company ID (Czech tax IDs)'},
+    ]
+  },
+  {
+    id: 'du-feelings',
+    title: 'Feelings & opinions',
+    items: [
+      {cz:'Jsem šťastný/šťastná.',    en:'I am happy. (m/f)'},
+      {cz:'Jsem smutný/smutná.',      en:'I am sad. (m/f)'},
+      {cz:'Jsem nervózní.',           en:'I am nervous.'},
+      {cz:'Jsem naštvaný/á.',         en:'I am angry. (m/f)'},
+      {cz:'Jsem překvapený/á.',       en:'I am surprised. (m/f)'},
+      {cz:'Bojím se.',                en:'I am afraid.'},
+      {cz:'Stýská se mi po domě.',    en:'I am homesick.'},
+      {cz:'To mi vadí.',              en:'That bothers me.'},
+      {cz:'To mi nevadí.',            en:'That does not bother me.'},
+      {cz:'Líbí se mi to.',           en:'I like it.'},
+      {cz:'Nelíbí se mi to.',         en:'I do not like it.'},
+      {cz:'To je výborné.',           en:'That is excellent.'},
+      {cz:'To je hrozné.',            en:'That is terrible.'},
+      {cz:'Myslím si, že…',          en:'I think that…'},
+      {cz:'Podle mě…',               en:'In my opinion…'},
+      {cz:'Mám pocit, že…',          en:'I have the feeling that…'},
+      {cz:'Nejsem si jistý/á.',       en:'I am not sure. (m/f)'},
+      {cz:'To záleží na tobě.',       en:'That depends on you.'},
+    ]
+  },
+];
+
+const DU_KDOKDE = [
+  {q:'kdo',   qen:'who',          s:'někdo',   sen:'someone',    n:'nikdo',  nen:'nobody'},
+  {q:'co',    qen:'what',         s:'něco',    sen:'something',  n:'nic',    nen:'nothing'},
+  {q:'kde',   qen:'where (loc.)', s:'někde',   sen:'somewhere',  n:'nikde',  nen:'nowhere'},
+  {q:'kam',   qen:'where (to)',   s:'někam',   sen:'somewhere',  n:'nikam',  nen:'nowhere'},
+  {q:'kdy',   qen:'when',         s:'někdy',   sen:'sometimes',  n:'nikdy',  nen:'never'},
+  {q:'jak',   qen:'how',          s:'nějak',   sen:'somehow',    n:'nijak',  nen:'not at all'},
+  {q:'jaký',  qen:'what kind',    s:'nějaký',  sen:'some kind',  n:'žádný',  nen:'none/no'},
+  {q:'čí',    qen:'whose',        s:'něčí',    sen:'somebody\'s',n:'ničí',   nen:'nobody\'s'},
+];
+
+const DU_DAYS = [
+  {cz:'pondělí',en:'Monday'},{cz:'úterý',en:'Tuesday'},{cz:'středa',en:'Wednesday'},
+  {cz:'čtvrtek',en:'Thursday'},{cz:'pátek',en:'Friday'},{cz:'sobota',en:'Saturday'},{cz:'neděle',en:'Sunday'},
+];
+const DU_MONTHS = [
+  {cz:'leden',en:'January'},{cz:'únor',en:'February'},{cz:'březen',en:'March'},
+  {cz:'duben',en:'April'},{cz:'květen',en:'May'},{cz:'červen',en:'June'},
+  {cz:'červenec',en:'July'},{cz:'srpen',en:'August'},{cz:'září',en:'September'},
+  {cz:'říjen',en:'October'},{cz:'listopad',en:'November'},{cz:'prosinec',en:'December'},
+];
+const DU_TIME = [
+  {cz:'dnes',en:'today'},{cz:'zítra',en:'tomorrow'},{cz:'včera',en:'yesterday'},
+  {cz:'pozítří',en:'the day after tomorrow'},{cz:'předvčírem',en:'the day before yesterday'},
+  {cz:'teď',en:'now'},{cz:'hned',en:'right now / immediately'},
+  {cz:'brzy',en:'soon'},{cz:'potom / pak',en:'then / afterwards'},
+  {cz:'ráno',en:'in the morning'},{cz:'dopoledne',en:'in the late morning'},
+  {cz:'v poledne',en:'at noon'},{cz:'odpoledne',en:'in the afternoon'},
+  {cz:'večer',en:'in the evening'},{cz:'v noci',en:'at night'},
+  {cz:'tento týden',en:'this week'},{cz:'příští týden',en:'next week'},
+  {cz:'minulý týden',en:'last week'},{cz:'tento měsíc',en:'this month'},
+  {cz:'letos',en:'this year'},{cz:'za chvíli',en:'in a moment'},
+  {cz:'Kolik je hodin?',en:'What time is it?'},{cz:'V kolik hodin?',en:'At what time?'},
+  {cz:'Je jedna hodina.',en:"It is 1 o'clock."},{cz:'Je půl druhé.',en:'It is half past one.'},
+  {cz:'Je čtvrt na tři.',en:'It is quarter past two (CZ logic!)'},{cz:'Je tři čtvrtě na čtyři.',en:'It is quarter to four (CZ logic!)'},
+];
+const DU_NUMBERS_CONTEXT = [
+  {cz:'jednou',en:'once'},{cz:'dvakrát',en:'twice'},{cz:'třikrát',en:'three times'},
+  {cz:'první',en:'first'},{cz:'druhý',en:'second'},{cz:'třetí',en:'third'},
+  {cz:'oba / obě',en:'both (m / f+n)'},{cz:'pár',en:'a few / a couple'},
+  {cz:'moc',en:'a lot / very'},{cz:'trochu / trocha',en:'a little'},
+  {cz:'méně',en:'less'},{cz:'více',en:'more'},{cz:'všechno',en:'everything'},
+  {cz:'nic',en:'nothing'},{cz:'dost',en:'enough'},{cz:'příliš',en:'too much'},
+  {cz:'asi',en:'approximately / probably'},{cz:'skoro',en:'almost'},
+  {cz:'nejméně / aspoň',en:'at least'},{cz:'nejvýše',en:'at most'},
+];
+
+function initDaily() {
+  _duOk = true;
+
+  // ── KDO/NĚKDO/NIKDO pattern table ──
+  const kdoEl = document.getElementById('du-kdokde');
+  if (kdoEl) {
+    kdoEl.innerHTML = DU_KDOKDE.map(r =>
+      `<tr>
+        <td><span class="cz-q" data-cz="${r.q}">${r.q.toUpperCase()}</span><span class="en">${r.qen}</span></td>
+        <td><span class="cz-s" data-cz="${r.s}">${r.s.toUpperCase()}</span><span class="en">${r.sen}</span></td>
+        <td><span class="cz-n" data-cz="${r.n}">${r.n.toUpperCase()}</span><span class="en">${r.nen}</span></td>
+      </tr>`
+    ).join('');
+    kdoEl.querySelectorAll('[data-cz]').forEach(el =>
+      el.addEventListener('click', () => showPron(el.dataset.cz))
+    );
+  }
+
+  // ── Phrase sections ──
+  DU_SECTIONS.forEach(sec => {
+    const el = document.getElementById(sec.id);
+    if (!el) return;
+    el.innerHTML = sec.items.map(p =>
+      `<div class="up-row" data-cz="${p.cz.replace(/"/g,'&quot;')}">` +
+      `<span class="up-cz">${p.cz}</span><span class="up-en">${p.en}</span></div>`
+    ).join('');
+    el.querySelectorAll('.up-row').forEach(r =>
+      r.addEventListener('click', () => showPron(r.dataset.cz))
+    );
+  });
+
+  // ── Days ──
+  const dEl = document.getElementById('du-days');
+  if (dEl) {
+    dEl.innerHTML = DU_DAYS.map(d =>
+      `<div class="du-cell" data-cz="${d.cz}"><div class="du-cz">${d.cz}</div><div class="du-en">${d.en}</div></div>`
+    ).join('');
+    dEl.querySelectorAll('.du-cell').forEach(c =>
+      c.addEventListener('click', () => showPron(c.dataset.cz))
+    );
+  }
+
+  // ── Months ──
+  const mEl = document.getElementById('du-months');
+  if (mEl) {
+    mEl.innerHTML = DU_MONTHS.map(m =>
+      `<div class="du-cell" data-cz="${m.cz}"><div class="du-cz">${m.cz}</div><div class="du-en">${m.en}</div></div>`
+    ).join('');
+    mEl.querySelectorAll('.du-cell').forEach(c =>
+      c.addEventListener('click', () => showPron(c.dataset.cz))
+    );
+  }
+
+  // ── Time ──
+  const tEl = document.getElementById('du-time');
+  if (tEl) {
+    tEl.innerHTML = DU_TIME.map(p =>
+      `<div class="up-row" data-cz="${p.cz.replace(/"/g,'&quot;')}">` +
+      `<span class="up-cz">${p.cz}</span><span class="up-en">${p.en}</span></div>`
+    ).join('');
+    tEl.querySelectorAll('.up-row').forEach(r =>
+      r.addEventListener('click', () => showPron(r.dataset.cz))
+    );
+  }
+
+  // ── Numbers in context ──
+  const nEl = document.getElementById('du-numctx');
+  if (nEl) {
+    nEl.innerHTML = DU_NUMBERS_CONTEXT.map(p =>
+      `<div class="up-row" data-cz="${p.cz.replace(/"/g,'&quot;')}">` +
+      `<span class="up-cz">${p.cz}</span><span class="up-en">${p.en}</span></div>`
+    ).join('');
+    nEl.querySelectorAll('.up-row').forEach(r =>
+      r.addEventListener('click', () => showPron(r.dataset.cz))
+    );
+  }
+  // ── Section filter pills ──
+  const duTabsEl = document.getElementById('du-tabs');
+  if (duTabsEl) {
+    const allSecs = ['all','pattern','greetings','intro','language','shopping','food',
+      'transport','health','housing','social','phone','weather','work','feelings','time'];
+    const labels = {all:'All',pattern:'kdo/kde…',greetings:'Greetings',intro:'Introductions',
+      language:'Language help',shopping:'Shopping',food:'Food',transport:'Transport',
+      health:'Health',housing:'Housing',social:'Social',phone:'Phone/Admin',
+      weather:'Weather',work:'Work',feelings:'Feelings',time:'Time & dates'};
+    duTabsEl.innerHTML = allSecs.map(s =>
+      `<button class="vf ${s==='all'?'on':''}" data-du="${s}">${labels[s]}</button>`
+    ).join('');
+    duTabsEl.querySelectorAll('button').forEach(b =>
+      b.addEventListener('click', () => {
+        duTabsEl.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+        const sec = b.dataset.du;
+        document.querySelectorAll('.du-section').forEach(el => {
+          el.style.display = (sec === 'all' || el.dataset.sec === sec) ? '' : 'none';
+        });
+      })
+    );
+  }
+}
+
 
 // ═══════════════════════════════════════════════════════════
 // UTILS
